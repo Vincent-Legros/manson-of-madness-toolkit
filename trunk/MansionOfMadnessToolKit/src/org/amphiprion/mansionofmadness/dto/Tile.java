@@ -34,6 +34,17 @@ public class Tile extends Entity {
 	private boolean embedded;
 
 	/**
+	 * 
+	 */
+	public Tile() {
+		super();
+	}
+
+	public Tile(String id) {
+		super(id);
+	}
+
+	/**
 	 * @return the name
 	 */
 	public String getName() {
