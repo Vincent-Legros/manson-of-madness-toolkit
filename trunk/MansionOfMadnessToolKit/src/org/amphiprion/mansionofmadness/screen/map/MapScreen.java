@@ -31,6 +31,7 @@ import org.amphiprion.mansionofmadness.dto.Tile;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 /**
  * @author ng00124c
@@ -40,19 +41,24 @@ public class MapScreen extends GameScreen {
 	private Context context;
 
 	private enum PointerState {
-		NONE, ON_TILE_MENU_TAB
+		NONE, ON_TILE_MENU_TAB, ON_TILE_MENU, ON_BOARD_TILE, ON_BOARD
 	}
 
 	private PointerState pointerState = PointerState.NONE;
-	private float lastPointerX;
-	private float lastPointerY;
-	private float lastPointerDeltaX;
+	private int lastPointerX;
+	private int lastPointerY;
+	private int lastPointerDeltaX;
+	private int lastPointerDeltaY;
 
 	private List<Tile> availableTiles;
 	private TileMenu tileMenu;
 	private BoardMenu boardMenu;
-
+	private Translation2DAnimation tileMenuTabAnimation;
+	private Translation2DAnimation tileMenuAnimation;
 	private Image2D imgTab;
+	private Image2D imgTabBackground;
+	private int tileIndex = -1;
+	private Tile2D selectedTile;
 
 	public MapScreen(Context context) {
 		this.context = context;
@@ -62,18 +68,21 @@ public class MapScreen extends GameScreen {
 		objects2d.add(boardMenu);
 
 		// ######### build the tile Menu ##########
+
 		tileMenu = new TileMenu();
 
-		Image2D imgTabBack = new Image2D("tiles/tab_background.png");
-		imgTabBack.x = TileMenu.WIDTH / 2;
-		imgTabBack.y = 800 / 2;
-		imgTabBack.setScale(10);
-		tileMenu.addObject(imgTabBack);
+		imgTabBackground = new Image2D("tiles/tab_background.png", false, true);
+		imgTabBackground.x = TileMenu.WIDTH / 2;
+		imgTabBackground.y = 800 / 2;
+		imgTabBackground.setScale(10);
+		tileMenu.addObject(imgTabBackground);
 
-		imgTab = new Image2D("tiles/tab.png");
+		imgTab = new Image2D("tiles/tab.png", false, true);
 		imgTab.x = TileMenu.WIDTH + 76 / 2;
 		imgTab.y = 800 / 2;
 		tileMenu.addObject(imgTab);
+
+		objects2d.add(tileMenu);
 
 		availableTiles = TileDao.getInstance(context).getTiles();
 		int index = 0;
@@ -93,6 +102,9 @@ public class MapScreen extends GameScreen {
 
 		// add the tile menu to the rendering object tree
 		objects2d.add(tileMenu);
+
+		// start collapsed
+		tileMenu.setX(-TileMenu.WIDTH / 2);
 	}
 
 	/*
@@ -104,18 +116,106 @@ public class MapScreen extends GameScreen {
 	@Override
 	public void onTouch(MotionEvent event) {
 		ScreenProperty sp = view.getScreenProperty();
-		float nx = event.getX() / sp.screenScale;
-		float ny = event.getY() / sp.screenScale;
+		int nx = (int) (event.getX() / sp.screenScale);
+		int ny = (int) (event.getY() / sp.screenScale);
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			if (imgTab.contains((int) nx, (int) ny)) {
+			if (imgTab.contains(nx, ny)) {
 				pointerState = PointerState.ON_TILE_MENU_TAB;
+				removeAnimation(tileMenuTabAnimation);
+				removeAnimation(tileMenuAnimation);
+			} else if (imgTabBackground.contains(nx, ny)) {
+				pointerState = PointerState.ON_TILE_MENU;
+				tileIndex = (800 / 2 - tileMenu.getY() + ny) / TileMenu.HEIGHT;
+				if (tileIndex < 0 || tileIndex >= availableTiles.size()) {
+					tileIndex = -1;
+				}
+				removeAnimation(tileMenuAnimation);
+			} else {
+				pointerState = PointerState.ON_BOARD;
+				boardMenu.setGlobalScale(0.5f);
 			}
 			lastPointerX = nx;
 			lastPointerY = ny;
 			lastPointerDeltaX = 0;
-		} else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+		} else if (pointerState == PointerState.ON_TILE_MENU_TAB) {
+			onTouchTileMenuTab(event, nx, ny);
+		} else if (pointerState == PointerState.ON_TILE_MENU) {
+			onTouchTileMenu(event, nx, ny);
+		} else if (pointerState == PointerState.ON_BOARD_TILE) {
+			onTouchBoardTile(event, nx, ny);
+		} else if (pointerState == PointerState.ON_BOARD) {
+			onTouchBoard(event, nx, ny);
+		}
+	}
+
+	private void onTouchBoard(MotionEvent event, int nx, int ny) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			lastPointerDeltaX = nx - lastPointerX;
+			lastPointerDeltaY = ny - lastPointerY;
+			boardMenu.setX(boardMenu.getX() + (int) (lastPointerDeltaX / boardMenu.getGlobalScale()));
+			boardMenu.setY(boardMenu.getY() + (int) (lastPointerDeltaY / boardMenu.getGlobalScale()));
+			lastPointerX = nx;
+			lastPointerY = ny;
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			pointerState = PointerState.NONE;
+			int left = selectedTile.x - 150 * selectedTile.getTile().getWidth() / 2 - boardMenu.getX();
+			int top = selectedTile.y - 150 * selectedTile.getTile().getHeight() / 2 - boardMenu.getY();
+
+			selectedTile.x += (left + 75) / 150 * 150 - left;
+			selectedTile.y += (top + 75) / 150 * 150 - top;
+		}
+	}
+
+	private void onTouchBoardTile(MotionEvent event, int nx, int ny) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			// lastPointerDeltaX = nx - lastPointerX;
+			// lastPointerDeltaY = ny - lastPointerY;
+			selectedTile.x = (int) (nx / boardMenu.getGlobalScale());
+			selectedTile.y = (int) (ny / boardMenu.getGlobalScale());
+			// lastPointerX = nx;
+			// lastPointerY = ny;
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			pointerState = PointerState.NONE;
+			int left = selectedTile.x - 150 * selectedTile.getTile().getWidth() / 2 - boardMenu.getX();
+			int top = selectedTile.y - 150 * selectedTile.getTile().getHeight() / 2 - boardMenu.getY();
+
+			selectedTile.x += (left + 75) / 150 * 150 - left;
+			selectedTile.y += (top + 75) / 150 * 150 - top;
+		}
+	}
+
+	private void onTouchTileMenu(MotionEvent event, int nx, int ny) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			lastPointerDeltaX = nx - lastPointerX;
+			lastPointerDeltaY = ny - lastPointerY;
+			tileMenu.setY(tileMenu.getY() + lastPointerDeltaY);
+			// imgTab.setY(800 / 2);
+			// imgTabBackground.setY(800 / 2);
+			lastPointerX = nx;
+			lastPointerY = ny;
+			if (nx >= TileMenu.WIDTH && tileIndex > -1) {
+				pointerState = PointerState.ON_BOARD_TILE;
+				collapseTileMenu();
+				Tile2D tile = new Tile2D(availableTiles.get(tileIndex));
+				tile.x = (int) (nx / boardMenu.getGlobalScale());
+				tile.y = (int) (ny / boardMenu.getGlobalScale());
+				boardMenu.addObject(tile);
+				selectedTile = tile;
+			}
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			pointerState = PointerState.NONE;
+			if (Math.abs(lastPointerDeltaY) > 10) {
+				tileMenuAnimation = new Translation2DAnimation(tileMenu, 1000, 0, 0, lastPointerDeltaY * 20);
+				tileMenuAnimation.setInterpolation(new DecelerateInterpolator());
+				addAnimation(tileMenuAnimation);
+			}
+		}
+	}
+
+	private void onTouchTileMenuTab(MotionEvent event, int nx, int ny) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (pointerState == PointerState.ON_TILE_MENU_TAB) {
-				tileMenu.setX((int) nx - TileMenu.WIDTH / 2 - 76 / 2);
+				tileMenu.setX(nx - TileMenu.WIDTH / 2 - 76 / 2);
 			}
 			lastPointerDeltaX = nx - lastPointerX;
 			lastPointerX = nx;
@@ -124,18 +224,20 @@ public class MapScreen extends GameScreen {
 			pointerState = PointerState.NONE;
 			if (lastPointerDeltaX < 0 || lastPointerDeltaX == 0 && tileMenu.getX() >= 0) {
 				// close
-				clearAnimation();
-				Translation2DAnimation anim = new Translation2DAnimation(tileMenu, 500, 0, -TileMenu.WIDTH / 2 - tileMenu.getX(), 0);
-				anim.setInterpolation(new BounceInterpolator());
-				addAnimation(anim);
+				collapseTileMenu();
 			}
 			if (lastPointerDeltaX > 0 || lastPointerDeltaX == 0 && tileMenu.getX() < 0) {
 				// open
-				clearAnimation();
-				Translation2DAnimation anim = new Translation2DAnimation(tileMenu, 500, 0, TileMenu.WIDTH / 2 - tileMenu.getX(), 0);
-				anim.setInterpolation(new BounceInterpolator());
-				addAnimation(anim);
+				tileMenuTabAnimation = new Translation2DAnimation(tileMenu, 500, 0, TileMenu.WIDTH / 2 - tileMenu.getX(), 0);
+				tileMenuTabAnimation.setInterpolation(new BounceInterpolator());
+				addAnimation(tileMenuTabAnimation);
 			}
 		}
+	}
+
+	private void collapseTileMenu() {
+		tileMenuTabAnimation = new Translation2DAnimation(tileMenu, 500, 0, -TileMenu.WIDTH / 2 - tileMenu.getX(), 0);
+		tileMenuTabAnimation.setInterpolation(new BounceInterpolator());
+		addAnimation(tileMenuTabAnimation);
 	}
 }

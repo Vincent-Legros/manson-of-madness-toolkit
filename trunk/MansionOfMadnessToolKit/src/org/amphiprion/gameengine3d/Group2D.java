@@ -6,18 +6,24 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 public class Group2D implements IObject2D {
-	private List<IObject2D> objects = new ArrayList<IObject2D>();
+	protected List<IObject2D> objects = new ArrayList<IObject2D>();
 	private IObject2D parent;
 	private int x;
 	private int y;
+	private float globalScale = 1.0f;
 
 	public void addObject(IObject2D o) {
 		objects.add(o);
 		o.setParent(this);
+		o.setGlobalScale(globalScale);
 	}
 
 	public void removeObject(IObject2D o) {
 		objects.remove(o);
+	}
+
+	public int count() {
+		return objects.size();
 	}
 
 	@Override
@@ -74,6 +80,26 @@ public class Group2D implements IObject2D {
 	public float getScale() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.amphiprion.gameengine3d.IObject2D#setGlobalScale(float)
+	 */
+	@Override
+	public void setGlobalScale(float globalScale) {
+		this.globalScale = globalScale;
+		for (IObject2D o : objects) {
+			o.setGlobalScale(globalScale);
+		}
+	}
+
+	/**
+	 * @return the globalScale
+	 */
+	public float getGlobalScale() {
+		return globalScale;
 	}
 
 }

@@ -17,5 +17,7 @@ public interface IObject2D {
 
 	void setScale(float scale);
 
+	void setGlobalScale(float globalScale);
+
 	float getScale();
 }

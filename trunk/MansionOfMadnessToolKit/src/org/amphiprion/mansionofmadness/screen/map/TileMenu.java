@@ -20,6 +20,9 @@
 package org.amphiprion.mansionofmadness.screen.map;
 
 import org.amphiprion.gameengine3d.Group2D;
+import org.amphiprion.mansionofmadness.ApplicationConstants;
+
+import android.util.Log;
 
 /**
  * @author ng00124c
@@ -50,6 +53,24 @@ public class TileMenu extends Group2D {
 			super.setX(WIDTH / 2);
 		} else {
 			super.setX(x);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.amphiprion.gameengine3d.Group2D#setY(int)
+	 */
+	@Override
+	public void setY(int y) {
+		if (y > 800 / 2 || count() <= 3) {
+			super.setY(800 / 2);
+		} else if (y < 800 / 2 - HEIGHT * (count() - 3)) {
+			Log.d(ApplicationConstants.PACKAGE, "y=" + y + "   limit=" + (800 / 2 - HEIGHT * (count() - 1)));
+			super.setY(-HEIGHT * (count() - 3) + 800 / 2);
+		} else {
+			Log.d(ApplicationConstants.PACKAGE, "y=" + y);
+			super.setY(y);
 		}
 	}
 }

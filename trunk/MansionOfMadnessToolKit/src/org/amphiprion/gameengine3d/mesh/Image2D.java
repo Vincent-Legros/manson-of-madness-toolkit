@@ -33,22 +33,18 @@ public class Image2D implements IObject2D, IHMIComponent {
 	public int y;
 	private IObject2D parent;
 	private float scale = 1.0f;
+	private boolean lockedX;
+	private boolean lockedY;
+	private float globalScale = 1.0f;
 
-	/**
-	 * 
-	 * @param bitmap
-	 * @param contentWidth
-	 *            the content bitmap width (in opposition to the real width that
-	 *            must be a power of 2). the content must be centered inside the
-	 *            image
-	 * @param contentHeight
-	 *            the content bitmap height (in opposition to the real height
-	 *            that must be a power of 2). the content must be centered
-	 *            inside the image
-	 */
 	public Image2D(String uri) {
-		this.uri = uri;
+		this(uri, false, false);
+	}
 
+	public Image2D(String uri, boolean lockedX, boolean lockedY) {
+		this.uri = uri;
+		this.lockedX = lockedX;
+		this.lockedY = lockedY;
 		// this.contentWidth = contentWidth;
 		// this.contentHeight = contentHeight;
 		//
@@ -186,8 +182,9 @@ public class Image2D implements IObject2D, IHMIComponent {
 		crop[3] = -texture.originalHeight;
 		((GL11) gl).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, crop, 0);
 		// ((GL11Ext) gl).glDrawTexiOES(0, 0, 0, 212, 401);
-		((GL11Ext) gl).glDrawTexiOES((int) ((x - texture.originalWidth * scale / 2.0f) * screenScale), (int) (screenHeight + (-texture.originalHeight * scale / 2.0f - y)
-				* screenScale), 0, (int) (texture.originalWidth * screenScale * scale), (int) (texture.originalHeight * screenScale * scale));
+		((GL11Ext) gl).glDrawTexiOES((int) ((x * globalScale - texture.originalWidth * globalScale * scale / 2.0f) * screenScale), (int) (screenHeight + (-texture.originalHeight
+				* scale * globalScale / 2.0f - y * globalScale)
+				* screenScale), 0, (int) (texture.originalWidth * screenScale * globalScale * scale), (int) (texture.originalHeight * screenScale * globalScale * scale));
 
 		// gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, mNumOfIndices,
 		// GL10.GL_UNSIGNED_SHORT, indexBuffer);
@@ -211,6 +208,9 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	@Override
 	public void setX(int x) {
+		if (lockedX) {
+			return;
+		}
 		this.x = x;
 	}
 
@@ -221,6 +221,9 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	@Override
 	public void setY(int y) {
+		if (lockedY) {
+			return;
+		}
 		this.y = y;
 	}
 
@@ -236,16 +239,16 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	@Override
 	public boolean contains(int px, int py) {
-		if (px < x - texture.originalWidth / 2) {
+		if (px < x - texture.originalWidth * scale / 2) {
 			return false;
 		}
-		if (px > x + texture.originalWidth / 2) {
+		if (px > x + texture.originalWidth * scale / 2) {
 			return false;
 		}
-		if (py < y - texture.originalHeight / 2) {
+		if (py < y - texture.originalHeight * scale / 2) {
 			return false;
 		}
-		if (py > y + texture.originalHeight / 2) {
+		if (py > y + texture.originalHeight * scale / 2) {
 			return false;
 		}
 		return true;
@@ -253,5 +256,13 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	public Texture getTexture() {
 		return texture;
+	}
+
+	/**
+	 * @param globalScale
+	 *            the globalScale to set
+	 */
+	public void setGlobalScale(float globalScale) {
+		this.globalScale = globalScale;
 	}
 }
