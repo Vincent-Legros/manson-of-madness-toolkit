@@ -52,7 +52,8 @@ public class MapScreen extends GameScreen {
 		int index = 0;
 		for (Tile tile : availableTiles) {
 			Image2D img = new Image2D(tile.getImageName());
-			float scale = Math.max(img.getTexture().originalWidth / 150, img.getTexture().originalHeight / 150);
+			// rescale to enter in a 150x150 pixel
+			float scale = Math.max(tile.getWidth(), tile.getHeight());
 			img.setScale(1.0f / scale);
 			img.x = 150 / 2;
 			img.y = index * 150 + 150 / 2;
