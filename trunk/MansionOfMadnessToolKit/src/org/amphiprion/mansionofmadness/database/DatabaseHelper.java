@@ -49,8 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("insert into TILE values('3','diner_room','diner_room.png',1,2,2) ");
 			db.execSQL("insert into TILE values('4','driveway','driveway.png',1,2,2) ");
 			db.execSQL("insert into TILE values('5','garden','garden.png',1,2,2) ");
-			db.execSQL("insert into TILE values('6','guest_room','guest_room.png',1,2,2) ");
-			db.execSQL("insert into TILE values('7','loby','loby.png',1,2,2) ");
+			db.execSQL("insert into TILE values('6','guest_room','guest_room.png',1,1,2) ");
+			db.execSQL("insert into TILE values('7','loby','loby.png',1,3,2) ");
 			db.execSQL("insert into TILE values('8','park','park.png',1,2,2) ");
 			db.execSQL("insert into TILE values('9','salon','salon.png',1,2,2) ");
 			db.execSQL("insert into TILE values('10','study','study.png',1,2,2) ");

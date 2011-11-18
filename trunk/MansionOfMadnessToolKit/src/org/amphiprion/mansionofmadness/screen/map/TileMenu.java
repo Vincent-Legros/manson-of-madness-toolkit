@@ -26,5 +26,30 @@ import org.amphiprion.gameengine3d.Group2D;
  * 
  */
 public class TileMenu extends Group2D {
+	public static int WIDTH = 200;
+	public static int HEIGHT = 200;
 
+	/**
+	 * 
+	 */
+	public TileMenu() {
+		setX(WIDTH / 2);
+		setY(800 / 2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.amphiprion.gameengine3d.Group2D#setX(int)
+	 */
+	@Override
+	public void setX(int x) {
+		if (x < -WIDTH / 2) {
+			super.setX(-WIDTH / 2);
+		} else if (x > WIDTH / 2) {
+			super.setX(WIDTH / 2);
+		} else {
+			super.setX(x);
+		}
+	}
 }
