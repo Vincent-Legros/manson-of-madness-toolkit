@@ -25,8 +25,8 @@ public class GameActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // (NEW)
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // (NEW)
 
-		view = new GameView(this, 768, 1280);
-		renderer = new OpenGLRenderer(this, mg, 768, 1280, view);
+		view = new GameView(this, 1280, 768);
+		renderer = new OpenGLRenderer(this, mg, 1280, 768, view);
 
 		view.setGLWrapper(new GLSurfaceView.GLWrapper() {
 			@Override
