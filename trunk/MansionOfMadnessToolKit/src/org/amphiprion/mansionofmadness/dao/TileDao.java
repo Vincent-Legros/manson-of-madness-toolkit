@@ -72,8 +72,8 @@ public class TileDao extends AbstractDao {
 	 */
 	public Tile getTile(String id) {
 
-		String sql = "SELECT " + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + " from TILE where " + Tile.DbField.ID
-				+ "=?";
+		String sql = "SELECT " + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + "," + Tile.DbField.WIDTH + ","
+				+ Tile.DbField.HEIGHT + " from TILE where " + Tile.DbField.ID + "=?";
 
 		Cursor cursor = getDatabase().rawQuery(sql, new String[] { id });
 		Tile result = null;
@@ -82,6 +82,8 @@ public class TileDao extends AbstractDao {
 			entity.setName(cursor.getString(1));
 			entity.setImageName(cursor.getString(2));
 			entity.setEmbedded(cursor.getInt(3) != 0);
+			entity.setWidth(cursor.getInt(4));
+			entity.setHeight(cursor.getInt(5));
 			result = entity;
 		}
 		cursor.close();
@@ -94,8 +96,8 @@ public class TileDao extends AbstractDao {
 	 */
 	public List<Tile> getTiles() {
 
-		String sql = "SELECT " + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + " from TILE order by "
-				+ Tile.DbField.NAME;
+		String sql = "SELECT " + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + "," + Tile.DbField.WIDTH + ","
+				+ Tile.DbField.HEIGHT + " from TILE order by " + Tile.DbField.NAME;
 
 		Cursor cursor = getDatabase().rawQuery(sql, null);
 		ArrayList<Tile> result = new ArrayList<Tile>();
@@ -105,6 +107,8 @@ public class TileDao extends AbstractDao {
 				entity.setName(cursor.getString(1));
 				entity.setImageName(cursor.getString(2));
 				entity.setEmbedded(cursor.getInt(3) != 0);
+				entity.setWidth(cursor.getInt(4));
+				entity.setHeight(cursor.getInt(5));
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -122,12 +126,15 @@ public class TileDao extends AbstractDao {
 	private void create(Tile entity) {
 		getDatabase().beginTransaction();
 		try {
-			String sql = "insert into TILE (" + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + ") values (?,?,?,?)";
-			Object[] params = new Object[4];
+			String sql = "insert into TILE (" + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + ","
+					+ Tile.DbField.WIDTH + "," + Tile.DbField.HEIGHT + ") values (?,?,?,?,?,?)";
+			Object[] params = new Object[6];
 			params[0] = entity.getId();
 			params[1] = entity.getName();
 			params[2] = entity.getImageName();
 			params[3] = entity.isEmbedded() ? "0" : "1";
+			params[4] = entity.getWidth();
+			params[5] = entity.getHeight();
 
 			execSQL(sql, params);
 

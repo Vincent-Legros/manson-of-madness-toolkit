@@ -26,12 +26,14 @@ public class Tile extends Entity {
 	private static final long serialVersionUID = 1L;
 
 	public enum DbField {
-		ID, NAME, IMAGE_NAME, IS_EMBEDDED
+		ID, NAME, IMAGE_NAME, IS_EMBEDDED, WIDTH, HEIGHT
 	}
 
 	private String name;
 	private String imageName;
 	private boolean embedded;
+	private int width;
+	private int height;
 
 	/**
 	 * 
@@ -87,6 +89,36 @@ public class Tile extends Entity {
 	 */
 	public void setEmbedded(boolean embedded) {
 		this.embedded = embedded;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @param width
+	 *            the width to set
+	 */
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * @param height
+	 *            the height to set
+	 */
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }
