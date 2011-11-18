@@ -20,13 +20,26 @@
 package org.amphiprion.mansionofmadness;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-public class MansionOfMadnessToolKitActivity extends Activity {
+public class HomeActivity extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		Button btMap = (Button) findViewById(R.id.btMap);
+		btMap.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(HomeActivity.this, MapActivity.class);
+				startActivity(i);
+			}
+		});
 	}
 }
