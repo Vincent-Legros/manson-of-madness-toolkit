@@ -92,7 +92,7 @@ public class TileDao extends AbstractDao {
 	 * 
 	 * @return all existing tiles
 	 */
-	public List<Tile> getCardProperties() {
+	public List<Tile> getTiles() {
 
 		String sql = "SELECT " + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + " from TILE order by "
 				+ Tile.DbField.NAME;
