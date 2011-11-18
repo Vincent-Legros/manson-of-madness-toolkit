@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tile_attic">Grenier</string>
+    <string name="tile_corridor_angle">Couloir d\'angle</string>
+    <string name="tile_diner_room">Salle à manger</string>
+    <string name="tile_driveway">Allée</string>
+    <string name="tile_garden">Jardin</string>
+    <string name="tile_guest_room">Chambre d\'amis</string>
+    <string name="tile_park">Parc</string>
+    <string name="tile_salon">Salon</string>
+    <string name="tile_study">Etude</string>
+    <string name="tile_tower">Tour</string>
+    <string name="tile_loby">Vestibule</string>
+</resources>
