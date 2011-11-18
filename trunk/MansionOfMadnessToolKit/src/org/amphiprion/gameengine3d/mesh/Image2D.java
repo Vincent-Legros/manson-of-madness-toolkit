@@ -250,4 +250,8 @@ public class Image2D implements IObject2D, IHMIComponent {
 		}
 		return true;
 	}
+
+	public Texture getTexture() {
+		return texture;
+	}
 }
