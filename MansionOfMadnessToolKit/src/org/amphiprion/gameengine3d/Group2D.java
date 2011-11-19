@@ -102,4 +102,10 @@ public class Group2D implements IObject2D {
 		return globalScale;
 	}
 
+	/**
+	 * @return the objects
+	 */
+	public List<IObject2D> getObjects() {
+		return objects;
+	}
 }

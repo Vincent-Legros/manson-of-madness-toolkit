@@ -22,6 +22,7 @@ package org.amphiprion.mansionofmadness.screen.map;
 import java.util.List;
 
 import org.amphiprion.gameengine3d.GameScreen;
+import org.amphiprion.gameengine3d.IObject2D;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
@@ -49,7 +50,8 @@ public class MapScreen extends GameScreen {
 	private int lastPointerY;
 	private int lastPointerDeltaX;
 	private int lastPointerDeltaY;
-
+	private float lastPointerDist;
+	private long lastPointerDownTime;
 	private List<Tile> availableTiles;
 	private TileMenu tileMenu;
 	private BoardMenu boardMenu;
@@ -131,12 +133,18 @@ public class MapScreen extends GameScreen {
 				}
 				removeAnimation(tileMenuAnimation);
 			} else {
-				pointerState = PointerState.ON_BOARD;
-				boardMenu.setGlobalScale(0.5f);
+				if (selectedTile != null && selectedTile.contains(nx, ny)) {
+					pointerState = PointerState.ON_BOARD_TILE;
+				} else {
+					pointerState = PointerState.ON_BOARD;
+					lastPointerDownTime = System.currentTimeMillis();
+				}
 			}
 			lastPointerX = nx;
 			lastPointerY = ny;
 			lastPointerDeltaX = 0;
+			lastPointerDeltaY = 0;
+			lastPointerDist = 0;
 		} else if (pointerState == PointerState.ON_TILE_MENU_TAB) {
 			onTouchTileMenuTab(event, nx, ny);
 		} else if (pointerState == PointerState.ON_TILE_MENU) {
@@ -150,19 +158,65 @@ public class MapScreen extends GameScreen {
 
 	private void onTouchBoard(MotionEvent event, int nx, int ny) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			lastPointerDeltaX = nx - lastPointerX;
-			lastPointerDeltaY = ny - lastPointerY;
-			boardMenu.setX(boardMenu.getX() + (int) (lastPointerDeltaX / boardMenu.getGlobalScale()));
-			boardMenu.setY(boardMenu.getY() + (int) (lastPointerDeltaY / boardMenu.getGlobalScale()));
+			if (event.getPointerCount() > 1) {
+				// zoom
+				ScreenProperty sp = view.getScreenProperty();
+				int nx2 = (int) (event.getX(1) / sp.screenScale);
+				int ny2 = (int) (event.getY(1) / sp.screenScale);
+				float newDist = (float) Math.sqrt((nx - nx2) * (nx - nx2) + (ny - ny2) * (ny - ny2));
+				float deltaX = (nx + nx2) / 2 - lastPointerX;
+				float deltaY = (ny + ny2) / 2 - lastPointerY;
+
+				boardMenu.setX((int) (boardMenu.getX() + deltaX / boardMenu.getGlobalScale()));
+				boardMenu.setY((int) (boardMenu.getY() + deltaY / boardMenu.getGlobalScale()));
+
+				lastPointerX = (nx + nx2) / 2;
+				lastPointerY = (ny + ny2) / 2;
+				float x = lastPointerX / boardMenu.getGlobalScale() - boardMenu.getX();
+				float y = lastPointerY / boardMenu.getGlobalScale() - boardMenu.getY();
+				boardMenu.setGlobalScale(boardMenu.getGlobalScale() * newDist / lastPointerDist);
+				boardMenu.setX((int) (lastPointerX / boardMenu.getGlobalScale() - x));
+				boardMenu.setY((int) (lastPointerY / boardMenu.getGlobalScale() - y));
+				lastPointerDist = newDist;
+			} else {
+				// move
+				lastPointerDeltaX = nx - lastPointerX;
+				lastPointerDeltaY = ny - lastPointerY;
+				boardMenu.setX(boardMenu.getX() + (int) (lastPointerDeltaX / boardMenu.getGlobalScale()));
+				boardMenu.setY(boardMenu.getY() + (int) (lastPointerDeltaY / boardMenu.getGlobalScale()));
+				lastPointerX = nx;
+				lastPointerY = ny;
+			}
+		} else if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
+			ScreenProperty sp = view.getScreenProperty();
+			int nx2 = (int) (event.getX(1) / sp.screenScale);
+			int ny2 = (int) (event.getY(1) / sp.screenScale);
+			lastPointerX = (nx + nx2) / 2;
+			lastPointerY = (ny + ny2) / 2;
+			lastPointerDist = (float) Math.sqrt((nx - nx2) * (nx - nx2) + (ny - ny2) * (ny - ny2));
+		} else if (event.getAction() == MotionEvent.ACTION_POINTER_2_UP) {
+			lastPointerDeltaX = 0;
+			lastPointerDeltaY = 0;
 			lastPointerX = nx;
 			lastPointerY = ny;
+		} else if (event.getAction() == MotionEvent.ACTION_POINTER_1_UP) {
+			ScreenProperty sp = view.getScreenProperty();
+			int nx2 = (int) (event.getX(1) / sp.screenScale);
+			int ny2 = (int) (event.getY(1) / sp.screenScale);
+			lastPointerDeltaX = 0;
+			lastPointerDeltaY = 0;
+			lastPointerX = nx2;
+			lastPointerY = ny2;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			pointerState = PointerState.NONE;
-			int left = selectedTile.x - 150 * selectedTile.getTile().getWidth() / 2 - boardMenu.getX();
-			int top = selectedTile.y - 150 * selectedTile.getTile().getHeight() / 2 - boardMenu.getY();
-
-			selectedTile.x += (left + 75) / 150 * 150 - left;
-			selectedTile.y += (top + 75) / 150 * 150 - top;
+			if (System.currentTimeMillis() - lastPointerDownTime < 300) {
+				// simple click, try to select of tile
+				for (IObject2D o : boardMenu.getObjects()) {
+					if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
+						selectedTile = (Tile2D) o;
+					}
+				}
+			}
 		}
 	}
 
@@ -178,9 +232,16 @@ public class MapScreen extends GameScreen {
 			pointerState = PointerState.NONE;
 			int left = selectedTile.x - 150 * selectedTile.getTile().getWidth() / 2 - boardMenu.getX();
 			int top = selectedTile.y - 150 * selectedTile.getTile().getHeight() / 2 - boardMenu.getY();
-
-			selectedTile.x += (left + 75) / 150 * 150 - left;
-			selectedTile.y += (top + 75) / 150 * 150 - top;
+			if (left < 0) {
+				selectedTile.x += (left - 75) / 150 * 150 - left;
+			} else {
+				selectedTile.x += (left + 75) / 150 * 150 - left;
+			}
+			if (top < 0) {
+				selectedTile.y += (top - 75) / 150 * 150 - top;
+			} else {
+				selectedTile.y += (top + 75) / 150 * 150 - top;
+			}
 		}
 	}
 
