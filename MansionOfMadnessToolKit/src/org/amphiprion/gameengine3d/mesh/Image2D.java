@@ -165,7 +165,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 		} else {
 			gl.glColor4f(1f, 1f, 1f, 1f);
 		}
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+		// gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		if (texture != null && textureBuffer != null) {
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			// Enable the texture state
@@ -180,6 +180,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 		crop[1] = 0 + texture.originalHeight;
 		crop[2] = texture.originalWidth;
 		crop[3] = -texture.originalHeight;
+
 		((GL11) gl).glTexParameteriv(GL10.GL_TEXTURE_2D, GL11Ext.GL_TEXTURE_CROP_RECT_OES, crop, 0);
 		// ((GL11Ext) gl).glDrawTexiOES(0, 0, 0, 212, 401);
 		((GL11Ext) gl).glDrawTexiOES((int) ((x * globalScale - texture.originalWidth * globalScale * scale / 2.0f) * screenScale), (int) (screenHeight + (-texture.originalHeight
@@ -239,16 +240,16 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	@Override
 	public boolean contains(int px, int py) {
-		if (px < x - texture.originalWidth * scale / 2) {
+		if (px < (x - texture.originalWidth * scale / 2) * globalScale) {
 			return false;
 		}
-		if (px > x + texture.originalWidth * scale / 2) {
+		if (px > (x + texture.originalWidth * scale / 2) * globalScale) {
 			return false;
 		}
-		if (py < y - texture.originalHeight * scale / 2) {
+		if (py < (y - texture.originalHeight * scale / 2) * globalScale) {
 			return false;
 		}
-		if (py > y + texture.originalHeight * scale / 2) {
+		if (py > (y + texture.originalHeight * scale / 2) * globalScale) {
 			return false;
 		}
 		return true;
@@ -262,6 +263,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 	 * @param globalScale
 	 *            the globalScale to set
 	 */
+	@Override
 	public void setGlobalScale(float globalScale) {
 		this.globalScale = globalScale;
 	}
