@@ -45,6 +45,10 @@ public class MapScreen extends GameScreen {
 		NONE, ON_TILE_MENU_TAB, ON_TILE_MENU, ON_BOARD_TILE, ON_BOARD
 	}
 
+	private enum ComponentKey {
+		MOVE_ICON
+	}
+
 	private PointerState pointerState = PointerState.NONE;
 	private int lastPointerX;
 	private int lastPointerY;
@@ -121,6 +125,7 @@ public class MapScreen extends GameScreen {
 		int nx = (int) (event.getX() / sp.screenScale);
 		int ny = (int) (event.getY() / sp.screenScale);
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			clearTileIcons();
 			if (imgTab.contains(nx, ny)) {
 				pointerState = PointerState.ON_TILE_MENU_TAB;
 				removeAnimation(tileMenuTabAnimation);
@@ -133,11 +138,13 @@ public class MapScreen extends GameScreen {
 				}
 				removeAnimation(tileMenuAnimation);
 			} else {
-				if (selectedTile != null && selectedTile.contains(nx, ny)) {
-					pointerState = PointerState.ON_BOARD_TILE;
-				} else {
-					pointerState = PointerState.ON_BOARD;
-					lastPointerDownTime = System.currentTimeMillis();
+				pointerState = PointerState.ON_BOARD;
+				lastPointerDownTime = System.currentTimeMillis();
+				if (selectedTile != null) {
+					Image2D img = (Image2D) getHMIComponent(ComponentKey.MOVE_ICON);
+					if (img.contains(nx, ny)) {
+						pointerState = PointerState.ON_BOARD_TILE;
+					}
 				}
 			}
 			lastPointerX = nx;
@@ -153,6 +160,26 @@ public class MapScreen extends GameScreen {
 			onTouchBoardTile(event, nx, ny);
 		} else if (pointerState == PointerState.ON_BOARD) {
 			onTouchBoard(event, nx, ny);
+		}
+
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			defineTileIcons();
+		}
+	}
+
+	private void clearTileIcons() {
+		if (selectedTile != null) {
+			boardMenu.removeObject(getHMIComponent(ComponentKey.MOVE_ICON));
+		}
+	}
+
+	private void defineTileIcons() {
+		if (selectedTile != null) {
+			Image2D img = new Image2D("tiles/icons/move.png");
+			img.x = selectedTile.x;
+			img.y = selectedTile.y;
+			registerHMIComponent(ComponentKey.MOVE_ICON, img);
+			boardMenu.addObject(img);
 		}
 	}
 
@@ -211,9 +238,11 @@ public class MapScreen extends GameScreen {
 			pointerState = PointerState.NONE;
 			if (System.currentTimeMillis() - lastPointerDownTime < 300) {
 				// simple click, try to select of tile
+				selectedTile = null;
 				for (IObject2D o : boardMenu.getObjects()) {
 					if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
 						selectedTile = (Tile2D) o;
+						break;
 					}
 				}
 			}
@@ -222,12 +251,12 @@ public class MapScreen extends GameScreen {
 
 	private void onTouchBoardTile(MotionEvent event, int nx, int ny) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			// lastPointerDeltaX = nx - lastPointerX;
-			// lastPointerDeltaY = ny - lastPointerY;
-			selectedTile.x = (int) (nx / boardMenu.getGlobalScale());
-			selectedTile.y = (int) (ny / boardMenu.getGlobalScale());
-			// lastPointerX = nx;
-			// lastPointerY = ny;
+			lastPointerDeltaX = nx - lastPointerX;
+			lastPointerDeltaY = ny - lastPointerY;
+			selectedTile.x += (int) (lastPointerDeltaX / boardMenu.getGlobalScale());
+			selectedTile.y += (int) (lastPointerDeltaY / boardMenu.getGlobalScale());
+			lastPointerX = nx;
+			lastPointerY = ny;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			pointerState = PointerState.NONE;
 			int left = selectedTile.x - 150 * selectedTile.getTile().getWidth() / 2 - boardMenu.getX();
