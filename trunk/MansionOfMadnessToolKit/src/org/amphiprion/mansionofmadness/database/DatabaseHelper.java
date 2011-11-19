@@ -49,12 +49,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("insert into TILE values('3','diner_room','diner_room.png',1,2,2) ");
 			db.execSQL("insert into TILE values('4','driveway','driveway.png',1,2,2) ");
 			db.execSQL("insert into TILE values('5','garden','garden.png',1,2,2) ");
-			db.execSQL("insert into TILE values('6','guest_room','guest_room.png',1,1,2) ");
+			db.execSQL("insert into TILE values('6','guest_room','guest_room.png',1,2,1) ");
 			db.execSQL("insert into TILE values('7','loby','loby.png',1,3,2) ");
-			db.execSQL("insert into TILE values('8','park','park.png',1,2,2) ");
+			db.execSQL("insert into TILE values('8','park','park.png',1,3,2) ");
 			db.execSQL("insert into TILE values('9','salon','salon.png',1,2,2) ");
 			db.execSQL("insert into TILE values('10','study','study.png',1,2,2) ");
 			db.execSQL("insert into TILE values('11','tower','tower.png',1,2,2) ");
+			db.execSQL("insert into TILE values('12','boiler_room','boiler_room.png',1,2,1) ");
+			db.execSQL("insert into TILE values('13','cave','cave.png',1,2,2) ");
+			db.execSQL("insert into TILE values('14','ceremonial','ceremonial.png',1,2,1) ");
+			db.execSQL("insert into TILE values('15','chapel','chapel.png',1,2,2) ");
+			db.execSQL("insert into TILE values('16','children_home','children_home.png',1,2,1) ");
+			db.execSQL("insert into TILE values('17','corridor1','corridor1.png',1,2,1) ");
+			db.execSQL("insert into TILE values('18','corridor2','corridor2.png',1,2,1) ");
+			db.execSQL("insert into TILE values('19','corridor3','corridor3.png',1,2,1) ");
+			db.execSQL("insert into TILE values('20','corridor4','corridor4.png',1,2,1) ");
+			db.execSQL("insert into TILE values('21','crypt','crypt.png',1,2,1) ");
+			db.execSQL("insert into TILE values('22','graveyard','graveyard.png',1,2,2) ");
+			db.execSQL("insert into TILE values('23','laboratory','laboratory.png',1,2,2) ");
+			db.execSQL("insert into TILE values('24','main_bedroom','main_bedroom.png',1,2,1) ");
+			db.execSQL("insert into TILE values('25','park_back','park_back.png',1,2,2) ");
+			db.execSQL("insert into TILE values('26','patio','patio.png',1,2,2) ");
+			db.execSQL("insert into TILE values('27','pit','pit.png',1,2,1) ");
+			db.execSQL("insert into TILE values('28','secret_way','secret_way.png',1,2,1) ");
+			db.execSQL("insert into TILE values('29','underground1','underground1.png',1,2,1) ");
+			db.execSQL("insert into TILE values('30','underground2','underground2.png',1,2,1) ");
 
 			onUpgrade(db, 1, DATABASE_VERSION);
 		} catch (Throwable e) {
