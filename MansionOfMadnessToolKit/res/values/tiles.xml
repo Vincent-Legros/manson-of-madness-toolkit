@@ -11,4 +11,23 @@
     <string name="tile_study">Study</string>
     <string name="tile_tower">Tower</string>
     <string name="tile_loby">Loby</string>
+    <string name="tile_boiler_room">Boiler Room</string>
+    <string name="tile_cave">Cave</string>
+    <string name="tile_ceremonial">Ceremonial Room</string>
+    <string name="tile_chapel">Chapel</string>
+    <string name="tile_children_home">Children\'s Home</string>
+    <string name="tile_corridor1">Corridor 1</string>
+    <string name="tile_corridor2">Corridor 2</string>
+    <string name="tile_corridor3">Corridor 3</string>
+    <string name="tile_corridor4">Corridor 4</string>
+    <string name="tile_crypt">Crypt</string>
+    <string name="tile_graveyard">Graveyard</string>
+    <string name="tile_laboratory">Laboratory</string>
+    <string name="tile_main_bedroom">Main Bedroom</string>
+    <string name="tile_park_back">Park Back</string>
+    <string name="tile_patio">Patio</string>
+    <string name="tile_pit">Pit</string>
+    <string name="tile_secret_way">Secret Way</string>
+    <string name="tile_underground1">Underground 1</string>
+    <string name="tile_underground2">Underground 2</string>
 </resources>
