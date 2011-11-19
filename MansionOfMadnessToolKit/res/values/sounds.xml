@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sound_door_lock">Door Lock</string>
+    <string name="sound_open_creaky_door">Open Creaky Door</string>
+
+</resources>

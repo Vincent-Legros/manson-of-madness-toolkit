@@ -20,6 +20,7 @@
 package org.amphiprion.mansionofmadness.database;
 
 import org.amphiprion.mansionofmadness.ApplicationConstants;
+import org.amphiprion.mansionofmadness.dto.Sound;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
 import android.content.Context;
@@ -74,6 +75,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("insert into TILE values('28','secret_way','secret_way.png',1,2,1) ");
 			db.execSQL("insert into TILE values('29','underground1','underground1.png',1,2,1) ");
 			db.execSQL("insert into TILE values('30','underground2','underground2.png',1,2,1) ");
+
+			db.execSQL("create table SOUND (" + Sound.DbField.ID + " text primary key, " + Sound.DbField.NAME + " text not null, " + Sound.DbField.SOUND_NAME + " text" + ","
+					+ Sound.DbField.IS_EMBEDDED + " number(1)" + ") ");
+
+			db.execSQL("insert into SOUND values('1','door_lock','door_lock.wav',1) ");
+			db.execSQL("insert into SOUND values('2','open_creaky_door','open_creaky_door.wav',1) ");
 
 			onUpgrade(db, 1, DATABASE_VERSION);
 		} catch (Throwable e) {
