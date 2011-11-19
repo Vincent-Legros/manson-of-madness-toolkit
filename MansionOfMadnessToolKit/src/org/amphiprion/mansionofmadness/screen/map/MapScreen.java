@@ -152,6 +152,22 @@ public class MapScreen extends GameScreen {
 						pointerState = PointerState.NONE;
 						return;
 					}
+					img = (Image2D) getHMIComponent(ComponentKey.ROTATE_CLOCK_ICON);
+					if (img.contains(nx, ny)) {
+						pointerState = PointerState.NONE;
+						selectedTile.setRotation(selectedTile.getRotation() + 90);
+						anchorTile(selectedTile);
+						return;
+					}
+					img = (Image2D) getHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON);
+					if (img.contains(nx, ny)) {
+						pointerState = PointerState.NONE;
+
+						selectedTile.setRotation(selectedTile.getRotation() + 270);
+						anchorTile(selectedTile);
+
+						return;
+					}
 				}
 			}
 			lastPointerX = nx;
@@ -185,6 +201,7 @@ public class MapScreen extends GameScreen {
 
 	private void defineTileIcons() {
 		if (selectedTile != null) {
+
 			Image2D img = new Image2D("tiles/icons/move.png");
 			img.x = selectedTile.x;
 			img.y = selectedTile.y;
@@ -192,20 +209,20 @@ public class MapScreen extends GameScreen {
 			boardMenu.addObject(img);
 
 			img = new Image2D("tiles/icons/close.png");
-			img.x = selectedTile.x + selectedTile.getTile().getWidth() * 150 / 2 - 32;
-			img.y = selectedTile.y + selectedTile.getTile().getHeight() * 150 / 2 - 32;
+			img.x = selectedTile.x + selectedTile.getTileWidth() * 150 / 2 - 32;
+			img.y = selectedTile.y + selectedTile.getTileHeight() * 150 / 2 - 32;
 			registerHMIComponent(ComponentKey.DELETE_ICON, img);
 			boardMenu.addObject(img);
 
 			img = new Image2D("tiles/icons/rotate_clock.png");
-			img.x = selectedTile.x + selectedTile.getTile().getWidth() * 150 / 2 - 32;
-			img.y = selectedTile.y - selectedTile.getTile().getHeight() * 150 / 2 + 32;
+			img.x = selectedTile.x + selectedTile.getTileWidth() * 150 / 2 - 32;
+			img.y = selectedTile.y - selectedTile.getTileHeight() * 150 / 2 + 32;
 			registerHMIComponent(ComponentKey.ROTATE_CLOCK_ICON, img);
 			boardMenu.addObject(img);
 
 			img = new Image2D("tiles/icons/rotate_counter_clock.png");
-			img.x = selectedTile.x - selectedTile.getTile().getWidth() * 150 / 2 + 32;
-			img.y = selectedTile.y - selectedTile.getTile().getHeight() * 150 / 2 + 32;
+			img.x = selectedTile.x - selectedTile.getTileWidth() * 150 / 2 + 32;
+			img.y = selectedTile.y - selectedTile.getTileHeight() * 150 / 2 + 32;
 			registerHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON, img);
 			boardMenu.addObject(img);
 		}
@@ -287,18 +304,22 @@ public class MapScreen extends GameScreen {
 			lastPointerY = ny;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			pointerState = PointerState.NONE;
-			int left = selectedTile.x - 150 * selectedTile.getTile().getWidth() / 2 - boardMenu.getX();
-			int top = selectedTile.y - 150 * selectedTile.getTile().getHeight() / 2 - boardMenu.getY();
-			if (left < 0) {
-				selectedTile.x += (left - 75) / 150 * 150 - left;
-			} else {
-				selectedTile.x += (left + 75) / 150 * 150 - left;
-			}
-			if (top < 0) {
-				selectedTile.y += (top - 75) / 150 * 150 - top;
-			} else {
-				selectedTile.y += (top + 75) / 150 * 150 - top;
-			}
+			anchorTile(selectedTile);
+		}
+	}
+
+	private void anchorTile(Tile2D tileToAnchor) {
+		int left = tileToAnchor.x - 150 * tileToAnchor.getTileWidth() / 2 - boardMenu.getX();
+		int top = tileToAnchor.y - 150 * tileToAnchor.getTileHeight() / 2 - boardMenu.getY();
+		if (left < 0) {
+			tileToAnchor.x += (left - 75) / 150 * 150 - left;
+		} else {
+			tileToAnchor.x += (left + 75) / 150 * 150 - left;
+		}
+		if (top < 0) {
+			tileToAnchor.y += (top - 75) / 150 * 150 - top;
+		} else {
+			tileToAnchor.y += (top + 75) / 150 * 150 - top;
 		}
 	}
 
