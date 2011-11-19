@@ -25,7 +25,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 	// The bitmap we want to load as a texture.
 	private String uri; // New variable.
 	private Texture texture;
-
+	private int rotation;
 	// Indicates if we need to load the texture.
 	private boolean mShouldLoadTexture = false; // New variable.
 	// Our texture id.
@@ -128,7 +128,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 	 * @param gl
 	 */
 	private void loadGLTexture(GL10 gl) { // New function
-		texture = TextureUtil.loadTexture(uri, gl);
+		texture = TextureUtil.loadTexture(uri, gl, rotation);
 		float[] vertices = {
 				// X, Y
 				0, 0, 0.2f, 0, (texture.originalHeight - 1) / 100.0f, 0.2f, (texture.originalWidth - 1) / 100.0f, (texture.originalHeight - 1) / 100.0f, 0.2f,
@@ -172,7 +172,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
 			// Point to our buffers
-			gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+			// gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, texture.textureId);
 		}
 		int[] crop = new int[4];
@@ -266,5 +266,32 @@ public class Image2D implements IObject2D, IHMIComponent {
 	@Override
 	public void setGlobalScale(float globalScale) {
 		this.globalScale = globalScale;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation % 360;
+		if (rotation == 90) {
+			float textureCoordinates[] = { 0.0f, 1.0f, //
+					1.0f, 1.0f, //
+					1.0f, 0.0f, //
+					0.0f, 0.0f, //
+			};
+			setTextureCoordinates(textureCoordinates);
+		} else {
+			float textureCoordinates[] = { 0.0f, 0.0f, //
+					0.0f, 1.0f, //
+					1.0f, 1.0f, //
+					1.0f, 0.0f, //
+			};
+			setTextureCoordinates(textureCoordinates);
+		}
+		mShouldLoadTexture = true;
+	}
+
+	/**
+	 * @return the rotation
+	 */
+	public int getRotation() {
+		return rotation;
 	}
 }

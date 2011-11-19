@@ -37,7 +37,23 @@ public class Tile2D extends Image2D {
 	/**
 	 * @return the tile
 	 */
-	public Tile getTile() {
+	private Tile getTile() {
 		return tile;
+	}
+
+	public int getTileWidth() {
+		if (getRotation() == 90 || getRotation() == 270) {
+			return tile.getHeight();
+		} else {
+			return tile.getWidth();
+		}
+	}
+
+	public int getTileHeight() {
+		if (getRotation() == 90 || getRotation() == 270) {
+			return tile.getWidth();
+		} else {
+			return tile.getHeight();
+		}
 	}
 }

@@ -9,6 +9,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.opengl.GLUtils;
 
@@ -17,12 +18,16 @@ public class TextureUtil {
 	private static GL10 gl;
 
 	public static Texture loadTexture(String uri, GL10 gl) {
+		return loadTexture(uri, gl, 0);
+	}
+
+	public static Texture loadTexture(String uri, GL10 gl, int angle) {
 		if (TextureUtil.gl != null && TextureUtil.gl != gl) {
 			unloadAll();
 		}
 		TextureUtil.gl = gl;
 
-		Texture texture = textures.get(uri);
+		Texture texture = textures.get(uri + "|" + angle);
 		if (texture == null) {
 
 			InputStream is = null;
@@ -31,6 +36,11 @@ public class TextureUtil {
 			Bitmap bitmap = BitmapFactory.decodeStream(is);
 			int contentWidth = bitmap.getWidth();
 			int contentHeight = bitmap.getHeight();
+			if (angle == 90 || angle == 270) {
+				contentWidth = bitmap.getHeight();
+				contentHeight = bitmap.getWidth();
+			}
+
 			int mStrikeWidth = 1;
 			while (mStrikeWidth < contentWidth) {
 				mStrikeWidth <<= 1;
@@ -40,25 +50,34 @@ public class TextureUtil {
 			while (mStrikeHeight < contentHeight) {
 				mStrikeHeight <<= 1;
 			}
-			if (contentWidth != mStrikeWidth || contentHeight != mStrikeHeight) {
-				Bitmap.Config config = Bitmap.Config.ARGB_4444;
-				Bitmap mBitmap = Bitmap.createBitmap(mStrikeWidth, mStrikeHeight, config);
-				Canvas mCanvas = new Canvas(mBitmap);
-				mCanvas.drawBitmap(bitmap, 0, 0, new Paint());
-				mCanvas = null;
-				texture = loadGLTexture(mBitmap, gl);
-				mBitmap.recycle();
-				mBitmap = null;
-			} else {
-				texture = loadGLTexture(bitmap, gl);
+			// if (contentWidth != mStrikeWidth || contentHeight !=
+			// mStrikeHeight) {
+			Bitmap.Config config = Bitmap.Config.ARGB_4444;
+			Bitmap mBitmap = Bitmap.createBitmap(mStrikeWidth, mStrikeHeight, config);
+			Canvas mCanvas = new Canvas(mBitmap);
+
+			if (angle != 0) {
+				Matrix orig = mCanvas.getMatrix();
+				orig.postTranslate(-bitmap.getWidth() / 2, -bitmap.getHeight() / 2);
+				orig.postRotate(angle, 0, 0);
+				orig.postTranslate(contentWidth / 2, contentHeight / 2);
+				mCanvas.setMatrix(orig);
 			}
+			mCanvas.drawBitmap(bitmap, 0, 0, new Paint());
+			mCanvas = null;
+			texture = loadGLTexture(mBitmap, gl);
+			mBitmap.recycle();
+			mBitmap = null;
+			// } else {
+			// texture = loadGLTexture(bitmap, gl);
+			// }
 			texture.height = mStrikeHeight;
 			texture.width = mStrikeWidth;
 			texture.originalHeight = contentHeight;
 			texture.originalWidth = contentWidth;
 			bitmap.recycle();
 			bitmap = null;
-			textures.put(uri, texture);
+			textures.put(uri + "|" + angle, texture);
 		}
 		return texture;
 	}
