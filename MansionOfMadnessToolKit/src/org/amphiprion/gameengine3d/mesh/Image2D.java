@@ -1,10 +1,5 @@
 package org.amphiprion.gameengine3d.mesh;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
-
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
@@ -16,11 +11,6 @@ import org.amphiprion.gameengine3d.util.TextureUtil;
 
 public class Image2D implements IObject2D, IHMIComponent {
 	private boolean enable = true;
-
-	private FloatBuffer vertexBuffer;
-	private ShortBuffer indexBuffer;
-	// Our UV texture buffer.
-	private FloatBuffer textureBuffer; // New variable.
 
 	// The bitmap we want to load as a texture.
 	private String uri; // New variable.
@@ -64,17 +54,6 @@ public class Image2D implements IObject2D, IHMIComponent {
 		// mCanvas.drawBitmap(bitmap, 0, 0, new Paint());
 		// mCanvas = null;
 
-		float textureCoordinates[] = { 0.0f, 0.0f, //
-				0.0f, 1.0f, //
-				1.0f, 1.0f, //
-				1.0f, 0.0f, //
-		};
-		// Triangle Strip definition:
-		short[] indices = { 0, 1, 2, 2, 3, 0 };
-
-		setIndices(indices);
-
-		setTextureCoordinates(textureCoordinates);
 		mShouldLoadTexture = true;
 		// bitmap = null;
 	}
@@ -89,39 +68,6 @@ public class Image2D implements IObject2D, IHMIComponent {
 		this.scale = scale;
 	}
 
-	private void setVertices(float[] coords) {
-		ByteBuffer vbb = ByteBuffer.allocateDirect(coords.length * 4);
-		vbb.order(ByteOrder.nativeOrder());
-		vertexBuffer = vbb.asFloatBuffer();
-		vertexBuffer.put(coords);
-		vertexBuffer.position(0);
-	}
-
-	private void setIndices(short[] vertex_strip) {
-		ByteBuffer ibb = ByteBuffer.allocateDirect(vertex_strip.length * 2);
-		ibb.order(ByteOrder.nativeOrder());
-		indexBuffer = ibb.asShortBuffer();
-		indexBuffer.put(vertex_strip);
-		indexBuffer.position(0);
-		// mNumOfIndices = vertex_strip.length;
-	}
-
-	/**
-	 * Set the texture coordinates.
-	 * 
-	 * @param textureCoords
-	 */
-	protected void setTextureCoordinates(float[] textureCoords) { // New
-																	// function.
-		// float is 4 bytes, therefore we multiply the number if
-		// vertices with 4.
-		ByteBuffer byteBuf = ByteBuffer.allocateDirect(textureCoords.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuf.asFloatBuffer();
-		textureBuffer.put(textureCoords);
-		textureBuffer.position(0);
-	}
-
 	/**
 	 * Loads the texture.
 	 * 
@@ -129,11 +75,6 @@ public class Image2D implements IObject2D, IHMIComponent {
 	 */
 	private void loadGLTexture(GL10 gl) { // New function
 		texture = TextureUtil.loadTexture(uri, gl, rotation);
-		float[] vertices = {
-				// X, Y
-				0, 0, 0.2f, 0, (texture.originalHeight - 1) / 100.0f, 0.2f, (texture.originalWidth - 1) / 100.0f, (texture.originalHeight - 1) / 100.0f, 0.2f,
-				(texture.originalWidth - 1) / 100.0f, 0, 0.2f };
-		setVertices(vertices);
 	}
 
 	@Override
@@ -166,7 +107,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 			gl.glColor4f(1f, 1f, 1f, 1f);
 		}
 		// gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-		if (texture != null && textureBuffer != null) {
+		if (texture != null) {
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			// Enable the texture state
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
@@ -270,21 +211,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	public void setRotation(int rotation) {
 		this.rotation = rotation % 360;
-		if (rotation == 90) {
-			float textureCoordinates[] = { 0.0f, 1.0f, //
-					1.0f, 1.0f, //
-					1.0f, 0.0f, //
-					0.0f, 0.0f, //
-			};
-			setTextureCoordinates(textureCoordinates);
-		} else {
-			float textureCoordinates[] = { 0.0f, 0.0f, //
-					0.0f, 1.0f, //
-					1.0f, 1.0f, //
-					1.0f, 0.0f, //
-			};
-			setTextureCoordinates(textureCoordinates);
-		}
+
 		mShouldLoadTexture = true;
 	}
 

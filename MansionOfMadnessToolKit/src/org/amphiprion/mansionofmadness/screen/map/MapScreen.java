@@ -26,6 +26,7 @@ import org.amphiprion.gameengine3d.IObject2D;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dao.TileDao;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
@@ -102,6 +103,16 @@ public class MapScreen extends GameScreen {
 			img.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2;
 
 			tileMenu.addObject(img);
+			String txt;
+			if (tile.isEmbedded()) {
+				txt = context.getString(context.getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE));
+			} else {
+				txt = tile.getName();
+			}
+			Image2D imgTxt = new Image2D("@String/" + txt);
+			imgTxt.x = TileMenu.WIDTH / 2;
+			imgTxt.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2 + (int) (tile.getHeight() * (150 / 2) / scale) + 15;
+			tileMenu.addObject(imgTxt);
 
 			index++;
 		}
