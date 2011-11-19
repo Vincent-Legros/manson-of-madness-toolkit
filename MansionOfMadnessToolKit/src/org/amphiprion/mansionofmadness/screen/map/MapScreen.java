@@ -46,7 +46,7 @@ public class MapScreen extends GameScreen {
 	}
 
 	private enum ComponentKey {
-		MOVE_ICON
+		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON
 	}
 
 	private PointerState pointerState = PointerState.NONE;
@@ -145,6 +145,13 @@ public class MapScreen extends GameScreen {
 					if (img.contains(nx, ny)) {
 						pointerState = PointerState.ON_BOARD_TILE;
 					}
+					img = (Image2D) getHMIComponent(ComponentKey.DELETE_ICON);
+					if (img.contains(nx, ny)) {
+						boardMenu.removeObject(selectedTile);
+						selectedTile = null;
+						pointerState = PointerState.NONE;
+						return;
+					}
 				}
 			}
 			lastPointerX = nx;
@@ -170,6 +177,9 @@ public class MapScreen extends GameScreen {
 	private void clearTileIcons() {
 		if (selectedTile != null) {
 			boardMenu.removeObject(getHMIComponent(ComponentKey.MOVE_ICON));
+			boardMenu.removeObject(getHMIComponent(ComponentKey.DELETE_ICON));
+			boardMenu.removeObject(getHMIComponent(ComponentKey.ROTATE_CLOCK_ICON));
+			boardMenu.removeObject(getHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON));
 		}
 	}
 
@@ -179,6 +189,24 @@ public class MapScreen extends GameScreen {
 			img.x = selectedTile.x;
 			img.y = selectedTile.y;
 			registerHMIComponent(ComponentKey.MOVE_ICON, img);
+			boardMenu.addObject(img);
+
+			img = new Image2D("tiles/icons/close.png");
+			img.x = selectedTile.x + selectedTile.getTile().getWidth() * 150 / 2 - 32;
+			img.y = selectedTile.y + selectedTile.getTile().getHeight() * 150 / 2 - 32;
+			registerHMIComponent(ComponentKey.DELETE_ICON, img);
+			boardMenu.addObject(img);
+
+			img = new Image2D("tiles/icons/rotate_clock.png");
+			img.x = selectedTile.x + selectedTile.getTile().getWidth() * 150 / 2 - 32;
+			img.y = selectedTile.y - selectedTile.getTile().getHeight() * 150 / 2 + 32;
+			registerHMIComponent(ComponentKey.ROTATE_CLOCK_ICON, img);
+			boardMenu.addObject(img);
+
+			img = new Image2D("tiles/icons/rotate_counter_clock.png");
+			img.x = selectedTile.x - selectedTile.getTile().getWidth() * 150 / 2 + 32;
+			img.y = selectedTile.y - selectedTile.getTile().getHeight() * 150 / 2 + 32;
+			registerHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON, img);
 			boardMenu.addObject(img);
 		}
 	}
