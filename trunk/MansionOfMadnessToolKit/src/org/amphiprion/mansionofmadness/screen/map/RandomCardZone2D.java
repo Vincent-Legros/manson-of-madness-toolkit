@@ -31,7 +31,7 @@ import org.amphiprion.mansionofmadness.dto.Card;
  * @author Amphiprion
  * 
  */
-public class RandomCardZone2D extends Image2D {
+public class RandomCardZone2D extends Image2D implements ICardPile {
 	private List<Card> cards = new ArrayList<Card>();
 	private Text2D imgPileSize;
 
@@ -78,5 +78,30 @@ public class RandomCardZone2D extends Image2D {
 			changeUri("cards/back_" + card.getType() + ".png");
 		}
 		imgPileSize.setText("" + cards.size());
+	}
+
+	/**
+	 * @return the cards
+	 */
+	@Override
+	public List<Card> getCards() {
+		return cards;
+	}
+
+	/**
+	 * @param _selection
+	 *            the selection start with top card and end with bottom card
+	 */
+	@Override
+	public void removeSelection(boolean[] _selection) {
+		int index = cards.size() - 1;
+		for (int i = 0; i < _selection.length; i++) {
+			if (_selection[i]) {
+				cards.remove(index);
+			}
+			index--;
+		}
+		computeImage();
+
 	}
 }

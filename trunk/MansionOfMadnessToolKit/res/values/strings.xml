@@ -2,6 +2,8 @@
 <resources>
 
     <string name="hello">Hello World, MansionOfMadnessToolKitActivity!</string>
-    <string name="app_name">MansionOfMadnessToolKit</string>
-
+    <string name="app_name">Mansion Of Madness ToolKit</string>
+<string name="discard_selected">Discard Selected</string>
+<string name="cancel">Cancel</string>
+<string name="card_pile_title">Card Pile</string>
 </resources>
