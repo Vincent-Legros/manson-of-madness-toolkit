@@ -214,6 +214,13 @@ public class Image2D implements IObject2D, IHMIComponent {
 		this.globalScale = globalScale;
 	}
 
+	/**
+	 * @return the globalScale
+	 */
+	public float getGlobalScale() {
+		return globalScale;
+	}
+
 	public void setRotation(int rotation) {
 		this.rotation = rotation % 360;
 
