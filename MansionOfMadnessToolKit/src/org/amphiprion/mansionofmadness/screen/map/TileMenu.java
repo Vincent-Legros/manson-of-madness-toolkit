@@ -27,7 +27,6 @@ import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dao.TileDao;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
 
@@ -127,7 +126,6 @@ public class TileMenu extends TouchableGroup2D {
 					tileIndex = -1;
 				}
 				mapScreen.removeAnimation(tileMenuAnimation);
-				Log.d(ApplicationConstants.PACKAGE, "tileIndex=" + tileIndex);
 				return PointerState.ON_TILE_MENU;
 			}
 			return current;
