@@ -37,7 +37,7 @@ public class MapScreen extends GameScreen {
 	private Context context;
 
 	public enum ComponentKey {
-		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON
+		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON
 	}
 
 	private PointerState pointerState = PointerState.NONE;

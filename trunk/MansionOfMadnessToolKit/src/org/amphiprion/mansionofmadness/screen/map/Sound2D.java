@@ -34,4 +34,11 @@ public class Sound2D extends Image2D {
 		this.sound = sound;
 	}
 
+	/**
+	 * @return the sound
+	 */
+	public Sound getSound() {
+		return sound;
+	}
+
 }

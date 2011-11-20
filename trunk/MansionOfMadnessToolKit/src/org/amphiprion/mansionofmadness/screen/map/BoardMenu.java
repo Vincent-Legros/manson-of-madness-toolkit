@@ -24,6 +24,7 @@ import org.amphiprion.gameengine3d.IObject2D;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.screen.map.MapScreen.ComponentKey;
+import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.view.MotionEvent;
 
@@ -123,6 +124,25 @@ public class BoardMenu extends TouchableGroup2D {
 					defineTileIcons();
 					return PointerState.NONE;
 				}
+			} else if (selectedSound != null) {
+				Image2D img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.MOVE_ICON);
+				if (img.contains(nx, ny)) {
+					clearTileIcons();
+					return PointerState.ON_BOARD_SOUND;
+				}
+				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.DELETE_ICON);
+				if (img.contains(nx, ny)) {
+					clearTileIcons();
+					soundGroup.removeObject(selectedSound);
+					selectedSound = null;
+					return PointerState.NONE;
+				}
+				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.PLAY_ICON);
+				if (img.contains(nx, ny)) {
+					DeviceUtil.playSound(selectedSound.getSound());
+					return PointerState.NONE;
+				}
+
 			}
 			return PointerState.ON_BOARD;
 		} else if (current == PointerState.ON_BOARD_TILE) {
@@ -148,8 +168,7 @@ public class BoardMenu extends TouchableGroup2D {
 				lastPointerX = nx;
 				lastPointerY = ny;
 			} else if (event.getAction() == MotionEvent.ACTION_UP) {
-				// anchorTile(selectedTile);
-				// defineTileIcons();
+				defineSoundIcons();
 				return PointerState.NONE;
 			}
 			return current;
@@ -212,12 +231,22 @@ public class BoardMenu extends TouchableGroup2D {
 				if (System.currentTimeMillis() - lastPointerDownTime < 300) {
 					// simple click, try to select of tile
 					clearTileIcons();
+					selectedSound = null;
 					selectedTile = null;
-					for (IObject2D o : tileGroup.getObjects()) {
-						if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
-							selectedTile = (Tile2D) o;
-							defineTileIcons();
+					for (IObject2D o : soundGroup.getObjects()) {
+						if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
+							selectedSound = (Sound2D) o;
+							defineSoundIcons();
 							break;
+						}
+					}
+					if (selectedSound == null) {
+						for (IObject2D o : tileGroup.getObjects()) {
+							if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
+								selectedTile = (Tile2D) o;
+								defineTileIcons();
+								break;
+							}
 						}
 					}
 				}
@@ -246,11 +275,33 @@ public class BoardMenu extends TouchableGroup2D {
 	}
 
 	private void clearTileIcons() {
-		if (selectedTile != null) {
-			removeObject(mapScreen.getHMIComponent(ComponentKey.MOVE_ICON));
-			removeObject(mapScreen.getHMIComponent(ComponentKey.DELETE_ICON));
-			removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_CLOCK_ICON));
-			removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.MOVE_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.DELETE_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_CLOCK_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.PLAY_ICON));
+	}
+
+	private void defineSoundIcons() {
+		if (selectedSound != null) {
+			Image2D img = new Image2D("tiles/icons/move.png");
+			img.x = selectedSound.x;
+			img.y = selectedSound.y;
+			mapScreen.registerHMIComponent(ComponentKey.MOVE_ICON, img);
+			addObject(img);
+
+			img = new Image2D("tiles/icons/close.png");
+			img.x = selectedSound.x + 64 / 2 + 24;
+			img.y = selectedSound.y + 64 / 2 + 24;
+			mapScreen.registerHMIComponent(ComponentKey.DELETE_ICON, img);
+			addObject(img);
+
+			img = new Image2D("tiles/icons/play.png");
+			img.x = selectedSound.x + 64 / 2 + 24;
+			img.y = selectedSound.y - 64 / 2 - 24;
+			mapScreen.registerHMIComponent(ComponentKey.PLAY_ICON, img);
+			addObject(img);
+
 		}
 	}
 
