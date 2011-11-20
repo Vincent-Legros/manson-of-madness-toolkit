@@ -29,7 +29,7 @@ import android.view.MotionEvent;
  */
 public class TouchableGroup2D extends Group2D {
 	public enum PointerState {
-		NONE, ON_TILE_MENU_TAB, ON_TILE_MENU, ON_BOARD_TILE, ON_BOARD
+		NONE, ON_TILE_MENU_TAB, ON_TILE_MENU, ON_BOARD_TILE, ON_BOARD, ON_BOARD_SOUND
 	}
 
 	/**
