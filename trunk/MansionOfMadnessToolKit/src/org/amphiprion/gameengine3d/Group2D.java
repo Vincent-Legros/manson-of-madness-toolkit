@@ -108,4 +108,5 @@ public class Group2D implements IObject2D {
 	public List<IObject2D> getObjects() {
 		return objects;
 	}
+
 }

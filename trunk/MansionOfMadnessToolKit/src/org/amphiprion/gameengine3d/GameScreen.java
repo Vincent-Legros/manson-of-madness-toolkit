@@ -33,24 +33,28 @@ public class GameScreen {
 		hmis = new HashMap<Enum, IHMIComponent>();
 	}
 
-	protected void addAnimation(GameComponentAnimation anim) {
+	public void addAnimation(GameComponentAnimation anim) {
 		anim.start();
 		animations.add(anim);
 	}
 
-	protected void removeAnimation(GameComponentAnimation anim) {
+	public void removeAnimation(GameComponentAnimation anim) {
 		animations.remove(anim);
 	}
 
-	protected void clearAnimation() {
+	public void clearAnimation() {
 		animations.clear();
 	}
 
-	protected void registerHMIComponent(Enum key, IHMIComponent cmp) {
+	public void clearAnimation(GameComponentAnimation anim) {
+		animations.remove(anim);
+	}
+
+	public void registerHMIComponent(Enum key, IHMIComponent cmp) {
 		hmis.put(key, cmp);
 	}
 
-	protected IHMIComponent getHMIComponent(Enum key) {
+	public IHMIComponent getHMIComponent(Enum key) {
 		return hmis.get(key);
 	}
 
