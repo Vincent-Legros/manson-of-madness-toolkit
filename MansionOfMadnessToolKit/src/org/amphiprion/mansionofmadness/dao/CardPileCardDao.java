@@ -23,21 +23,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 
 import android.content.Context;
 import android.database.Cursor;
 
 /**
- * This DAO is used to manage card entities.
+ * This DAO is used to manage cardPileCard entities.
  * 
  * @author ng00124c
  * 
  */
-public class CardDao extends AbstractDao {
+public class CardPileCardDao extends AbstractDao {
 
 	/** The singleton. */
-	private static CardDao instance;
+	private static CardPileCardDao instance;
 
 	/**
 	 * Hidden constructor.
@@ -45,7 +47,7 @@ public class CardDao extends AbstractDao {
 	 * @param context
 	 *            the application context
 	 */
-	private CardDao(Context context) {
+	private CardPileCardDao(Context context) {
 		super(context);
 	}
 
@@ -56,55 +58,30 @@ public class CardDao extends AbstractDao {
 	 *            the application context
 	 * @return the singleton
 	 */
-	public static CardDao getInstance(Context context) {
+	public static CardPileCardDao getInstance(Context context) {
 		if (instance == null) {
-			instance = new CardDao(context);
+			instance = new CardPileCardDao(context);
 		}
 		return instance;
 	}
 
 	/**
-	 * Return the given Card.
 	 * 
-	 * @param id
-	 *            the unique identifier
-	 * @return the card or null if not exists
+	 * @return all existing cardPileCard
 	 */
-	public Card getCard(String id) {
+	public List<CardPileCard> getCardPileCards(String cardPlieInstanceId) {
 
-		String sql = "SELECT " + Card.DbField.ID + "," + Card.DbField.NAME + "," + Card.DbField.TYPE + "," + Card.DbField.IS_EMBEDDED + " from CARD where " + Card.DbField.ID
-				+ "=?";
+		String sql = "SELECT " + CardPileCard.DbField.ID + "," + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "," + CardPileCard.DbField.CARD_ID + "," + CardPileCard.DbField.POS_ORDER
+				+ " from CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=? order by " + CardPileCard.DbField.POS_ORDER;
 
-		Cursor cursor = getDatabase().rawQuery(sql, new String[] { id });
-		Card result = null;
-		if (cursor.moveToFirst()) {
-			Card entity = new Card(cursor.getString(0));
-			entity.setName(cursor.getString(1));
-			entity.setType(cursor.getString(2));
-			entity.setEmbedded(cursor.getInt(3) != 0);
-			result = entity;
-		}
-		cursor.close();
-		return result;
-	}
-
-	/**
-	 * 
-	 * @return all existing cards
-	 */
-	public List<Card> getCards() {
-
-		String sql = "SELECT " + Card.DbField.ID + "," + Card.DbField.NAME + "," + Card.DbField.TYPE + "," + Card.DbField.IS_EMBEDDED + " from CARD order by " + Card.DbField.TYPE
-				+ "," + Card.DbField.NAME;
-
-		Cursor cursor = getDatabase().rawQuery(sql, null);
-		ArrayList<Card> result = new ArrayList<Card>();
+		Cursor cursor = getDatabase().rawQuery(sql, new String[] { cardPlieInstanceId });
+		ArrayList<CardPileCard> result = new ArrayList<CardPileCard>();
 		if (cursor.moveToFirst()) {
 			do {
-				Card entity = new Card(cursor.getString(0));
-				entity.setName(cursor.getString(1));
-				entity.setType(cursor.getString(2));
-				entity.setEmbedded(cursor.getInt(3) != 0);
+				CardPileCard entity = new CardPileCard(cursor.getString(0));
+				entity.setCardPileInstance(new CardPileInstance(cursor.getString(1)));
+				entity.setCard(new Card(cursor.getString(2)));
+				entity.setOrder(cursor.getInt(3));
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -114,20 +91,21 @@ public class CardDao extends AbstractDao {
 	}
 
 	/**
-	 * Persist a new Card.
+	 * Persist a new CardPileCard.
 	 * 
 	 * @param entity
-	 *            the new Card
+	 *            the new CardPileCard
 	 */
-	private void create(Card entity) {
+	private void create(CardPileCard entity) {
 		getDatabase().beginTransaction();
 		try {
-			String sql = "insert into CARD (" + Card.DbField.ID + "," + Card.DbField.NAME + "," + Card.DbField.TYPE + "," + Card.DbField.IS_EMBEDDED + ") values (?,?,?,?)";
+			String sql = "insert into CARD_PILE_CARD (" + CardPileCard.DbField.ID + "," + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "," + CardPileCard.DbField.CARD_ID + ","
+					+ CardPileCard.DbField.POS_ORDER + ") values (?,?,?,?)";
 			Object[] params = new Object[4];
 			params[0] = entity.getId();
-			params[1] = entity.getName();
-			params[2] = entity.getType();
-			params[3] = entity.isEmbedded() ? "0" : "1";
+			params[1] = entity.getCardPileInstance().getId();
+			params[2] = entity.getCard().getId();
+			params[3] = entity.getOrder();
 
 			execSQL(sql, params);
 
@@ -139,12 +117,14 @@ public class CardDao extends AbstractDao {
 		}
 	}
 
-	private void update(Card entity) {
-		String sql = "update CARD set " + Card.DbField.NAME + "=?," + Card.DbField.TYPE + "=? WHERE " + Card.DbField.ID + "=?";
-		Object[] params = new Object[3];
-		params[0] = entity.getName();
-		params[1] = entity.getType();
-		params[2] = entity.getId();
+	private void update(CardPileCard entity) {
+		String sql = "update CARD_PILE_CARD set " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=?," + CardPileCard.DbField.CARD_ID + "=?," + CardPileCard.DbField.POS_ORDER
+				+ "=? WHERE " + CardPileCard.DbField.ID + "=?";
+		Object[] params = new Object[4];
+		params[0] = entity.getCardPileInstance().getId();
+		params[1] = entity.getCard().getId();
+		params[2] = entity.getOrder();
+		params[3] = entity.getId();
 
 		execSQL(sql, params);
 
@@ -155,9 +135,9 @@ public class CardDao extends AbstractDao {
 	 * insert or an update.
 	 * 
 	 * @param entity
-	 *            the Card to persist
+	 *            the CardPileCard to persist
 	 */
-	public void persist(Card entity) {
+	public void persist(CardPileCard entity) {
 		if (entity.getState() == DbState.NEW) {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {

@@ -19,6 +19,8 @@
  */
 package org.amphiprion.mansionofmadness;
 
+import org.amphiprion.mansionofmadness.dto.Scenario;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ public class HomeActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent i = new Intent(HomeActivity.this, MapActivity.class);
+				i.putExtra("SCENARIO", new Scenario("1"));
 				startActivity(i);
 			}
 		});

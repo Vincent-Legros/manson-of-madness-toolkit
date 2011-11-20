@@ -54,9 +54,9 @@ public class BoardMenu extends TouchableGroup2D {
 	private float lastPointerDist;
 	private long lastPointerDownTime;
 
-	private Group2D tileGroup;
-	private Group2D cardPileGroup;
-	private Group2D soundGroup;
+	protected Group2D tileGroup;
+	protected Group2D cardPileGroup;
+	protected Group2D soundGroup;
 
 	/**
 	 * 

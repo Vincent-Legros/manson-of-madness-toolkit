@@ -24,7 +24,6 @@ import java.util.List;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
-import org.amphiprion.mansionofmadness.dao.CardDao;
 import org.amphiprion.mansionofmadness.dto.Card;
 
 import android.view.MotionEvent;
@@ -52,8 +51,9 @@ public class CardMenu extends TouchableGroup2D {
 	/**
 	 * 
 	 */
-	public CardMenu(MapScreen mapScreen, String backgroundUri) {
+	public CardMenu(MapScreen mapScreen, String backgroundUri, List<Card> availableCards) {
 		this.mapScreen = mapScreen;
+		this.availableCards = availableCards;
 		setX(ComponentTab.WIDTH / 2);
 		setY(800 / 2);
 
@@ -63,7 +63,6 @@ public class CardMenu extends TouchableGroup2D {
 		background.setScale(10);
 		addObject(background);
 
-		availableCards = CardDao.getInstance(mapScreen.getContext()).getCards();
 		int index = 0;
 		for (Card card : availableCards) {
 			Image2D img = new Image2D("cards/back_" + card.getType() + ".png");

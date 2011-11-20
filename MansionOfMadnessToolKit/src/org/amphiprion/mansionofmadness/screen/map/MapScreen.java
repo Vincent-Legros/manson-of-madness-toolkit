@@ -19,10 +19,29 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import java.util.List;
+
 import org.amphiprion.gameengine3d.GameScreen;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.dao.CardDao;
+import org.amphiprion.mansionofmadness.dao.CardPileCardDao;
+import org.amphiprion.mansionofmadness.dao.CardPileInstanceDao;
+import org.amphiprion.mansionofmadness.dao.RandomCardPileCardDao;
+import org.amphiprion.mansionofmadness.dao.SoundDao;
+import org.amphiprion.mansionofmadness.dao.SoundInstanceDao;
+import org.amphiprion.mansionofmadness.dao.TileDao;
+import org.amphiprion.mansionofmadness.dao.TileInstanceDao;
+import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
+import org.amphiprion.mansionofmadness.dto.RandomCardPileCard;
+import org.amphiprion.mansionofmadness.dto.Scenario;
+import org.amphiprion.mansionofmadness.dto.Sound;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
+import org.amphiprion.mansionofmadness.dto.Tile;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.TouchableGroup2D.PointerState;
 
 import android.content.Context;
@@ -35,6 +54,7 @@ import android.view.animation.BounceInterpolator;
  */
 public class MapScreen extends GameScreen {
 	private Context context;
+	private Scenario scenario;
 
 	public enum ComponentKey {
 		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON, ADD_CARD_PILE_ICON, EDIT_CARD_PILE_ICON
@@ -59,8 +79,15 @@ public class MapScreen extends GameScreen {
 	// private int tileIndex = -1;
 	// private Tile2D selectedTile;
 
-	public MapScreen(Context context) {
+	public MapScreen(Context context, Scenario scenario) {
 		this.context = context;
+		this.scenario = scenario;
+
+		// ##### load libray elements
+		List<Tile> availableTiles = TileDao.getInstance(context).getTiles();
+		List<Sound> availableSounds = SoundDao.getInstance(context).getSounds();
+		List<Card> availableCards = CardDao.getInstance(context).getCards();
+
 		// ######### build the background #########
 		Image2D background = new Image2D("background/map_background.png", false, true);
 		background.x = 1280 / 2;
@@ -77,7 +104,7 @@ public class MapScreen extends GameScreen {
 		imgTab = new Image2D("tiles/tab.png", false, true);
 		imgTab.x = ComponentTab.WIDTH + 76 / 2;
 		imgTab.y = 800 / 2;
-		tileMenu = new TileMenu(this, "tiles/tab_background.png");
+		tileMenu = new TileMenu(this, "tiles/tab_background.png", availableTiles);
 
 		tileTab.addContentTab(tileMenu, imgTab);
 
@@ -85,7 +112,7 @@ public class MapScreen extends GameScreen {
 		Image2D imgSoundTab = new Image2D("sounds/tab.png", false, true);
 		imgSoundTab.x = ComponentTab.WIDTH + 76 / 2;
 		imgSoundTab.y = 800 / 2;
-		SoundMenu soundMenu = new SoundMenu(this, "sounds/tab_background.png");
+		SoundMenu soundMenu = new SoundMenu(this, "sounds/tab_background.png", availableSounds);
 
 		tileTab.addContentTab(soundMenu, imgSoundTab);
 
@@ -93,7 +120,7 @@ public class MapScreen extends GameScreen {
 		Image2D imgCardTab = new Image2D("cards/tab.png", false, true);
 		imgCardTab.x = ComponentTab.WIDTH + 76 / 2;
 		imgCardTab.y = 800 / 2;
-		CardMenu cardMenu = new CardMenu(this, "cards/tab_background.png");
+		CardMenu cardMenu = new CardMenu(this, "cards/tab_background.png", availableCards);
 
 		tileTab.addContentTab(cardMenu, imgCardTab);
 
@@ -106,6 +133,49 @@ public class MapScreen extends GameScreen {
 
 		// start collapsed
 		tileTab.setX(-ComponentTab.WIDTH / 2);
+
+		// ### FILL Random Pile from database
+		List<RandomCardPileCard> rndCards = RandomCardPileCardDao.getInstance(context).getRandomCardPileCards(scenario.getId());
+		for (RandomCardPileCard rndCard : rndCards) {
+			int index = availableCards.indexOf(rndCard.getCard());
+			randomPile.addCard(availableCards.get(index));
+		}
+
+		// ### FILL Board tile from database
+		List<TileInstance> tileInstances = TileInstanceDao.getInstance(context).getTileInstances(scenario.getId());
+		for (TileInstance tileInstance : tileInstances) {
+			int index = availableCards.indexOf(tileInstance.getTile());
+			Tile2D tile = new Tile2D(availableTiles.get(index));
+			tile.x = tileInstance.getPosX();
+			tile.y = tileInstance.getPosY();
+			tile.setRotation(tileInstance.getRotation());
+			boardMenu.tileGroup.addObject(tile);
+		}
+
+		// ### FILL Board sound from database
+		List<SoundInstance> soundInstances = SoundInstanceDao.getInstance(context).getSoundInstances(scenario.getId());
+		for (SoundInstance soundInstance : soundInstances) {
+			int index = availableSounds.indexOf(soundInstance.getSound());
+			Sound2D sound = new Sound2D(availableSounds.get(index));
+			sound.x = soundInstance.getPosX();
+			sound.y = soundInstance.getPosY();
+			boardMenu.soundGroup.addObject(sound);
+		}
+
+		// ### FILL Board pile from database
+		List<CardPileInstance> cardPileInstances = CardPileInstanceDao.getInstance(context).getCardPileInstances(scenario.getId());
+		for (CardPileInstance cardPileInstance : cardPileInstances) {
+			CardPile2D pile = new CardPile2D();
+			pile.x = cardPileInstance.getPosX();
+			pile.y = cardPileInstance.getPosY();
+			boardMenu.cardPileGroup.addObject(pile);
+
+			List<CardPileCard> pileCards = CardPileCardDao.getInstance(context).getCardPileCards(cardPileInstance.getId());
+			for (CardPileCard pileCard : pileCards) {
+				int index = availableCards.indexOf(pileCard.getCard());
+				pile.addCard(availableCards.get(index));
+			}
+		}
 	}
 
 	/**

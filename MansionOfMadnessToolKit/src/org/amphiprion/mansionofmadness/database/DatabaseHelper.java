@@ -21,8 +21,14 @@ package org.amphiprion.mansionofmadness.database;
 
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
+import org.amphiprion.mansionofmadness.dto.RandomCardPileCard;
+import org.amphiprion.mansionofmadness.dto.Scenario;
 import org.amphiprion.mansionofmadness.dto.Sound;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
 import org.amphiprion.mansionofmadness.dto.Tile;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -146,6 +152,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("insert into CARD values('59','secret_box','obstacle',1) ");
 			db.execSQL("insert into CARD values('60','short_circuit','obstacle',1) ");
 			db.execSQL("insert into CARD values('61','locked_cupboard','obstacle',1) ");
+
+			db.execSQL("create table SCENARIO (" + Scenario.DbField.ID + " text primary key, " + Scenario.DbField.NAME + " text not null," + Scenario.DbField.IS_EMBEDDED
+					+ " number(1)" + ") ");
+			db.execSQL("insert into SCENARIO values('1','history_1',1) ");
+
+			db.execSQL("create table TILE_INSTANCE (" + TileInstance.DbField.ID + " text primary key, " + TileInstance.DbField.SCENARIO_ID + " text not null, "
+					+ TileInstance.DbField.TILE_ID + " text not null, " + TileInstance.DbField.POS_X + " number not null, " + TileInstance.DbField.POS_Y + " number not null, "
+					+ TileInstance.DbField.ROTATION + " number not null) ");
+
+			db.execSQL("create table CARD_PILE_INSTANCE (" + CardPileInstance.DbField.ID + " text primary key, " + CardPileInstance.DbField.SCENARIO_ID + " text not null, "
+					+ CardPileInstance.DbField.POS_X + " number not null, " + CardPileInstance.DbField.POS_Y + " number not null) ");
+
+			db.execSQL("create table CARD_PILE_CARD (" + CardPileCard.DbField.ID + " text primary key, " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " text not null, "
+					+ CardPileCard.DbField.CARD_ID + " text not null, " + CardPileCard.DbField.POS_ORDER + " number not null) ");
+
+			db.execSQL("create table RANDOM_CARD_PILE_CARD (" + RandomCardPileCard.DbField.ID + " text primary key, " + RandomCardPileCard.DbField.SCENARIO_ID + " text not null, "
+					+ RandomCardPileCard.DbField.CARD_ID + " text not null, " + RandomCardPileCard.DbField.POS_ORDER + " number not null) ");
+
+			db.execSQL("create table SOUND_INSTANCE (" + SoundInstance.DbField.ID + " text primary key, " + SoundInstance.DbField.SCENARIO_ID + " text not null, "
+					+ SoundInstance.DbField.SOUND_ID + " text not null, " + SoundInstance.DbField.POS_X + " number not null, " + SoundInstance.DbField.POS_Y + " number not null) ");
 
 			onUpgrade(db, 1, DATABASE_VERSION);
 		} catch (Throwable e) {

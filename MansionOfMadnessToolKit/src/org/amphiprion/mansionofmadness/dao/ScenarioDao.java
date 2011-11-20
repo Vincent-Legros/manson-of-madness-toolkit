@@ -23,21 +23,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
+import org.amphiprion.mansionofmadness.dto.Scenario;
 import org.amphiprion.mansionofmadness.dto.Sound;
 
 import android.content.Context;
 import android.database.Cursor;
 
 /**
- * This DAO is used to manage sound entities.
+ * This DAO is used to manage Scenario entities.
  * 
  * @author ng00124c
  * 
  */
-public class SoundDao extends AbstractDao {
+public class ScenarioDao extends AbstractDao {
 
 	/** The singleton. */
-	private static SoundDao instance;
+	private static ScenarioDao instance;
 
 	/**
 	 * Hidden constructor.
@@ -45,7 +46,7 @@ public class SoundDao extends AbstractDao {
 	 * @param context
 	 *            the application context
 	 */
-	private SoundDao(Context context) {
+	private ScenarioDao(Context context) {
 		super(context);
 	}
 
@@ -56,32 +57,30 @@ public class SoundDao extends AbstractDao {
 	 *            the application context
 	 * @return the singleton
 	 */
-	public static SoundDao getInstance(Context context) {
+	public static ScenarioDao getInstance(Context context) {
 		if (instance == null) {
-			instance = new SoundDao(context);
+			instance = new ScenarioDao(context);
 		}
 		return instance;
 	}
 
 	/**
-	 * Return the given Sound.
+	 * Return the given Scenario.
 	 * 
 	 * @param id
 	 *            the unique identifier
-	 * @return the sound or null if not exists
+	 * @return the Scenario or null if not exists
 	 */
-	public Sound getSound(String id) {
+	public Scenario getScenario(String id) {
 
-		String sql = "SELECT " + Sound.DbField.ID + "," + Sound.DbField.NAME + "," + Sound.DbField.SOUND_NAME + "," + Sound.DbField.IS_EMBEDDED + " from SOUND where "
-				+ Sound.DbField.ID + "=?";
+		String sql = "SELECT " + Scenario.DbField.ID + "," + Scenario.DbField.NAME + "," + Scenario.DbField.IS_EMBEDDED + " from SCENARIO where " + Scenario.DbField.ID + "=?";
 
 		Cursor cursor = getDatabase().rawQuery(sql, new String[] { id });
-		Sound result = null;
+		Scenario result = null;
 		if (cursor.moveToFirst()) {
-			Sound entity = new Sound(cursor.getString(0));
+			Scenario entity = new Scenario(cursor.getString(0));
 			entity.setName(cursor.getString(1));
-			entity.setSoundName(cursor.getString(2));
-			entity.setEmbedded(cursor.getInt(3) != 0);
+			entity.setEmbedded(cursor.getInt(2) != 0);
 			result = entity;
 		}
 		cursor.close();
@@ -90,21 +89,19 @@ public class SoundDao extends AbstractDao {
 
 	/**
 	 * 
-	 * @return all existing sounds
+	 * @return all existing Scenario
 	 */
-	public List<Sound> getSounds() {
+	public List<Scenario> getScenarios() {
 
-		String sql = "SELECT " + Sound.DbField.ID + "," + Sound.DbField.NAME + "," + Sound.DbField.SOUND_NAME + "," + Sound.DbField.IS_EMBEDDED + " from SOUND order by "
-				+ Sound.DbField.NAME;
+		String sql = "SELECT " + Scenario.DbField.ID + "," + Scenario.DbField.NAME + "," + Scenario.DbField.IS_EMBEDDED + " from SCENARIO order by " + Sound.DbField.NAME;
 
 		Cursor cursor = getDatabase().rawQuery(sql, null);
-		ArrayList<Sound> result = new ArrayList<Sound>();
+		ArrayList<Scenario> result = new ArrayList<Scenario>();
 		if (cursor.moveToFirst()) {
 			do {
-				Sound entity = new Sound(cursor.getString(0));
+				Scenario entity = new Scenario(cursor.getString(0));
 				entity.setName(cursor.getString(1));
-				entity.setSoundName(cursor.getString(2));
-				entity.setEmbedded(cursor.getInt(3) != 0);
+				entity.setEmbedded(cursor.getInt(2) != 0);
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -114,21 +111,19 @@ public class SoundDao extends AbstractDao {
 	}
 
 	/**
-	 * Persist a new Sound.
+	 * Persist a new Scenario.
 	 * 
 	 * @param entity
-	 *            the new Sound
+	 *            the new Scenario
 	 */
-	private void create(Sound entity) {
+	private void create(Scenario entity) {
 		getDatabase().beginTransaction();
 		try {
-			String sql = "insert into SOUND (" + Sound.DbField.ID + "," + Sound.DbField.NAME + "," + Sound.DbField.SOUND_NAME + "," + Sound.DbField.IS_EMBEDDED
-					+ ") values (?,?,?,?)";
-			Object[] params = new Object[4];
+			String sql = "insert into SCENARIO (" + Scenario.DbField.ID + "," + Scenario.DbField.NAME + "," + Scenario.DbField.IS_EMBEDDED + ") values (?,?,?)";
+			Object[] params = new Object[3];
 			params[0] = entity.getId();
 			params[1] = entity.getName();
-			params[2] = entity.getSoundName();
-			params[3] = entity.isEmbedded() ? "0" : "1";
+			params[2] = entity.isEmbedded() ? "0" : "1";
 
 			execSQL(sql, params);
 
@@ -140,12 +135,11 @@ public class SoundDao extends AbstractDao {
 		}
 	}
 
-	private void update(Sound entity) {
-		String sql = "update SOUND set " + Sound.DbField.NAME + "=?," + Sound.DbField.SOUND_NAME + "=? WHERE " + Sound.DbField.ID + "=?";
-		Object[] params = new Object[3];
+	private void update(Scenario entity) {
+		String sql = "update SCENARIO set " + Scenario.DbField.NAME + "=? WHERE " + Scenario.DbField.ID + "=?";
+		Object[] params = new Object[2];
 		params[0] = entity.getName();
-		params[1] = entity.getSoundName();
-		params[2] = entity.getId();
+		params[1] = entity.getId();
 
 		execSQL(sql, params);
 
@@ -156,9 +150,9 @@ public class SoundDao extends AbstractDao {
 	 * insert or an update.
 	 * 
 	 * @param entity
-	 *            the Sound to persist
+	 *            the Scenario to persist
 	 */
-	public void persist(Sound entity) {
+	public void persist(Scenario entity) {
 		if (entity.getState() == DbState.NEW) {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
