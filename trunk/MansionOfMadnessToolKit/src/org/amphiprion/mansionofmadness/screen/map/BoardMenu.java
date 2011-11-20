@@ -19,7 +19,9 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.UUID;
 
 import org.amphiprion.gameengine3d.Group2D;
 import org.amphiprion.gameengine3d.IObject2D;
@@ -28,12 +30,14 @@ import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.MapScreen.ComponentKey;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -370,6 +374,8 @@ public class BoardMenu extends TouchableGroup2D {
 					selectedCardPile = null;
 					selectedTile = null;
 					if (mapScreen.randomPile.contains(nx, ny)) {
+						// TODO Remove the dump
+						dump();
 						if (mapScreen.randomPile.getCards().size() > 0) {
 							editCardInPile(mapScreen.randomPile);
 						}
@@ -581,5 +587,21 @@ public class BoardMenu extends TouchableGroup2D {
 			}
 		}
 
+	}
+
+	private void dump() {
+		try {
+			FileOutputStream fos = new FileOutputStream("/mnt/sdcard/sql.txt");
+			for (Object o : tileGroup.getObjects()) {
+				Tile2D tile = (Tile2D) o;
+				String sql = "insert into TILE_INSTANCE (" + TileInstance.DbField.ID + "," + TileInstance.DbField.SCENARIO_ID + "," + TileInstance.DbField.POS_X + ","
+						+ TileInstance.DbField.POS_Y + "," + TileInstance.DbField.TILE_ID + "," + TileInstance.DbField.ROTATION + ") values ('" + UUID.randomUUID().toString()
+						+ "','1'," + tile.x + "," + tile.y + ",'" + tile.getTile().getId() + "'," + tile.getRotation() + ")";
+				fos.write(sql.getBytes());
+				fos.write("\n".getBytes());
+			}
+		} catch (Exception e) {
+			Log.e(ApplicationConstants.PACKAGE, "", e);
+		}
 	}
 }

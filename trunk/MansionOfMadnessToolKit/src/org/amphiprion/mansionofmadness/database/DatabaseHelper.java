@@ -160,6 +160,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("create table TILE_INSTANCE (" + TileInstance.DbField.ID + " text primary key, " + TileInstance.DbField.SCENARIO_ID + " text not null, "
 					+ TileInstance.DbField.TILE_ID + " text not null, " + TileInstance.DbField.POS_X + " number not null, " + TileInstance.DbField.POS_Y + " number not null, "
 					+ TileInstance.DbField.ROTATION + " number not null) ");
+			// db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('a9dde5c4-ad25-4c7a-886e-1bf21bd074ec','1',630,200,'14',0)");
+			// db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('22b12c2c-fe75-4315-b674-446e5ad81a0f','1',855,275,'16',270)");
+			// db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('18ad6b18-0fe1-45a7-b87f-355a2661f618','1',630,425,'15',0)");
 
 			db.execSQL("create table CARD_PILE_INSTANCE (" + CardPileInstance.DbField.ID + " text primary key, " + CardPileInstance.DbField.SCENARIO_ID + " text not null, "
 					+ CardPileInstance.DbField.POS_X + " number not null, " + CardPileInstance.DbField.POS_Y + " number not null) ");

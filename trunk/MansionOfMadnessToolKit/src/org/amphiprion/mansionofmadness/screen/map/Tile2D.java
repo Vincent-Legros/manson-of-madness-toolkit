@@ -37,7 +37,7 @@ public class Tile2D extends Image2D {
 	/**
 	 * @return the tile
 	 */
-	private Tile getTile() {
+	public Tile getTile() {
 		return tile;
 	}
 

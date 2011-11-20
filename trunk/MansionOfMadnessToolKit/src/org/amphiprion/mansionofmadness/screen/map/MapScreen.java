@@ -144,7 +144,7 @@ public class MapScreen extends GameScreen {
 		// ### FILL Board tile from database
 		List<TileInstance> tileInstances = TileInstanceDao.getInstance(context).getTileInstances(scenario.getId());
 		for (TileInstance tileInstance : tileInstances) {
-			int index = availableCards.indexOf(tileInstance.getTile());
+			int index = availableTiles.indexOf(tileInstance.getTile());
 			Tile2D tile = new Tile2D(availableTiles.get(index));
 			tile.x = tileInstance.getPosX();
 			tile.y = tileInstance.getPosY();
@@ -249,4 +249,5 @@ public class MapScreen extends GameScreen {
 		tileMenuTabAnimation.setInterpolation(new BounceInterpolator());
 		addAnimation(tileMenuTabAnimation);
 	}
+
 }
