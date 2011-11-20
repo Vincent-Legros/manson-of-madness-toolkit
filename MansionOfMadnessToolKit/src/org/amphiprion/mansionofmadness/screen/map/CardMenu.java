@@ -141,12 +141,12 @@ public class CardMenu extends TouchableGroup2D {
 			lastPointerX = nx;
 			lastPointerY = ny;
 			if (nx >= ComponentTab.WIDTH && cardIndex > -1) {
-				// mapScreen.collapseTileMenu();
-				// Card2D card = new Card2D(availableCards.get(cardIndex));
-				// card.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
-				// card.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
-				// mapScreen.boardMenu.addAndSelectSound(sound, nx, ny);
-				// return PointerState.ON_BOARD_SOUND;
+				mapScreen.collapseTileMenu();
+				CardDrag2D card = new CardDrag2D(availableCards.get(cardIndex));
+				card.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
+				card.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
+				mapScreen.boardMenu.addAndSelectCardDrag(card, nx, ny);
+				return PointerState.ON_BOARD_CARD_DRAG;
 			}
 			return current;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
