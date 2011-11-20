@@ -25,7 +25,6 @@ import org.amphiprion.mansionofmadness.dto.Sound;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
-import android.util.Log;
 
 public class DeviceUtil {
 	public static Context context;
@@ -54,10 +53,10 @@ public class DeviceUtil {
 		}
 	}
 
-	public static void playSound(Sound sound) {
+	public static MediaPlayer playSound(Sound sound) {
 		int id = context.getResources().getIdentifier(sound.getSoundName(), "raw", ApplicationConstants.PACKAGE);
-		Log.d(ApplicationConstants.PACKAGE, "sound id=" + id);
 		MediaPlayer mp = MediaPlayer.create(context, id);
 		mp.start();
+		return mp;
 	}
 }
