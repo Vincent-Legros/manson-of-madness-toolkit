@@ -19,13 +19,21 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import java.util.List;
+
 import org.amphiprion.gameengine3d.Group2D;
 import org.amphiprion.gameengine3d.IObject2D;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.ApplicationConstants;
+import org.amphiprion.mansionofmadness.R;
+import org.amphiprion.mansionofmadness.dto.Card;
 import org.amphiprion.mansionofmadness.screen.map.MapScreen.ComponentKey;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.view.MotionEvent;
 
 /**
@@ -203,6 +211,15 @@ public class BoardMenu extends TouchableGroup2D {
 					selectedCardPile = null;
 					return PointerState.NONE;
 				}
+				if (selectedCardPile.getCards().size() > 0) {
+					img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.EDIT_CARD_PILE_ICON);
+					if (img.contains(nx, ny)) {
+						clearTileIcons();
+						editCardInPile(selectedCardPile);
+						selectedCardPile = null;
+						return PointerState.NONE;
+					}
+				}
 			}
 			return PointerState.ON_BOARD;
 		} else if (current == PointerState.ON_BOARD_CARD_PILE) {
@@ -352,28 +369,34 @@ public class BoardMenu extends TouchableGroup2D {
 					selectedSound = null;
 					selectedCardPile = null;
 					selectedTile = null;
-					for (IObject2D o : soundGroup.getObjects()) {
-						if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
-							selectedSound = (Sound2D) o;
-							defineSoundIcons();
-							break;
+					if (mapScreen.randomPile.contains(nx, ny)) {
+						if (mapScreen.randomPile.getCards().size() > 0) {
+							editCardInPile(mapScreen.randomPile);
 						}
-					}
-					if (selectedSound == null) {
-						for (IObject2D o : cardPileGroup.getObjects()) {
-							if (o instanceof CardPile2D && ((CardPile2D) o).contains(nx, ny)) {
-								selectedCardPile = (CardPile2D) o;
-								defineCardPileIcons();
+					} else {
+						for (IObject2D o : soundGroup.getObjects()) {
+							if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
+								selectedSound = (Sound2D) o;
+								defineSoundIcons();
 								break;
 							}
 						}
-					}
-					if (selectedSound == null && selectedCardPile == null) {
-						for (IObject2D o : tileGroup.getObjects()) {
-							if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
-								selectedTile = (Tile2D) o;
-								defineTileIcons();
-								break;
+						if (selectedSound == null) {
+							for (IObject2D o : cardPileGroup.getObjects()) {
+								if (o instanceof CardPile2D && ((CardPile2D) o).contains(nx, ny)) {
+									selectedCardPile = (CardPile2D) o;
+									defineCardPileIcons();
+									break;
+								}
+							}
+						}
+						if (selectedSound == null && selectedCardPile == null) {
+							for (IObject2D o : tileGroup.getObjects()) {
+								if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
+									selectedTile = (Tile2D) o;
+									defineTileIcons();
+									break;
+								}
 							}
 						}
 					}
@@ -409,6 +432,7 @@ public class BoardMenu extends TouchableGroup2D {
 		removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON));
 		removeObject(mapScreen.getHMIComponent(ComponentKey.PLAY_ICON));
 		removeObject(mapScreen.getHMIComponent(ComponentKey.ADD_CARD_PILE_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.EDIT_CARD_PILE_ICON));
 	}
 
 	private void defineCardPileIcons() {
@@ -424,6 +448,14 @@ public class BoardMenu extends TouchableGroup2D {
 			img.y = selectedCardPile.y + 64 / 2 + 24;
 			mapScreen.registerHMIComponent(ComponentKey.DELETE_ICON, img);
 			addObject(img);
+
+			if (selectedCardPile.getCards().size() > 0) {
+				img = new Image2D("tiles/icons/edit_card_pile.png");
+				img.x = selectedCardPile.x + 64 / 2 + 24;
+				img.y = selectedCardPile.y - 64 / 2 - 24;
+				mapScreen.registerHMIComponent(ComponentKey.EDIT_CARD_PILE_ICON, img);
+				addObject(img);
+			}
 		}
 	}
 
@@ -483,5 +515,71 @@ public class BoardMenu extends TouchableGroup2D {
 			mapScreen.registerHMIComponent(ComponentKey.ADD_CARD_PILE_ICON, img);
 			addObject(img);
 		}
+	}
+
+	private void editCardInPile(ICardPile cardPile) {
+		List<Card> cards = cardPile.getCards();
+		CharSequence[] _options = new CharSequence[cards.size()];
+		int index = 0;
+		for (int i = _options.length - 1; i >= 0; i--) {
+			Card card = cards.get(i);
+			String txt;
+			if (card.isEmbedded()) {
+				txt = mapScreen.getContext().getString(
+						mapScreen.getContext().getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE));
+			} else {
+				txt = card.getName();
+			}
+			_options[index] = txt;
+			index++;
+		}
+		boolean[] _selections = new boolean[_options.length];
+
+		Dialog dlg = new AlertDialog.Builder(mapScreen.getContext()).setTitle(mapScreen.getContext().getString(R.string.card_pile_title))
+				.setMultiChoiceItems(_options, _selections, new DialogSelectionClickHandler(_selections))
+				.setPositiveButton(mapScreen.getContext().getString(R.string.discard_selected), new DialogButtonClickHandler(cardPile, _selections))
+				.setNegativeButton(mapScreen.getContext().getString(R.string.cancel), new DialogButtonClickHandler()).create();
+		dlg.show();
+	}
+
+	private class DialogSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener {
+		private boolean[] _selections;
+
+		/**
+		 * 
+		 */
+		public DialogSelectionClickHandler(boolean[] _selections) {
+			this._selections = _selections;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+			_selections[which] = isChecked;
+		}
+
+	}
+
+	private class DialogButtonClickHandler implements DialogInterface.OnClickListener {
+		private boolean okButton;
+		private ICardPile cardPile;
+		private boolean[] _selection;
+
+		private DialogButtonClickHandler() {
+			okButton = false;
+		}
+
+		private DialogButtonClickHandler(ICardPile cardPile, boolean[] _selection) {
+			okButton = true;
+			this.cardPile = cardPile;
+			this._selection = _selection;
+		}
+
+		@Override
+		public void onClick(DialogInterface arg0, int arg1) {
+			if (okButton) {
+				cardPile.removeSelection(_selection);
+			}
+		}
+
 	}
 }
