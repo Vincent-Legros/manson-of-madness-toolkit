@@ -47,7 +47,7 @@ public class MapScreen extends GameScreen {
 	// private int lastPointerDeltaY;
 	// private float lastPointerDist;
 	// private long lastPointerDownTime;
-	private TileTab tileTab;
+	private ComponentTab tileTab;
 	private TileMenu tileMenu;
 	protected BoardMenu boardMenu;
 	private Translation2DAnimation tileMenuTabAnimation;
@@ -67,9 +67,9 @@ public class MapScreen extends GameScreen {
 
 		// ######### build the tile Menu ##########
 
-		tileTab = new TileTab(this);
+		tileTab = new ComponentTab(this);
 		imgTab = new Image2D("tiles/tab.png", false, true);
-		imgTab.x = TileTab.WIDTH + 76 / 2;
+		imgTab.x = ComponentTab.WIDTH + 76 / 2;
 		imgTab.y = 800 / 2;
 
 		tileMenu = new TileMenu(this, "tiles/tab_background.png");
@@ -80,7 +80,7 @@ public class MapScreen extends GameScreen {
 		objects2d.add(tileTab);
 
 		// start collapsed
-		tileTab.setX(-TileTab.WIDTH / 2);
+		tileTab.setX(-ComponentTab.WIDTH / 2);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class MapScreen extends GameScreen {
 	// }
 
 	public void collapseTileMenu() {
-		tileMenuTabAnimation = new Translation2DAnimation(tileTab, 500, 0, -TileTab.WIDTH / 2 - tileTab.getX(), 0);
+		tileMenuTabAnimation = new Translation2DAnimation(tileTab, 500, 0, -ComponentTab.WIDTH / 2 - tileTab.getX(), 0);
 		tileMenuTabAnimation.setInterpolation(new BounceInterpolator());
 		addAnimation(tileMenuTabAnimation);
 	}

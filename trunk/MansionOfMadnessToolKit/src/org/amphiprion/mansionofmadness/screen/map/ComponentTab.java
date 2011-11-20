@@ -31,7 +31,7 @@ import android.view.animation.BounceInterpolator;
  * @author Amphiprion
  * 
  */
-public class TileTab extends TouchableGroup2D {
+public class ComponentTab extends TouchableGroup2D {
 	public static int WIDTH = 200;
 	private int activeContentIndex;
 	private Translation2DAnimation tileMenuTabAnimation;
@@ -45,7 +45,7 @@ public class TileTab extends TouchableGroup2D {
 	/**
 	 * 
 	 */
-	public TileTab(MapScreen mapScreen) {
+	public ComponentTab(MapScreen mapScreen) {
 		this.mapScreen = mapScreen;
 		setX(WIDTH / 2);
 		setY(800 / 2);
@@ -119,7 +119,7 @@ public class TileTab extends TouchableGroup2D {
 
 		} else if (current == PointerState.ON_TILE_MENU_TAB) {
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
-				setX(nx - TileTab.WIDTH / 2 - 76 / 2);
+				setX(nx - ComponentTab.WIDTH / 2 - 76 / 2);
 				lastPointerDeltaX = nx - lastPointerX;
 				lastPointerX = nx;
 				lastPointerY = ny;
@@ -130,7 +130,7 @@ public class TileTab extends TouchableGroup2D {
 				}
 				if (lastPointerDeltaX > 0 || lastPointerDeltaX == 0 && getX() < 0) {
 					// open
-					tileMenuTabAnimation = new Translation2DAnimation(this, 500, 0, TileTab.WIDTH / 2 - getX(), 0);
+					tileMenuTabAnimation = new Translation2DAnimation(this, 500, 0, ComponentTab.WIDTH / 2 - getX(), 0);
 					tileMenuTabAnimation.setInterpolation(new BounceInterpolator());
 					mapScreen.addAnimation(tileMenuTabAnimation);
 				}
