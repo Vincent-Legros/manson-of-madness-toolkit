@@ -37,7 +37,7 @@ public class MapScreen extends GameScreen {
 	private Context context;
 
 	public enum ComponentKey {
-		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON
+		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON, ADD_CARD_PILE_ICON
 	}
 
 	private PointerState pointerState = PointerState.NONE;
@@ -66,7 +66,7 @@ public class MapScreen extends GameScreen {
 		background.x = 1280 / 2;
 		background.y = 800 / 2;
 		objects2d.add(background);
-		
+
 		// ######### build the board #########
 		boardMenu = new BoardMenu(this);
 		// add the board to the rendering object tree
@@ -136,7 +136,7 @@ public class MapScreen extends GameScreen {
 		} else if (pointerState == PointerState.ON_TILE_MENU_TAB || pointerState == PointerState.ON_TILE_MENU) {
 			pointerState = tileTab.onTouch(event, nx, ny, pointerState);
 		} else if (pointerState == PointerState.ON_BOARD_TILE || pointerState == PointerState.ON_BOARD || pointerState == PointerState.ON_BOARD_SOUND
-				|| pointerState == PointerState.ON_BOARD_CARD_DRAG) {
+				|| pointerState == PointerState.ON_BOARD_CARD_DRAG || pointerState == PointerState.ON_BOARD_CARD_PILE) {
 			pointerState = boardMenu.onTouch(event, nx, ny, pointerState);
 		}
 
