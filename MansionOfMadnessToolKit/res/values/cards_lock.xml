@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="lock_magic_lock">Magic Lock</string>
+    <string name="lock_runic_door">Runic Door</string>
+    <string name="lock_blocked_entry">Blocked Entry</string>
+    <string name="lock_terrifying_way">Terrifying Way</string>
+    <string name="lock_looked_door">Looked Door</string>
+    <string name="lock_black_room">Black Room</string>
+    <string name="lock_jammed_door">Jammed Door</string>
+    <string name="lock_open_portal">Open Portal</string>
+    <string name="lock_guarded_way">Guarded Way</string>
+    <string name="lock_electric_lock">Electric Lock</string>
+    <string name="lock_sealed_door">Sealed Door</string>
+    <string name="lock_closed_door">Closed Door</string>
+</resources>

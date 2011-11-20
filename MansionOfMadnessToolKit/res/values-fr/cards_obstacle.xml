@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="obstacle_casket">Coffret</string>
+    <string name="obstacle_suitcase">Valise</string>
+    <string name="obstacle_power_cut">Coupure de Courant</string>
+    <string name="obstacle_manhole_plate">Plaque de Bouche d\'Egout</string>
+    <string name="obstacle_secret_box">Boîte à Secret</string>
+    <string name="obstacle_short_circuit">Court Circuit</string>
+    <string name="obstacle_locked_cupboard">Placard Verrouillé</string>
+
+</resources>
