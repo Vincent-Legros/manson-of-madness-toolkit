@@ -151,7 +151,7 @@ public class TileDao extends AbstractDao {
 		Object[] params = new Object[3];
 		params[0] = entity.getName();
 		params[1] = entity.getImageName();
-		params[3] = entity.getId();
+		params[2] = entity.getId();
 
 		execSQL(sql, params);
 

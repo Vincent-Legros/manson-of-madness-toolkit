@@ -24,7 +24,6 @@ import java.util.List;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
-import org.amphiprion.mansionofmadness.dao.SoundDao;
 import org.amphiprion.mansionofmadness.dto.Sound;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
@@ -53,8 +52,9 @@ public class SoundMenu extends TouchableGroup2D {
 	/**
 	 * 
 	 */
-	public SoundMenu(MapScreen mapScreen, String backgroundUri) {
+	public SoundMenu(MapScreen mapScreen, String backgroundUri, List<Sound> availableSounds) {
 		this.mapScreen = mapScreen;
+		this.availableSounds = availableSounds;
 		setX(ComponentTab.WIDTH / 2);
 		setY(800 / 2);
 
@@ -64,7 +64,6 @@ public class SoundMenu extends TouchableGroup2D {
 		background.setScale(10);
 		addObject(background);
 
-		availableSounds = SoundDao.getInstance(mapScreen.getContext()).getSounds();
 		int index = 0;
 		for (Sound sound : availableSounds) {
 			Image2D img = new Image2D("sounds/sound.png");

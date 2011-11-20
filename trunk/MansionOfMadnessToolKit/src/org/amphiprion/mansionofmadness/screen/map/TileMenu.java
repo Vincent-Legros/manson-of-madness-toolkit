@@ -24,7 +24,6 @@ import java.util.List;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
-import org.amphiprion.mansionofmadness.dao.TileDao;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
 import android.view.MotionEvent;
@@ -51,8 +50,9 @@ public class TileMenu extends TouchableGroup2D {
 	/**
 	 * 
 	 */
-	public TileMenu(MapScreen mapScreen, String backgroundUri) {
+	public TileMenu(MapScreen mapScreen, String backgroundUri, List<Tile> availableTiles) {
 		this.mapScreen = mapScreen;
+		this.availableTiles = availableTiles;
 		setX(ComponentTab.WIDTH / 2);
 		setY(800 / 2);
 
@@ -62,7 +62,6 @@ public class TileMenu extends TouchableGroup2D {
 		background.setScale(10);
 		addObject(background);
 
-		availableTiles = TileDao.getInstance(mapScreen.getContext()).getTiles();
 		int index = 0;
 		for (Tile tile : availableTiles) {
 			Image2D img = new Image2D("tiles/" + tile.getImageName());
