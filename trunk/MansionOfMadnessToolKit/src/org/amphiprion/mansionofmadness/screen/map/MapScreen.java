@@ -50,6 +50,7 @@ public class MapScreen extends GameScreen {
 	private ComponentTab tileTab;
 	private TileMenu tileMenu;
 	protected BoardMenu boardMenu;
+	protected RandomCardZone2D randomPile;
 	private Translation2DAnimation tileMenuTabAnimation;
 	// private Translation2DAnimation tileMenuAnimation;
 	private Image2D imgTab;
@@ -100,9 +101,7 @@ public class MapScreen extends GameScreen {
 		objects2d.add(tileTab);
 
 		// ######## ADD Global icons ##########
-		Image2D randomPile = new Image2D("board/random_pile.png");
-		randomPile.x = 1280 - 100 / 2 - 2;
-		randomPile.y = 100 / 2 + 2;
+		randomPile = new RandomCardZone2D();
 		objects2d.add(randomPile);
 
 		// start collapsed
@@ -136,7 +135,8 @@ public class MapScreen extends GameScreen {
 			}
 		} else if (pointerState == PointerState.ON_TILE_MENU_TAB || pointerState == PointerState.ON_TILE_MENU) {
 			pointerState = tileTab.onTouch(event, nx, ny, pointerState);
-		} else if (pointerState == PointerState.ON_BOARD_TILE || pointerState == PointerState.ON_BOARD || pointerState == PointerState.ON_BOARD_SOUND) {
+		} else if (pointerState == PointerState.ON_BOARD_TILE || pointerState == PointerState.ON_BOARD || pointerState == PointerState.ON_BOARD_SOUND
+				|| pointerState == PointerState.ON_BOARD_CARD_DRAG) {
 			pointerState = boardMenu.onTouch(event, nx, ny, pointerState);
 		}
 

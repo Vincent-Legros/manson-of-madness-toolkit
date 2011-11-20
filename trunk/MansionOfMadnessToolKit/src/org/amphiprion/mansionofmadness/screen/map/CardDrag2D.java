@@ -19,33 +19,25 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
-import org.amphiprion.gameengine3d.Group2D;
-
-import android.view.MotionEvent;
+import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.dto.Card;
 
 /**
  * @author Amphiprion
  * 
  */
-public class TouchableGroup2D extends Group2D {
-	public enum PointerState {
-		NONE, ON_TILE_MENU_TAB, ON_TILE_MENU, ON_BOARD_TILE, ON_BOARD, ON_BOARD_SOUND, ON_BOARD_CARD_DRAG
+public class CardDrag2D extends Image2D {
+	private Card card;
+
+	public CardDrag2D(Card card) {
+		super("cards/back_" + card.getType() + ".png");
+		this.card = card;
 	}
 
 	/**
-	 * Inform a MotionEvent occurs. Return (other than NONE to consume the event
-	 * (so next components will not receive the event)
-	 * 
-	 * @param event
-	 *            the motion event
-	 * @param nx
-	 *            the normalized horizontal pointer position
-	 * @param ny
-	 *            the normalized vertical pointer position
-	 * @return other than NONE if this method have processed the event and
-	 *         consumed it
+	 * @return the card
 	 */
-	public PointerState onTouch(MotionEvent event, int nx, int ny, PointerState current) {
-		return PointerState.NONE;
+	public Card getCard() {
+		return card;
 	}
 }

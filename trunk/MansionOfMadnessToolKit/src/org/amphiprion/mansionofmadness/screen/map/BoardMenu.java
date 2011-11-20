@@ -36,6 +36,7 @@ public class BoardMenu extends TouchableGroup2D {
 	private MapScreen mapScreen;
 	private Tile2D selectedTile;
 	private Sound2D selectedSound;
+	private CardDrag2D selectedCardDrag;
 
 	private int lastPointerX;
 	private int lastPointerY;
@@ -64,6 +65,7 @@ public class BoardMenu extends TouchableGroup2D {
 		clearTileIcons();
 		selectedTile = tile;
 		selectedSound = null;
+		selectedCardDrag = null;
 		lastPointerX = nx;
 		lastPointerY = ny;
 	}
@@ -74,6 +76,18 @@ public class BoardMenu extends TouchableGroup2D {
 		clearTileIcons();
 		selectedTile = null;
 		selectedSound = sound;
+		selectedCardDrag = null;
+		lastPointerX = nx;
+		lastPointerY = ny;
+	}
+
+	public void addAndSelectCardDrag(CardDrag2D card, int nx, int ny) {
+		super.addObject(card);
+
+		clearTileIcons();
+		selectedTile = null;
+		selectedSound = null;
+		selectedCardDrag = card;
 		lastPointerX = nx;
 		lastPointerY = ny;
 	}
@@ -169,6 +183,30 @@ public class BoardMenu extends TouchableGroup2D {
 				lastPointerY = ny;
 			} else if (event.getAction() == MotionEvent.ACTION_UP) {
 				defineSoundIcons();
+				return PointerState.NONE;
+			}
+			return current;
+		} else if (current == PointerState.ON_BOARD_CARD_DRAG) {
+			if (event.getAction() == MotionEvent.ACTION_MOVE) {
+				lastPointerDeltaX = nx - lastPointerX;
+				lastPointerDeltaY = ny - lastPointerY;
+				selectedCardDrag.x += (int) (lastPointerDeltaX / getGlobalScale());
+				selectedCardDrag.y += (int) (lastPointerDeltaY / getGlobalScale());
+				lastPointerX = nx;
+				lastPointerY = ny;
+				if (mapScreen.randomPile.contains(nx, ny)) {
+					mapScreen.randomPile.setScale(1.3f);
+				} else {
+					mapScreen.randomPile.setScale(1);
+				}
+			} else if (event.getAction() == MotionEvent.ACTION_UP) {
+				// defineSoundIcons();
+				super.removeObject(selectedCardDrag);
+				if (mapScreen.randomPile.contains(nx, ny)) {
+					mapScreen.randomPile.addCard(selectedCardDrag.getCard());
+				}
+				mapScreen.randomPile.setScale(1);
+				selectedCardDrag = null;
 				return PointerState.NONE;
 			}
 			return current;
