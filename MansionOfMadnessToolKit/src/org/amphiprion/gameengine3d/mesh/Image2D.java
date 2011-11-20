@@ -58,6 +58,11 @@ public class Image2D implements IObject2D, IHMIComponent {
 		// bitmap = null;
 	}
 
+	public void changeUri(String uri) {
+		this.uri = uri;
+		mShouldLoadTexture = true;
+	}
+
 	@Override
 	public float getScale() {
 		return scale;

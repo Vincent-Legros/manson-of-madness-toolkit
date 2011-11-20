@@ -19,33 +19,40 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
-import org.amphiprion.gameengine3d.Group2D;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.view.MotionEvent;
+import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.dto.Card;
 
 /**
  * @author Amphiprion
  * 
  */
-public class TouchableGroup2D extends Group2D {
-	public enum PointerState {
-		NONE, ON_TILE_MENU_TAB, ON_TILE_MENU, ON_BOARD_TILE, ON_BOARD, ON_BOARD_SOUND, ON_BOARD_CARD_DRAG, ON_BOARD_CARD_PILE
+public class CardPile2D extends Image2D {
+	private List<Card> cards = new ArrayList<Card>();
+
+	public CardPile2D() {
+		// super("cards/back_exploration.png");
+		super("cards/card_pile.png");
 	}
 
-	/**
-	 * Inform a MotionEvent occurs. Return (other than NONE to consume the event
-	 * (so next components will not receive the event)
-	 * 
-	 * @param event
-	 *            the motion event
-	 * @param nx
-	 *            the normalized horizontal pointer position
-	 * @param ny
-	 *            the normalized vertical pointer position
-	 * @return other than NONE if this method have processed the event and
-	 *         consumed it
-	 */
-	public PointerState onTouch(MotionEvent event, int nx, int ny, PointerState current) {
-		return PointerState.NONE;
+	public void addCard(Card card) {
+		cards.add(card);
+		computeImage();
+	}
+
+	public void removeCard(Card card) {
+		cards.remove(card);
+		computeImage();
+	}
+
+	private void computeImage() {
+		if (cards.size() == 0) {
+			changeUri("cards/card_pile.png");
+		} else {
+			Card card = cards.get(cards.size() - 1);
+			changeUri("cards/back_" + card.getType() + ".png");
+		}
 	}
 }

@@ -37,6 +37,7 @@ public class BoardMenu extends TouchableGroup2D {
 	private Tile2D selectedTile;
 	private Sound2D selectedSound;
 	private CardDrag2D selectedCardDrag;
+	private CardPile2D selectedCardPile;
 
 	private int lastPointerX;
 	private int lastPointerY;
@@ -46,6 +47,7 @@ public class BoardMenu extends TouchableGroup2D {
 	private long lastPointerDownTime;
 
 	private Group2D tileGroup;
+	private Group2D cardPileGroup;
 	private Group2D soundGroup;
 
 	/**
@@ -54,8 +56,10 @@ public class BoardMenu extends TouchableGroup2D {
 	public BoardMenu(MapScreen mapScreen) {
 		this.mapScreen = mapScreen;
 		tileGroup = new Group2D();
+		cardPileGroup = new Group2D();
 		soundGroup = new Group2D();
 		super.addObject(tileGroup);
+		super.addObject(cardPileGroup);
 		super.addObject(soundGroup);
 	}
 
@@ -66,6 +70,8 @@ public class BoardMenu extends TouchableGroup2D {
 		selectedTile = tile;
 		selectedSound = null;
 		selectedCardDrag = null;
+		selectedCardPile = null;
+
 		lastPointerX = nx;
 		lastPointerY = ny;
 	}
@@ -77,6 +83,8 @@ public class BoardMenu extends TouchableGroup2D {
 		selectedTile = null;
 		selectedSound = sound;
 		selectedCardDrag = null;
+		selectedCardPile = null;
+
 		lastPointerX = nx;
 		lastPointerY = ny;
 	}
@@ -88,6 +96,21 @@ public class BoardMenu extends TouchableGroup2D {
 		selectedTile = null;
 		selectedSound = null;
 		selectedCardDrag = card;
+		selectedCardPile = null;
+
+		lastPointerX = nx;
+		lastPointerY = ny;
+	}
+
+	public void addAndSelectCardPile(CardPile2D cardPile, int nx, int ny) {
+		cardPileGroup.addObject(cardPile);
+
+		clearTileIcons();
+		selectedTile = null;
+		selectedSound = null;
+		selectedCardDrag = null;
+		selectedCardPile = cardPile;
+
 		lastPointerX = nx;
 		lastPointerY = ny;
 	}
@@ -115,6 +138,17 @@ public class BoardMenu extends TouchableGroup2D {
 					clearTileIcons();
 					return PointerState.ON_BOARD_TILE;
 				}
+
+				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.ADD_CARD_PILE_ICON);
+				if (img.contains(nx, ny)) {
+					clearTileIcons();
+					selectedCardPile = new CardPile2D();
+					selectedCardPile.x = nx;
+					selectedCardPile.y = ny;
+					addAndSelectCardPile(selectedCardPile, nx, ny);
+					return PointerState.ON_BOARD_CARD_PILE;
+				}
+
 				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.DELETE_ICON);
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
@@ -156,9 +190,34 @@ public class BoardMenu extends TouchableGroup2D {
 					DeviceUtil.playSound(selectedSound.getSound());
 					return PointerState.NONE;
 				}
-
+			} else if (selectedCardPile != null) {
+				Image2D img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.MOVE_ICON);
+				if (img.contains(nx, ny)) {
+					clearTileIcons();
+					return PointerState.ON_BOARD_CARD_PILE;
+				}
+				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.DELETE_ICON);
+				if (img.contains(nx, ny)) {
+					clearTileIcons();
+					cardPileGroup.removeObject(selectedCardPile);
+					selectedCardPile = null;
+					return PointerState.NONE;
+				}
 			}
 			return PointerState.ON_BOARD;
+		} else if (current == PointerState.ON_BOARD_CARD_PILE) {
+			if (event.getAction() == MotionEvent.ACTION_MOVE) {
+				lastPointerDeltaX = nx - lastPointerX;
+				lastPointerDeltaY = ny - lastPointerY;
+				selectedCardPile.x += (int) (lastPointerDeltaX / getGlobalScale());
+				selectedCardPile.y += (int) (lastPointerDeltaY / getGlobalScale());
+				lastPointerX = nx;
+				lastPointerY = ny;
+			} else if (event.getAction() == MotionEvent.ACTION_UP) {
+				defineCardPileIcons();
+				return PointerState.NONE;
+			}
+			return current;
 		} else if (current == PointerState.ON_BOARD_TILE) {
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
 				lastPointerDeltaX = nx - lastPointerX;
@@ -198,12 +257,33 @@ public class BoardMenu extends TouchableGroup2D {
 					mapScreen.randomPile.setScale(1.3f);
 				} else {
 					mapScreen.randomPile.setScale(1);
+					boolean alreadyAdded = false;
+					for (IObject2D o : cardPileGroup.getObjects()) {
+						if (o instanceof CardPile2D) {
+							((CardPile2D) o).setScale(1);
+							if (!alreadyAdded && ((CardPile2D) o).contains(nx, ny)) {
+								((CardPile2D) o).setScale(1.3f);
+								alreadyAdded = true;
+							}
+						}
+					}
 				}
 			} else if (event.getAction() == MotionEvent.ACTION_UP) {
 				// defineSoundIcons();
 				super.removeObject(selectedCardDrag);
 				if (mapScreen.randomPile.contains(nx, ny)) {
 					mapScreen.randomPile.addCard(selectedCardDrag.getCard());
+				} else {
+					boolean alreadyAdded = false;
+					for (IObject2D o : cardPileGroup.getObjects()) {
+						if (o instanceof CardPile2D) {
+							((CardPile2D) o).setScale(1);
+							if (!alreadyAdded && ((CardPile2D) o).contains(nx, ny)) {
+								((CardPile2D) o).addCard(selectedCardDrag.getCard());
+								alreadyAdded = true;
+							}
+						}
+					}
 				}
 				mapScreen.randomPile.setScale(1);
 				selectedCardDrag = null;
@@ -270,6 +350,7 @@ public class BoardMenu extends TouchableGroup2D {
 					// simple click, try to select of tile
 					clearTileIcons();
 					selectedSound = null;
+					selectedCardPile = null;
 					selectedTile = null;
 					for (IObject2D o : soundGroup.getObjects()) {
 						if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
@@ -279,6 +360,15 @@ public class BoardMenu extends TouchableGroup2D {
 						}
 					}
 					if (selectedSound == null) {
+						for (IObject2D o : cardPileGroup.getObjects()) {
+							if (o instanceof CardPile2D && ((CardPile2D) o).contains(nx, ny)) {
+								selectedCardPile = (CardPile2D) o;
+								defineCardPileIcons();
+								break;
+							}
+						}
+					}
+					if (selectedCardPile == null) {
 						for (IObject2D o : tileGroup.getObjects()) {
 							if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
 								selectedTile = (Tile2D) o;
@@ -318,6 +408,23 @@ public class BoardMenu extends TouchableGroup2D {
 		removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_CLOCK_ICON));
 		removeObject(mapScreen.getHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON));
 		removeObject(mapScreen.getHMIComponent(ComponentKey.PLAY_ICON));
+		removeObject(mapScreen.getHMIComponent(ComponentKey.ADD_CARD_PILE_ICON));
+	}
+
+	private void defineCardPileIcons() {
+		if (selectedCardPile != null) {
+			Image2D img = new Image2D("tiles/icons/move.png");
+			img.x = selectedCardPile.x;
+			img.y = selectedCardPile.y;
+			mapScreen.registerHMIComponent(ComponentKey.MOVE_ICON, img);
+			addObject(img);
+
+			img = new Image2D("tiles/icons/close.png");
+			img.x = selectedCardPile.x + 64 / 2 + 24;
+			img.y = selectedCardPile.y + 64 / 2 + 24;
+			mapScreen.registerHMIComponent(ComponentKey.DELETE_ICON, img);
+			addObject(img);
+		}
 	}
 
 	private void defineSoundIcons() {
@@ -368,6 +475,12 @@ public class BoardMenu extends TouchableGroup2D {
 			img.x = selectedTile.x - selectedTile.getTileWidth() * 150 / 2 + 32;
 			img.y = selectedTile.y - selectedTile.getTileHeight() * 150 / 2 + 32;
 			mapScreen.registerHMIComponent(ComponentKey.ROTATE_COUNTER_CLOCK_ICON, img);
+			addObject(img);
+
+			img = new Image2D("tiles/icons/add_card_pile.png");
+			img.x = selectedTile.x - selectedTile.getTileWidth() * 150 / 2 + 32;
+			img.y = selectedTile.y + selectedTile.getTileHeight() * 150 / 2 - 32;
+			mapScreen.registerHMIComponent(ComponentKey.ADD_CARD_PILE_ICON, img);
 			addObject(img);
 		}
 	}
