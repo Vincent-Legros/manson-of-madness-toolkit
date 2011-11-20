@@ -33,7 +33,7 @@ import org.amphiprion.mansionofmadness.dto.Card;
  */
 public class RandomCardZone2D extends Image2D {
 	private List<Card> cards = new ArrayList<Card>();
-	private Image2D imgPileSize;
+	private Text2D imgPileSize;
 
 	/**
 	 * 
@@ -42,7 +42,7 @@ public class RandomCardZone2D extends Image2D {
 		super("board/random_pile.png");
 		x = 1280 - 100 / 2 - 2;
 		y = 100 / 2 + 2;
-		imgPileSize = new Image2D("@String/0");
+		imgPileSize = new Text2D("0", 20);
 	}
 
 	/*
@@ -77,6 +77,6 @@ public class RandomCardZone2D extends Image2D {
 			Card card = cards.get(cards.size() - 1);
 			changeUri("cards/back_" + card.getType() + ".png");
 		}
-		imgPileSize.changeUri("@String/" + cards.size());
+		imgPileSize.setText("" + cards.size());
 	}
 }

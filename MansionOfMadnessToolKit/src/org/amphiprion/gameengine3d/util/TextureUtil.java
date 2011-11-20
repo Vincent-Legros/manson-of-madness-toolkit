@@ -17,12 +17,24 @@ import android.opengl.GLUtils;
 public class TextureUtil {
 	private static Map<String, Texture> textures = new HashMap<String, Texture>();
 	private static GL10 gl;
+	private static Paint textPaint;
+	static {
+		textPaint = new Paint();
+		textPaint.setFakeBoldText(true);
+		textPaint.setAntiAlias(true);
+		textPaint.setColor(Color.WHITE);
+		textPaint.setTextSize(16);
+	}
 
 	public static Texture loadTexture(String uri, GL10 gl) {
 		return loadTexture(uri, gl, 0);
 	}
 
 	public static Texture loadTexture(String uri, GL10 gl, int angle) {
+		return loadTexture(uri, gl, angle, textPaint);
+	}
+
+	public static Texture loadTexture(String uri, GL10 gl, int angle, Paint paint) {
 		if (TextureUtil.gl != null && TextureUtil.gl != gl) {
 			unloadAll();
 		}
@@ -35,16 +47,13 @@ public class TextureUtil {
 				int ascent = 0;
 				int descent = 0;
 				int measuredTextWidth = 0;
-
-				Paint textPaint = new Paint();
-				textPaint.setFakeBoldText(true);
-				textPaint.setAntiAlias(true);
-				textPaint.setColor(Color.WHITE);
-				textPaint.setTextSize(16);
+				if (paint == null) {
+					paint = textPaint;
+				}
 				// Paint.ascent is negative, so negate it.
-				ascent = (int) Math.ceil(-textPaint.ascent());
-				descent = (int) Math.ceil(textPaint.descent());
-				measuredTextWidth = (int) Math.ceil(textPaint.measureText(str));
+				ascent = (int) Math.ceil(-paint.ascent());
+				descent = (int) Math.ceil(paint.descent());
+				measuredTextWidth = (int) Math.ceil(paint.measureText(str));
 				int contentWidth = measuredTextWidth;
 				int contentHeight = (ascent + descent) * 2;
 
@@ -60,7 +69,7 @@ public class TextureUtil {
 				Bitmap.Config config = Bitmap.Config.ARGB_4444;
 				Bitmap mBitmap = Bitmap.createBitmap(mStrikeWidth, mStrikeHeight, config);
 				Canvas mCanvas = new Canvas(mBitmap);
-				mCanvas.drawText(str, 0, ascent + descent, textPaint);
+				mCanvas.drawText(str, 0, ascent + descent, paint);
 				mCanvas = null;
 				texture = loadGLTexture(mBitmap, gl);
 				mBitmap.recycle();

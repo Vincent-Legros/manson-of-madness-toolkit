@@ -13,8 +13,8 @@ public class Image2D implements IObject2D, IHMIComponent {
 	private boolean enable = true;
 
 	// The bitmap we want to load as a texture.
-	private String uri; // New variable.
-	private Texture texture;
+	protected String uri; // New variable.
+	protected Texture texture;
 	private int rotation;
 	// Indicates if we need to load the texture.
 	private boolean mShouldLoadTexture = false; // New variable.
@@ -78,7 +78,7 @@ public class Image2D implements IObject2D, IHMIComponent {
 	 * 
 	 * @param gl
 	 */
-	private void loadGLTexture(GL10 gl) { // New function
+	protected void loadGLTexture(GL10 gl) { // New function
 		texture = TextureUtil.loadTexture(uri, gl, rotation);
 	}
 
