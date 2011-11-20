@@ -60,6 +60,12 @@ public class MapScreen extends GameScreen {
 
 	public MapScreen(Context context) {
 		this.context = context;
+		// ######### build the background #########
+		Image2D background = new Image2D("background/map_background.png", false, true);
+		background.x = 1280 / 2;
+		background.y = 800 / 2;
+		objects2d.add(background);
+		
 		// ######### build the board #########
 		boardMenu = new BoardMenu(this);
 		// add the board to the rendering object tree
