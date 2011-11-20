@@ -61,6 +61,7 @@ public class CardPile2D extends Image2D implements ICardPile {
 		super.draw(gl, screenScale, screenWidth, screenHeight);
 		imgPileSize.x = x;
 		imgPileSize.y = y;
+		imgPileSize.setGlobalScale(getGlobalScale());
 		imgPileSize.draw(gl, screenScale, screenWidth, screenHeight);
 	}
 
