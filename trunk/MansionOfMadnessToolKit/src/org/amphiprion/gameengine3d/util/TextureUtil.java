@@ -31,29 +31,28 @@ public class TextureUtil {
 	}
 
 	public static Texture loadTexture(String uri, GL10 gl, int angle) {
-		return loadTexture(uri, gl, angle, textPaint);
+		return loadTexture(uri, gl, angle, 16);
 	}
 
-	public static Texture loadTexture(String uri, GL10 gl, int angle, Paint paint) {
+	public static Texture loadTexture(String uri, GL10 gl, int angle, int textSize) {
 		if (TextureUtil.gl != null && TextureUtil.gl != gl) {
 			unloadAll();
 		}
 		TextureUtil.gl = gl;
 
-		Texture texture = textures.get(uri + "|" + angle);
+		Texture texture = textures.get(uri + "|" + angle + "|" + textSize);
 		if (texture == null) {
 			if (uri.startsWith("@String/")) {
 				String str = uri.substring(8);
 				int ascent = 0;
 				int descent = 0;
 				int measuredTextWidth = 0;
-				if (paint == null) {
-					paint = textPaint;
-				}
+
+				textPaint.setTextSize(textSize);
 				// Paint.ascent is negative, so negate it.
-				ascent = (int) Math.ceil(-paint.ascent());
-				descent = (int) Math.ceil(paint.descent());
-				measuredTextWidth = (int) Math.ceil(paint.measureText(str));
+				ascent = (int) Math.ceil(-textPaint.ascent());
+				descent = (int) Math.ceil(textPaint.descent());
+				measuredTextWidth = (int) Math.ceil(textPaint.measureText(str));
 				int contentWidth = measuredTextWidth;
 				int contentHeight = (ascent + descent) * 2;
 
@@ -69,7 +68,7 @@ public class TextureUtil {
 				Bitmap.Config config = Bitmap.Config.ARGB_4444;
 				Bitmap mBitmap = Bitmap.createBitmap(mStrikeWidth, mStrikeHeight, config);
 				Canvas mCanvas = new Canvas(mBitmap);
-				mCanvas.drawText(str, 0, ascent + descent, paint);
+				mCanvas.drawText(str, 0, ascent + descent, textPaint);
 				mCanvas = null;
 				texture = loadGLTexture(mBitmap, gl);
 				mBitmap.recycle();
@@ -82,7 +81,7 @@ public class TextureUtil {
 				texture.originalHeight = contentHeight;
 				texture.originalWidth = contentWidth;
 
-				textures.put(uri + "|" + angle, texture);
+				textures.put(uri + "|" + angle + "|" + textSize, texture);
 			} else {
 				InputStream is = null;
 				is = TextureUtil.class.getResourceAsStream("/images/" + uri);
