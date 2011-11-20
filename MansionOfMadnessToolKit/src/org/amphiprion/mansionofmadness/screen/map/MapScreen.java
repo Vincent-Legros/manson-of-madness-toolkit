@@ -65,16 +65,22 @@ public class MapScreen extends GameScreen {
 		// add the board to the rendering object tree
 		objects2d.add(boardMenu);
 
-		// ######### build the tile Menu ##########
-
 		tileTab = new ComponentTab(this);
+		// ######### build the tile Menu ##########
 		imgTab = new Image2D("tiles/tab.png", false, true);
 		imgTab.x = ComponentTab.WIDTH + 76 / 2;
 		imgTab.y = 800 / 2;
-
 		tileMenu = new TileMenu(this, "tiles/tab_background.png");
 
 		tileTab.addContentTab(tileMenu, imgTab);
+
+		// ######### build the sound Menu ##########
+		Image2D imgSoundTab = new Image2D("sounds/tab.png", false, true);
+		imgSoundTab.x = ComponentTab.WIDTH + 76 / 2;
+		imgSoundTab.y = 800 / 2;
+		SoundMenu soundMenu = new SoundMenu(this, "sounds/tab_background.png");
+
+		tileTab.addContentTab(soundMenu, imgSoundTab);
 
 		// add the tile menu to the rendering object tree
 		objects2d.add(tileTab);
@@ -110,7 +116,7 @@ public class MapScreen extends GameScreen {
 			}
 		} else if (pointerState == PointerState.ON_TILE_MENU_TAB || pointerState == PointerState.ON_TILE_MENU) {
 			pointerState = tileTab.onTouch(event, nx, ny, pointerState);
-		} else if (pointerState == PointerState.ON_BOARD_TILE || pointerState == PointerState.ON_BOARD) {
+		} else if (pointerState == PointerState.ON_BOARD_TILE || pointerState == PointerState.ON_BOARD || pointerState == PointerState.ON_BOARD_SOUND) {
 			pointerState = boardMenu.onTouch(event, nx, ny, pointerState);
 		}
 

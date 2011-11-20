@@ -42,6 +42,8 @@ public class ComponentTab extends TouchableGroup2D {
 	private int lastPointerDeltaX;
 	private int lastPointerDeltaY;
 
+	private boolean stayOpen;
+
 	/**
 	 * 
 	 */
@@ -84,6 +86,20 @@ public class ComponentTab extends TouchableGroup2D {
 		super.addObject(tab);
 		super.addObject(content);
 		activeContentIndex++;
+		recomputeTabPlacement();
+	}
+
+	private void recomputeTabPlacement() {
+		int nbTab = objects.size() / 2;
+		int offset = -(nbTab / 2) * 75;
+		if (nbTab % 2 == 0) {
+			offset += 75 / 2;
+		}
+		for (int i = 0; i < objects.size() / 2; i++) {
+			Image2D im = (Image2D) objects.get(i * 2);
+			im.y = 800 / 2 + offset;
+			offset += 75;
+		}
 	}
 
 	/*
@@ -104,7 +120,10 @@ public class ComponentTab extends TouchableGroup2D {
 			for (int i = 0; i < objects.size() / 2; i++) {
 				Image2D imgTab = (Image2D) objects.get(i * 2);
 				if (imgTab.contains(nx, ny)) {
-					activeContentIndex = i;
+					if (i != activeContentIndex) {
+						stayOpen = true;
+					}
+					activeContent(i);
 					mapScreen.removeAnimation(tileMenuTabAnimation);
 					// mapScreen.removeAnimation(tileMenuAnimation);
 					return PointerState.ON_TILE_MENU_TAB;
@@ -123,10 +142,13 @@ public class ComponentTab extends TouchableGroup2D {
 				lastPointerDeltaX = nx - lastPointerX;
 				lastPointerX = nx;
 				lastPointerY = ny;
+				stayOpen = false;
 			} else if (event.getAction() == MotionEvent.ACTION_UP) {
 				if (lastPointerDeltaX < 0 || lastPointerDeltaX == 0 && getX() >= 0) {
 					// close
-					mapScreen.collapseTileMenu();
+					if (!stayOpen) {
+						mapScreen.collapseTileMenu();
+					}
 				}
 				if (lastPointerDeltaX > 0 || lastPointerDeltaX == 0 && getX() < 0) {
 					// open
@@ -134,6 +156,7 @@ public class ComponentTab extends TouchableGroup2D {
 					tileMenuTabAnimation.setInterpolation(new BounceInterpolator());
 					mapScreen.addAnimation(tileMenuTabAnimation);
 				}
+				stayOpen = false;
 				return PointerState.NONE;
 			}
 			return current;
@@ -151,4 +174,13 @@ public class ComponentTab extends TouchableGroup2D {
 
 	}
 
+	private void activeContent(int contentIndex) {
+		IObject2D oTab = objects.get(contentIndex * 2);
+		IObject2D oContent = objects.get(contentIndex * 2 + 1);
+		objects.remove(oTab);
+		objects.remove(oContent);
+		objects.add(oTab);
+		objects.add(oContent);
+		activeContentIndex = objects.size() / 2 - 1;
+	}
 }

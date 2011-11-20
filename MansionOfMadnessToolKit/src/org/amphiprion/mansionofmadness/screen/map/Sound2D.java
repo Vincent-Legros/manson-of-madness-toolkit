@@ -17,26 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with MansionOfMadnessToolKit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.amphiprion.mansionofmadness;
+package org.amphiprion.mansionofmadness.screen.map;
 
-import org.amphiprion.mansionofmadness.util.DeviceUtil;
-
-import android.app.Application;
+import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.dto.Sound;
 
 /**
- * @author ng00124c
+ * @author Amphiprion
  * 
  */
-public class MansionOfMadnessToolKitApplication extends Application {
+public class Sound2D extends Image2D {
+	private Sound sound;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Application#onCreate()
-	 */
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		DeviceUtil.init(this);
+	public Sound2D(Sound sound) {
+		super("sounds/sound.png");
+		this.sound = sound;
 	}
+
 }

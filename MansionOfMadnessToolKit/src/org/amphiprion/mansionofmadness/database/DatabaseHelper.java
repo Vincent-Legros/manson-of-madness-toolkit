@@ -79,8 +79,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("create table SOUND (" + Sound.DbField.ID + " text primary key, " + Sound.DbField.NAME + " text not null, " + Sound.DbField.SOUND_NAME + " text" + ","
 					+ Sound.DbField.IS_EMBEDDED + " number(1)" + ") ");
 
-			db.execSQL("insert into SOUND values('1','door_lock','door_lock.wav',1) ");
-			db.execSQL("insert into SOUND values('2','open_creaky_door','open_creaky_door.wav',1) ");
+			db.execSQL("insert into SOUND values('1','door_lock','door_lock',1) ");
+			db.execSQL("insert into SOUND values('2','open_creaky_door','open_creaky_door',1) ");
 
 			onUpgrade(db, 1, DATABASE_VERSION);
 		} catch (Throwable e) {

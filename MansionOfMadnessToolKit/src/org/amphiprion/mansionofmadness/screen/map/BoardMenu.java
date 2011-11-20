@@ -19,6 +19,7 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import org.amphiprion.gameengine3d.Group2D;
 import org.amphiprion.gameengine3d.IObject2D;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.mesh.Image2D;
@@ -33,6 +34,7 @@ import android.view.MotionEvent;
 public class BoardMenu extends TouchableGroup2D {
 	private MapScreen mapScreen;
 	private Tile2D selectedTile;
+	private Sound2D selectedSound;
 
 	private int lastPointerX;
 	private int lastPointerY;
@@ -41,18 +43,36 @@ public class BoardMenu extends TouchableGroup2D {
 	private float lastPointerDist;
 	private long lastPointerDownTime;
 
+	private Group2D tileGroup;
+	private Group2D soundGroup;
+
 	/**
 	 * 
 	 */
 	public BoardMenu(MapScreen mapScreen) {
 		this.mapScreen = mapScreen;
+		tileGroup = new Group2D();
+		soundGroup = new Group2D();
+		super.addObject(tileGroup);
+		super.addObject(soundGroup);
 	}
 
 	public void addAndSelectTile(Tile2D tile, int nx, int ny) {
-		super.addObject(tile);
+		tileGroup.addObject(tile);
 
 		clearTileIcons();
 		selectedTile = tile;
+		selectedSound = null;
+		lastPointerX = nx;
+		lastPointerY = ny;
+	}
+
+	public void addAndSelectSound(Sound2D sound, int nx, int ny) {
+		soundGroup.addObject(sound);
+
+		clearTileIcons();
+		selectedTile = null;
+		selectedSound = sound;
 		lastPointerX = nx;
 		lastPointerY = ny;
 	}
@@ -83,7 +103,7 @@ public class BoardMenu extends TouchableGroup2D {
 				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.DELETE_ICON);
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
-					removeObject(selectedTile);
+					tileGroup.removeObject(selectedTile);
 					selectedTile = null;
 					return PointerState.NONE;
 				}
@@ -116,6 +136,20 @@ public class BoardMenu extends TouchableGroup2D {
 			} else if (event.getAction() == MotionEvent.ACTION_UP) {
 				anchorTile(selectedTile);
 				defineTileIcons();
+				return PointerState.NONE;
+			}
+			return current;
+		} else if (current == PointerState.ON_BOARD_SOUND) {
+			if (event.getAction() == MotionEvent.ACTION_MOVE) {
+				lastPointerDeltaX = nx - lastPointerX;
+				lastPointerDeltaY = ny - lastPointerY;
+				selectedSound.x += (int) (lastPointerDeltaX / getGlobalScale());
+				selectedSound.y += (int) (lastPointerDeltaY / getGlobalScale());
+				lastPointerX = nx;
+				lastPointerY = ny;
+			} else if (event.getAction() == MotionEvent.ACTION_UP) {
+				// anchorTile(selectedTile);
+				// defineTileIcons();
 				return PointerState.NONE;
 			}
 			return current;
@@ -179,7 +213,7 @@ public class BoardMenu extends TouchableGroup2D {
 					// simple click, try to select of tile
 					clearTileIcons();
 					selectedTile = null;
-					for (IObject2D o : getObjects()) {
+					for (IObject2D o : tileGroup.getObjects()) {
 						if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
 							selectedTile = (Tile2D) o;
 							defineTileIcons();
