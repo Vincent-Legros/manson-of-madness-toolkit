@@ -93,6 +93,12 @@ public class MapScreen extends GameScreen {
 		// add the tile menu to the rendering object tree
 		objects2d.add(tileTab);
 
+		// ######## ADD Global icons ##########
+		Image2D randomPile = new Image2D("board/random_pile.png");
+		randomPile.x = 1280 - 100 / 2 - 2;
+		randomPile.y = 100 / 2 + 2;
+		objects2d.add(randomPile);
+
 		// start collapsed
 		tileTab.setX(-ComponentTab.WIDTH / 2);
 	}

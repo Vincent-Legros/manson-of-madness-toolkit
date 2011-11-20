@@ -35,7 +35,7 @@ import android.view.animation.DecelerateInterpolator;
  * 
  */
 public class CardMenu extends TouchableGroup2D {
-	public static int HEIGHT = 100;
+	public static int HEIGHT = 150;
 
 	private int lastPointerX;
 	private int lastPointerY;
@@ -83,7 +83,7 @@ public class CardMenu extends TouchableGroup2D {
 			}
 			Image2D imgTxt = new Image2D("@String/" + txt);
 			imgTxt.x = ComponentTab.WIDTH / 2;
-			imgTxt.y = index * CardMenu.HEIGHT + CardMenu.HEIGHT / 2 + 45;
+			imgTxt.y = index * CardMenu.HEIGHT + CardMenu.HEIGHT / 2 + 65;
 			addObject(imgTxt);
 
 			index++;
