@@ -54,11 +54,11 @@ public class TileMenu extends TouchableGroup2D {
 	 */
 	public TileMenu(MapScreen mapScreen, String backgroundUri) {
 		this.mapScreen = mapScreen;
-		setX(TileTab.WIDTH / 2);
+		setX(ComponentTab.WIDTH / 2);
 		setY(800 / 2);
 
 		background = new Image2D(backgroundUri, false, true);
-		background.x = TileTab.WIDTH / 2;
+		background.x = ComponentTab.WIDTH / 2;
 		background.y = 800 / 2;
 		background.setScale(10);
 		addObject(background);
@@ -71,7 +71,7 @@ public class TileMenu extends TouchableGroup2D {
 			// 150x150pixel)
 			float scale = Math.max(tile.getWidth(), tile.getHeight());
 			img.setScale(1.0f / scale);
-			img.x = TileTab.WIDTH / 2;
+			img.x = ComponentTab.WIDTH / 2;
 			img.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2;
 
 			addObject(img);
@@ -82,7 +82,7 @@ public class TileMenu extends TouchableGroup2D {
 				txt = tile.getName();
 			}
 			Image2D imgTxt = new Image2D("@String/" + txt);
-			imgTxt.x = TileTab.WIDTH / 2;
+			imgTxt.x = ComponentTab.WIDTH / 2;
 			imgTxt.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2 + (int) (tile.getHeight() * (150 / 2) / scale) + 15;
 			addObject(imgTxt);
 
@@ -139,7 +139,7 @@ public class TileMenu extends TouchableGroup2D {
 			// imgTabBackground.setY(800 / 2);
 			lastPointerX = nx;
 			lastPointerY = ny;
-			if (nx >= TileTab.WIDTH && tileIndex > -1) {
+			if (nx >= ComponentTab.WIDTH && tileIndex > -1) {
 				mapScreen.collapseTileMenu();
 				Tile2D tile = new Tile2D(availableTiles.get(tileIndex));
 				tile.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
