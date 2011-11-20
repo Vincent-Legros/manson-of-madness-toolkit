@@ -22,6 +22,8 @@ package org.amphiprion.mansionofmadness.screen.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Card;
 
@@ -31,10 +33,27 @@ import org.amphiprion.mansionofmadness.dto.Card;
  */
 public class CardPile2D extends Image2D {
 	private List<Card> cards = new ArrayList<Card>();
+	private Image2D imgPileSize;
 
 	public CardPile2D() {
 		// super("cards/back_exploration.png");
 		super("cards/card_pile.png");
+		imgPileSize = new Image2D("@String/0");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.amphiprion.gameengine3d.mesh.Image2D#draw(javax.microedition.khronos
+	 * .opengles.GL10, float, int, int)
+	 */
+	@Override
+	public void draw(GL10 gl, float screenScale, int screenWidth, int screenHeight) {
+		super.draw(gl, screenScale, screenWidth, screenHeight);
+		imgPileSize.x = x;
+		imgPileSize.y = y;
+		imgPileSize.draw(gl, screenScale, screenWidth, screenHeight);
 	}
 
 	public void addCard(Card card) {
@@ -54,5 +73,6 @@ public class CardPile2D extends Image2D {
 			Card card = cards.get(cards.size() - 1);
 			changeUri("cards/back_" + card.getType() + ".png");
 		}
+		imgPileSize.changeUri("@String/" + cards.size());
 	}
 }
