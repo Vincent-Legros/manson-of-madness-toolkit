@@ -82,6 +82,14 @@ public class MapScreen extends GameScreen {
 
 		tileTab.addContentTab(soundMenu, imgSoundTab);
 
+		// ######### build the card Menu ##########
+		Image2D imgCardTab = new Image2D("cards/tab.png", false, true);
+		imgCardTab.x = ComponentTab.WIDTH + 76 / 2;
+		imgCardTab.y = 800 / 2;
+		CardMenu cardMenu = new CardMenu(this, "cards/tab_background.png");
+
+		tileTab.addContentTab(cardMenu, imgCardTab);
+
 		// add the tile menu to the rendering object tree
 		objects2d.add(tileTab);
 

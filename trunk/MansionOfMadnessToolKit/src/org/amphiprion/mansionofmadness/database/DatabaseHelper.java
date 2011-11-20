@@ -20,6 +20,7 @@
 package org.amphiprion.mansionofmadness.database;
 
 import org.amphiprion.mansionofmadness.ApplicationConstants;
+import org.amphiprion.mansionofmadness.dto.Card;
 import org.amphiprion.mansionofmadness.dto.Sound;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
@@ -81,6 +82,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 			db.execSQL("insert into SOUND values('1','door_lock','door_lock',1) ");
 			db.execSQL("insert into SOUND values('2','open_creaky_door','open_creaky_door',1) ");
+
+			db.execSQL("create table CARD (" + Card.DbField.ID + " text primary key, " + Card.DbField.NAME + " text not null, " + Card.DbField.TYPE + " text" + ","
+					+ Card.DbField.IS_EMBEDDED + " number(1)" + ") ");
+			db.execSQL("insert into CARD values('1','nothing','exploration',1) ");
+			db.execSQL("insert into CARD values('2','lantern','exploration',1) ");
+			db.execSQL("insert into CARD values('3','unspeakable_cults','exploration',1) ");
+			db.execSQL("insert into CARD values('4','silver_key','exploration',1) ");
+			db.execSQL("insert into CARD values('5','sledgehammer','exploration',1) ");
+			db.execSQL("insert into CARD values('6','colt_38','exploration',1) ");
+			db.execSQL("insert into CARD values('7','whateley_diary','exploration',1) ");
+			db.execSQL("insert into CARD values('8','crowbar','exploration',1) ");
+			db.execSQL("insert into CARD values('9','ceremonial_skull','exploration',1) ");
+			db.execSQL("insert into CARD values('10','ruby_rlyeh','exploration',1) ");
+			db.execSQL("insert into CARD values('11','ancient_sign','exploration',1) ");
+			db.execSQL("insert into CARD values('12','whisky','exploration',1) ");
+			db.execSQL("insert into CARD values('13','fire_extinguisher','exploration',1) ");
+			db.execSQL("insert into CARD values('14','shotgun','exploration',1) ");
+			db.execSQL("insert into CARD values('15','de_vermis_mysreriis','exploration',1) ");
+			db.execSQL("insert into CARD values('16','axe','exploration',1) ");
+			db.execSQL("insert into CARD values('17','knife','exploration',1) ");
+			db.execSQL("insert into CARD values('18','sedative','exploration',1) ");
+			db.execSQL("insert into CARD values('19','cult_dress','exploration',1) ");
+			db.execSQL("insert into CARD values('20','crucifix','exploration',1) ");
+			db.execSQL("insert into CARD values('21','obvious_proof','exploration',1) ");
+			db.execSQL("insert into CARD values('22','brass_key','exploration',1) ");
+			db.execSQL("insert into CARD values('23','torch','exploration',1) ");
+			db.execSQL("insert into CARD values('24','dhol_song','exploration',1) ");
+			db.execSQL("insert into CARD values('25','saturnien_wine','exploration',1) ");
+			db.execSQL("insert into CARD values('26','magic_sentence','exploration',1) ");
+			db.execSQL("insert into CARD values('27','password','exploration',1) ");
+			db.execSQL("insert into CARD values('29','clue_1a','exploration',1) ");
+			db.execSQL("insert into CARD values('30','clue_1b','exploration',1) ");
+			db.execSQL("insert into CARD values('31','clue_1c','exploration',1) ");
+			db.execSQL("insert into CARD values('32','clue_2a','exploration',1) ");
+			db.execSQL("insert into CARD values('33','clue_2b','exploration',1) ");
+			db.execSQL("insert into CARD values('34','clue_3a','exploration',1) ");
+			db.execSQL("insert into CARD values('35','clue_3b','exploration',1) ");
+			db.execSQL("insert into CARD values('36','clue_4a','exploration',1) ");
+			db.execSQL("insert into CARD values('37','clue_4b','exploration',1) ");
+			db.execSQL("insert into CARD values('38','clue_5a','exploration',1) ");
+			db.execSQL("insert into CARD values('39','clue_5b','exploration',1) ");
+			db.execSQL("insert into CARD values('40','clue_6a','exploration',1) ");
+			db.execSQL("insert into CARD values('41','clue_6b','exploration',1) ");
+
+			db.execSQL("insert into CARD values('42','magic_lock','lock',1) ");
+			db.execSQL("insert into CARD values('43','runic_door','lock',1) ");
+			db.execSQL("insert into CARD values('44','blocked_entry','lock',1) ");
+			db.execSQL("insert into CARD values('45','terrifying_way','lock',1) ");
+			db.execSQL("insert into CARD values('46','looked_door','lock',1) ");
+			db.execSQL("insert into CARD values('47','black_room','lock',1) ");
+			db.execSQL("insert into CARD values('48','jammed_door','lock',1) ");
+			db.execSQL("insert into CARD values('50','open_portal','lock',1) ");
+			db.execSQL("insert into CARD values('51','guarded_way','lock',1) ");
+			db.execSQL("insert into CARD values('52','electric_lock','lock',1) ");
+			db.execSQL("insert into CARD values('53','sealed_door','lock',1) ");
+			db.execSQL("insert into CARD values('54','closed_door','lock',1) ");
+
+			db.execSQL("insert into CARD values('55','casket','obstacle',1) ");
+			db.execSQL("insert into CARD values('56','suitcase','obstacle',1) ");
+			db.execSQL("insert into CARD values('57','power_cut','obstacle',1) ");
+			db.execSQL("insert into CARD values('58','manhole_plate','obstacle',1) ");
+			db.execSQL("insert into CARD values('59','secret_box','obstacle',1) ");
+			db.execSQL("insert into CARD values('60','short_circuit','obstacle',1) ");
+			db.execSQL("insert into CARD values('61','locked_cupboard','obstacle',1) ");
 
 			onUpgrade(db, 1, DATABASE_VERSION);
 		} catch (Throwable e) {

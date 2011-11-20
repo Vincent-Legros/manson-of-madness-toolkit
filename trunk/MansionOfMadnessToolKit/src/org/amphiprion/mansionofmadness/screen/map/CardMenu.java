@@ -24,9 +24,8 @@ import java.util.List;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
-import org.amphiprion.mansionofmadness.dao.SoundDao;
-import org.amphiprion.mansionofmadness.dto.Sound;
-import org.amphiprion.mansionofmadness.util.DeviceUtil;
+import org.amphiprion.mansionofmadness.dao.CardDao;
+import org.amphiprion.mansionofmadness.dto.Card;
 
 import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
@@ -35,8 +34,8 @@ import android.view.animation.DecelerateInterpolator;
  * @author ng00124c
  * 
  */
-public class SoundMenu extends TouchableGroup2D {
-	public static int HEIGHT = 80;
+public class CardMenu extends TouchableGroup2D {
+	public static int HEIGHT = 100;
 
 	private int lastPointerX;
 	private int lastPointerY;
@@ -46,14 +45,14 @@ public class SoundMenu extends TouchableGroup2D {
 
 	private Image2D background;
 	private MapScreen mapScreen;
-	private Translation2DAnimation soundMenuAnimation;
-	private int soundIndex = -1;
-	private List<Sound> availableSounds;
+	private Translation2DAnimation cardMenuAnimation;
+	private int cardIndex = -1;
+	private List<Card> availableCards;
 
 	/**
 	 * 
 	 */
-	public SoundMenu(MapScreen mapScreen, String backgroundUri) {
+	public CardMenu(MapScreen mapScreen, String backgroundUri) {
 		this.mapScreen = mapScreen;
 		setX(ComponentTab.WIDTH / 2);
 		setY(800 / 2);
@@ -64,26 +63,27 @@ public class SoundMenu extends TouchableGroup2D {
 		background.setScale(10);
 		addObject(background);
 
-		availableSounds = SoundDao.getInstance(mapScreen.getContext()).getSounds();
+		availableCards = CardDao.getInstance(mapScreen.getContext()).getCards();
 		int index = 0;
-		for (Sound sound : availableSounds) {
-			Image2D img = new Image2D("sounds/sound.png");
+		for (Card card : availableCards) {
+			Image2D img = new Image2D("cards/back_" + card.getType() + ".png");
 			// rescale to enter in a 150x150 pixel (a case have a size of
 			// 150x150pixel)
 
 			img.x = ComponentTab.WIDTH / 2;
-			img.y = index * SoundMenu.HEIGHT + SoundMenu.HEIGHT / 2;
+			img.y = index * CardMenu.HEIGHT + CardMenu.HEIGHT / 2;
 
 			addObject(img);
 			String txt;
-			if (sound.isEmbedded()) {
-				txt = mapScreen.getContext().getString(mapScreen.getContext().getResources().getIdentifier("sound_" + sound.getName(), "string", ApplicationConstants.PACKAGE));
+			if (card.isEmbedded()) {
+				txt = mapScreen.getContext().getString(
+						mapScreen.getContext().getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE));
 			} else {
-				txt = sound.getName();
+				txt = card.getName();
 			}
 			Image2D imgTxt = new Image2D("@String/" + txt);
 			imgTxt.x = ComponentTab.WIDTH / 2;
-			imgTxt.y = index * SoundMenu.HEIGHT + SoundMenu.HEIGHT / 2 + 40;
+			imgTxt.y = index * CardMenu.HEIGHT + CardMenu.HEIGHT / 2 + 45;
 			addObject(imgTxt);
 
 			index++;
@@ -124,11 +124,11 @@ public class SoundMenu extends TouchableGroup2D {
 			lastPointerDeltaY = 0;
 
 			if (background.contains(nx, ny)) {
-				soundIndex = (800 / 2 - getY() + ny) / SoundMenu.HEIGHT;
-				if (soundIndex < 0 || soundIndex >= availableSounds.size()) {
-					soundIndex = -1;
+				cardIndex = (800 / 2 - getY() + ny) / CardMenu.HEIGHT;
+				if (cardIndex < 0 || cardIndex >= availableCards.size()) {
+					cardIndex = -1;
 				}
-				mapScreen.removeAnimation(soundMenuAnimation);
+				mapScreen.removeAnimation(cardMenuAnimation);
 				return PointerState.ON_TILE_MENU;
 			}
 			return current;
@@ -140,24 +140,24 @@ public class SoundMenu extends TouchableGroup2D {
 			// imgTabBackground.setY(800 / 2);
 			lastPointerX = nx;
 			lastPointerY = ny;
-			if (nx >= ComponentTab.WIDTH && soundIndex > -1) {
-				mapScreen.collapseTileMenu();
-				Sound2D sound = new Sound2D(availableSounds.get(soundIndex));
-				sound.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
-				sound.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
-				mapScreen.boardMenu.addAndSelectSound(sound, nx, ny);
-				return PointerState.ON_BOARD_SOUND;
+			if (nx >= ComponentTab.WIDTH && cardIndex > -1) {
+				// mapScreen.collapseTileMenu();
+				// Card2D card = new Card2D(availableCards.get(cardIndex));
+				// card.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
+				// card.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
+				// mapScreen.boardMenu.addAndSelectSound(sound, nx, ny);
+				// return PointerState.ON_BOARD_SOUND;
 			}
 			return current;
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (Math.abs(lastPointerDeltaY) > 10) {
-				soundMenuAnimation = new Translation2DAnimation(this, 1000, 0, 0, lastPointerDeltaY * 20);
-				soundMenuAnimation.setInterpolation(new DecelerateInterpolator());
-				mapScreen.addAnimation(soundMenuAnimation);
+				cardMenuAnimation = new Translation2DAnimation(this, 1000, 0, 0, lastPointerDeltaY * 20);
+				cardMenuAnimation.setInterpolation(new DecelerateInterpolator());
+				mapScreen.addAnimation(cardMenuAnimation);
 			} else if (System.currentTimeMillis() - lastPointerDownTime < 300) {
-				if (soundIndex > -1) {
-					Sound sound = availableSounds.get(soundIndex);
-					DeviceUtil.playSound(sound);
+				if (cardIndex > -1) {
+					// Sound sound = availableCards.get(cardIndex);
+					// DeviceUtil.playSound(sound);
 				}
 			}
 			return PointerState.NONE;

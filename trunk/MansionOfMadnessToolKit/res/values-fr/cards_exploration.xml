@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="exploration_nothing">Rien d\'intéressant</string>
+    <string name="exploration_lantern">Lanterne</string>
+    <string name="exploration_unspeakable_cults">Cultes Innommables</string>
+    <string name="exploration_silver_key">Clé en Argent</string>
+    <string name="exploration_sledgehammer">Masse</string>
+    <string name="exploration_colt_38">Colt .38</string>
+    <string name="exploration_whateley_diary">Journal de Whateley</string>
+    <string name="exploration_crowbar">Pied-de-Biche</string>
+    <string name="exploration_ceremonial_skull">Crâne Cérémonial</string>
+    <string name="exploration_ruby_rlyeh">Rubis de R\'Lyeh</string>
+    <string name="exploration_ancient_sign">Signe des Anciens</string>
+    <string name="exploration_whisky">Whisky</string>
+    <string name="exploration_fire_extinguisher">Extincteur</string>
+    <string name="exploration_shotgun">Fusil</string>
+    <string name="exploration_de_vermis_mysreriis">De Vermis Mysreriis</string>
+    <string name="exploration_axe">Hache</string>
+    <string name="exploration_knife">Couteau</string>
+    <string name="exploration_sedative">Sedatif</string>
+    <string name="exploration_cult_dress">Robes de Culte</string>
+    <string name="exploration_crucifix">Crucifix</string>
+    <string name="exploration_obvious_proof">Preuve Flagrante</string>
+    <string name="exploration_brass_key">Clé en Laiton</string>
+    <string name="exploration_torch">Torche</string>
+    <string name="exploration_dhol_song">Les Chants de Dhol</string>
+    <string name="exploration_saturnien_wine">Vin Saturnien</string>
+    <string name="exploration_magic_sentence">Phrase Magique</string>
+    <string name="exploration_password">Mot de Passe</string>
+    <string name="exploration_clue_1a">Clue 1A</string>
+    <string name="exploration_clue_1b">Clue 1B</string>
+    <string name="exploration_clue_1c">Clue 1C</string>
+    <string name="exploration_clue_2a">Clue 2A</string>
+    <string name="exploration_clue_2b">Clue 2B</string>
+    <string name="exploration_clue_3a">Clue 3A</string>
+    <string name="exploration_clue_3b">Clue 3B</string>
+    <string name="exploration_clue_4a">Clue 4A</string>
+    <string name="exploration_clue_4b">Clue 4B</string>
+    <string name="exploration_clue_5a">Clue 5A</string>
+    <string name="exploration_clue_5b">Clue 5B</string>
+    <string name="exploration_clue_6a">Clue 6A</string>
+    <string name="exploration_clue_6b">Clue 6B</string>
+
+</resources>
