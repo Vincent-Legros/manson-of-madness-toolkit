@@ -368,7 +368,7 @@ public class BoardMenu extends TouchableGroup2D {
 							}
 						}
 					}
-					if (selectedCardPile == null) {
+					if (selectedSound == null && selectedCardPile == null) {
 						for (IObject2D o : tileGroup.getObjects()) {
 							if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
 								selectedTile = (Tile2D) o;
