@@ -24,23 +24,16 @@ import javax.microedition.khronos.opengles.GL10;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.gameengine3d.util.TextureUtil;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-
 /**
  * @author Amphiprion
  * 
  */
 public class Text2D extends Image2D {
-	Paint textPaint;
+	private int size = 16;
 
 	public Text2D(String text, int size) {
 		this(text);
-		textPaint = new Paint();
-		textPaint.setFakeBoldText(true);
-		textPaint.setAntiAlias(true);
-		textPaint.setColor(Color.WHITE);
-		textPaint.setTextSize(size);
+		this.size = size;
 	}
 
 	public Text2D(String text) {
@@ -53,11 +46,7 @@ public class Text2D extends Image2D {
 
 	@Override
 	protected void loadGLTexture(GL10 gl) { // New function
-		if (textPaint == null) {
-			texture = TextureUtil.loadTexture(uri, gl, 0);
-		} else {
-			texture = TextureUtil.loadTexture(uri, gl, 0, textPaint);
-		}
+		texture = TextureUtil.loadTexture(uri, gl, 0, size);
 	}
 
 }
