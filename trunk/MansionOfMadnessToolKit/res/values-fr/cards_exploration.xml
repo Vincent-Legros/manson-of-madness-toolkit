@@ -28,18 +28,18 @@
     <string name="exploration_saturnien_wine">Vin Saturnien</string>
     <string name="exploration_magic_sentence">Phrase Magique</string>
     <string name="exploration_password">Mot de Passe</string>
-    <string name="exploration_clue_1a">Clue 1A</string>
-    <string name="exploration_clue_1b">Clue 1B</string>
-    <string name="exploration_clue_1c">Clue 1C</string>
-    <string name="exploration_clue_2a">Clue 2A</string>
-    <string name="exploration_clue_2b">Clue 2B</string>
-    <string name="exploration_clue_3a">Clue 3A</string>
-    <string name="exploration_clue_3b">Clue 3B</string>
-    <string name="exploration_clue_4a">Clue 4A</string>
-    <string name="exploration_clue_4b">Clue 4B</string>
-    <string name="exploration_clue_5a">Clue 5A</string>
-    <string name="exploration_clue_5b">Clue 5B</string>
-    <string name="exploration_clue_6a">Clue 6A</string>
-    <string name="exploration_clue_6b">Clue 6B</string>
+    <string name="exploration_clue_1a">Indice 1A</string>
+    <string name="exploration_clue_1b">Indice 1B</string>
+    <string name="exploration_clue_1c">Indice 1C</string>
+    <string name="exploration_clue_2a">Indice 2A</string>
+    <string name="exploration_clue_2b">Indice 2B</string>
+    <string name="exploration_clue_3a">Indice 3A</string>
+    <string name="exploration_clue_3b">Indice 3B</string>
+    <string name="exploration_clue_4a">Indice 4A</string>
+    <string name="exploration_clue_4b">Indice 4B</string>
+    <string name="exploration_clue_5a">Indice 5A</string>
+    <string name="exploration_clue_5b">Indice 5B</string>
+    <string name="exploration_clue_6a">Indice 6A</string>
+    <string name="exploration_clue_6b">Indice 6B</string>
 
 </resources>
