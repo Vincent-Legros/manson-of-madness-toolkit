@@ -19,40 +19,74 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
-import org.amphiprion.gameengine3d.Group2D;
+import java.util.List;
+
+import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
+import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
+import org.amphiprion.mansionofmadness.dao.TileDao;
+import org.amphiprion.mansionofmadness.dto.Tile;
 
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.animation.DecelerateInterpolator;
 
 /**
  * @author ng00124c
  * 
  */
-public class TileMenu extends Group2D {
-	public static int WIDTH = 200;
+public class TileMenu extends TouchableGroup2D {
 	public static int HEIGHT = 200;
+
+	private int lastPointerX;
+	private int lastPointerY;
+	private int lastPointerDeltaX;
+	private int lastPointerDeltaY;
+
+	private Image2D background;
+	private MapScreen mapScreen;
+	private Translation2DAnimation tileMenuAnimation;
+	private int tileIndex = -1;
+	private List<Tile> availableTiles;
 
 	/**
 	 * 
 	 */
-	public TileMenu() {
-		setX(WIDTH / 2);
+	public TileMenu(MapScreen mapScreen, String backgroundUri) {
+		this.mapScreen = mapScreen;
+		setX(TileTab.WIDTH / 2);
 		setY(800 / 2);
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.amphiprion.gameengine3d.Group2D#setX(int)
-	 */
-	@Override
-	public void setX(int x) {
-		if (x < -WIDTH / 2) {
-			super.setX(-WIDTH / 2);
-		} else if (x > WIDTH / 2) {
-			super.setX(WIDTH / 2);
-		} else {
-			super.setX(x);
+		background = new Image2D(backgroundUri, false, true);
+		background.x = TileTab.WIDTH / 2;
+		background.y = 800 / 2;
+		background.setScale(10);
+		addObject(background);
+
+		availableTiles = TileDao.getInstance(mapScreen.getContext()).getTiles();
+		int index = 0;
+		for (Tile tile : availableTiles) {
+			Image2D img = new Image2D("tiles/" + tile.getImageName());
+			// rescale to enter in a 150x150 pixel (a case have a size of
+			// 150x150pixel)
+			float scale = Math.max(tile.getWidth(), tile.getHeight());
+			img.setScale(1.0f / scale);
+			img.x = TileTab.WIDTH / 2;
+			img.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2;
+
+			addObject(img);
+			String txt;
+			if (tile.isEmbedded()) {
+				txt = mapScreen.getContext().getString(mapScreen.getContext().getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE));
+			} else {
+				txt = tile.getName();
+			}
+			Image2D imgTxt = new Image2D("@String/" + txt);
+			imgTxt.x = TileTab.WIDTH / 2;
+			imgTxt.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2 + (int) (tile.getHeight() * (150 / 2) / scale) + 15;
+			addObject(imgTxt);
+
+			index++;
 		}
 	}
 
@@ -72,5 +106,58 @@ public class TileMenu extends Group2D {
 			Log.d(ApplicationConstants.PACKAGE, "y=" + y);
 			super.setY(y);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.amphiprion.mansionofmadness.screen.map.TouchableGroup2D#onTouch(android
+	 * .view.MotionEvent, int, int)
+	 */
+	@Override
+	public PointerState onTouch(MotionEvent event, int nx, int ny, PointerState current) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			lastPointerX = nx;
+			lastPointerY = ny;
+			lastPointerDeltaX = 0;
+			lastPointerDeltaY = 0;
+
+			if (background.contains(nx, ny)) {
+				tileIndex = (800 / 2 - getY() + ny) / TileMenu.HEIGHT;
+				if (tileIndex < 0 || tileIndex >= availableTiles.size()) {
+					tileIndex = -1;
+				}
+				mapScreen.removeAnimation(tileMenuAnimation);
+				Log.d(ApplicationConstants.PACKAGE, "tileIndex=" + tileIndex);
+				return PointerState.ON_TILE_MENU;
+			}
+			return current;
+		} else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			lastPointerDeltaX = nx - lastPointerX;
+			lastPointerDeltaY = ny - lastPointerY;
+			setY(getY() + lastPointerDeltaY);
+			// imgTab.setY(800 / 2);
+			// imgTabBackground.setY(800 / 2);
+			lastPointerX = nx;
+			lastPointerY = ny;
+			if (nx >= TileTab.WIDTH && tileIndex > -1) {
+				mapScreen.collapseTileMenu();
+				Tile2D tile = new Tile2D(availableTiles.get(tileIndex));
+				tile.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
+				tile.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
+				mapScreen.boardMenu.addAndSelectTile(tile, nx, ny);
+				return PointerState.ON_BOARD_TILE;
+			}
+			return current;
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			if (Math.abs(lastPointerDeltaY) > 10) {
+				tileMenuAnimation = new Translation2DAnimation(this, 1000, 0, 0, lastPointerDeltaY * 20);
+				tileMenuAnimation.setInterpolation(new DecelerateInterpolator());
+				mapScreen.addAnimation(tileMenuAnimation);
+			}
+			return PointerState.NONE;
+		}
+		return PointerState.NONE;
 	}
 }
