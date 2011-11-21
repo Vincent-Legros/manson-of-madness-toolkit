@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
-import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Sound;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
@@ -74,13 +73,8 @@ public class SoundMenu extends TouchableGroup2D {
 			img.y = index * SoundMenu.HEIGHT + SoundMenu.HEIGHT / 2;
 
 			addObject(img);
-			String txt;
-			if (sound.isEmbedded()) {
-				txt = mapScreen.getContext().getString(mapScreen.getContext().getResources().getIdentifier("sound_" + sound.getName(), "string", ApplicationConstants.PACKAGE));
-			} else {
-				txt = sound.getName();
-			}
-			Image2D imgTxt = new Image2D("@String/" + txt);
+
+			Image2D imgTxt = new Image2D("@String/" + sound.getDisplayName());
 			imgTxt.x = ComponentTab.WIDTH / 2;
 			imgTxt.y = index * SoundMenu.HEIGHT + SoundMenu.HEIGHT / 2 + 40;
 			addObject(imgTxt);

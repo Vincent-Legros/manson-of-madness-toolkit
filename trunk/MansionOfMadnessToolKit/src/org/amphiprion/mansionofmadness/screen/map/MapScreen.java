@@ -19,12 +19,17 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.amphiprion.gameengine3d.GameScreen;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.ApplicationConstants;
+import org.amphiprion.mansionofmadness.comparator.CardComparator;
+import org.amphiprion.mansionofmadness.comparator.SoundComparator;
+import org.amphiprion.mansionofmadness.comparator.TileComparator;
 import org.amphiprion.mansionofmadness.dao.CardDao;
 import org.amphiprion.mansionofmadness.dao.CardPileCardDao;
 import org.amphiprion.mansionofmadness.dao.CardPileInstanceDao;
@@ -84,9 +89,33 @@ public class MapScreen extends GameScreen {
 		this.scenario = scenario;
 
 		// ##### load libray elements
+		String txt;
 		List<Tile> availableTiles = TileDao.getInstance(context).getTiles();
+		for (Tile tile : availableTiles) {
+			if (tile.isEmbedded()) {
+				txt = context.getString(context.getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE));
+				tile.setDisplayName(txt);
+			}
+		}
+		Collections.sort(availableTiles, new TileComparator());
+
 		List<Sound> availableSounds = SoundDao.getInstance(context).getSounds();
+		for (Sound sound : availableSounds) {
+			if (sound.isEmbedded()) {
+				txt = context.getString(context.getResources().getIdentifier("sound_" + sound.getName(), "string", ApplicationConstants.PACKAGE));
+				sound.setDisplayName(txt);
+			}
+		}
+		Collections.sort(availableSounds, new SoundComparator());
+
 		List<Card> availableCards = CardDao.getInstance(context).getCards();
+		for (Card card : availableCards) {
+			if (card.isEmbedded()) {
+				txt = context.getString(context.getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE));
+				card.setDisplayName(txt);
+			}
+		}
+		Collections.sort(availableCards, new CardComparator());
 
 		// ######### build the background #########
 		Image2D background = new Image2D("board/board_background.jpg", false, true);
