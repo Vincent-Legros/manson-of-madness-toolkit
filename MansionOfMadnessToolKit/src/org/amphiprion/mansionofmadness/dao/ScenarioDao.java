@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Scenario;
-import org.amphiprion.mansionofmadness.dto.Sound;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -91,9 +90,10 @@ public class ScenarioDao extends AbstractDao {
 	 * 
 	 * @return all existing Scenario
 	 */
-	public List<Scenario> getScenarios() {
+	public List<Scenario> getScenarios(int pageIndex, int pageSize) {
 
-		String sql = "SELECT " + Scenario.DbField.ID + "," + Scenario.DbField.NAME + "," + Scenario.DbField.IS_EMBEDDED + " from SCENARIO order by " + Sound.DbField.NAME;
+		String sql = "SELECT " + Scenario.DbField.ID + "," + Scenario.DbField.NAME + "," + Scenario.DbField.IS_EMBEDDED + " from SCENARIO";
+		sql += " order by " + Scenario.DbField.NAME + " asc limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
 
 		Cursor cursor = getDatabase().rawQuery(sql, null);
 		ArrayList<Scenario> result = new ArrayList<Scenario>();

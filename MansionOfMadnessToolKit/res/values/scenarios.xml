@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<string name="scenario_title">Scenario</string>
+<string name="empty_scenario_list">\nUse the menu to add a new scenario.\n\nTo execute an action on a Scenario, do a long click on it.</string>
+<string name="edit_scenario">Edit</string>
+    
     <string name="scenario_history_1">History 1: Linch House Down</string>
 </resources>

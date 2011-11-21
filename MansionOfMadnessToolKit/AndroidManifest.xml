@@ -10,7 +10,7 @@
         android:name=".MansionOfMadnessToolKitApplication" >
         <activity
             android:label="@string/app_name"
-            android:name=".HomeActivity" >
+            android:name=".HomeTabActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,7 +20,11 @@
             android:label="@string/app_name"
             android:name=".MapActivity" >
         </activity>
-    </application>
+        <activity 
+            android:label="@string/app_name"
+            android:name=".activity.scenario.ScenarioListActivity" >
+        </activity>
+        </application>
 
     <supports-screens
         android:anyDensity="true"

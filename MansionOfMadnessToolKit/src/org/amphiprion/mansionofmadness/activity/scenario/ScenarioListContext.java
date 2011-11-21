@@ -17,9 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with MansionOfMadnessToolKit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.amphiprion.mansionofmadness;
+package org.amphiprion.mansionofmadness.activity.scenario;
 
-public interface ApplicationConstants {
-	static final String PACKAGE = "org.amphiprion.mansionofmadness";
-	static final int MENU_ID_EDIT_SCENARIO = 1;
+import java.util.List;
+
+import org.amphiprion.mansionofmadness.dto.Scenario;
+import org.amphiprion.mansionofmadness.view.MyScrollView;
+
+/**
+ * This class is the context of the game list view.
+ * 
+ * @author amphiprion
+ * 
+ */
+public class ScenarioListContext {
+	public static final int PAGE_SIZE = 30;
+
+	public int loadedPage;
+	public List<Scenario> scenarios;
+	public MyScrollView scrollView;
+	public Scenario current;
+	public boolean allLoaded;
+	public boolean loading;
+	public LoadScenariosTask task;
+
 }

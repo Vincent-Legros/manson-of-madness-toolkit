@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="scenario_history_1">History 1: La chute de la maison Lynch</string>
+<string name="scenario_title">Scenario</string>
+    <string name="empty_scenario_list">\nUtiliser le menu pour ajouter un nouveau scenario.\n\nPour exécuter une action sur un scénario, faites un click long dessus.</string>
+	<string name="edit_scenario">Modifier</string>
+       
+       <string name="scenario_history_1">History 1: La chute de la maison Lynch</string>
 </resources>
