@@ -375,7 +375,7 @@ public class BoardMenu extends TouchableGroup2D {
 					selectedTile = null;
 					if (mapScreen.randomPile.contains(nx, ny)) {
 						// TODO Remove the dump
-						dump();
+						// dump();
 						if (mapScreen.randomPile.getCards().size() > 0) {
 							editCardInPile(mapScreen.randomPile);
 						}
