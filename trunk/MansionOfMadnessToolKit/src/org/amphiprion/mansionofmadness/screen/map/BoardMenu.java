@@ -596,7 +596,7 @@ public class BoardMenu extends TouchableGroup2D {
 				Tile2D tile = (Tile2D) o;
 				String sql = "insert into TILE_INSTANCE (" + TileInstance.DbField.ID + "," + TileInstance.DbField.SCENARIO_ID + "," + TileInstance.DbField.POS_X + ","
 						+ TileInstance.DbField.POS_Y + "," + TileInstance.DbField.TILE_ID + "," + TileInstance.DbField.ROTATION + ") values ('" + tile.getTileInstance().getId()
-						+ "','1'," + (tile.x - getX()) + "," + (tile.y - getY()) + ",'" + tile.getTile().getId() + "'," + tile.getRotation() + ")";
+						+ "','" + mapScreen.scenario.getId() + "'," + (tile.x - getX()) + "," + (tile.y - getY()) + ",'" + tile.getTile().getId() + "'," + tile.getRotation() + ")";
 				fos.write("db.execSQL(\"".getBytes());
 				fos.write(sql.getBytes());
 				fos.write(" \");".getBytes());
@@ -607,7 +607,8 @@ public class BoardMenu extends TouchableGroup2D {
 			for (Object o : cardPileGroup.getObjects()) {
 				CardPile2D pile = (CardPile2D) o;
 				String sql = "insert into CARD_PILE_INSTANCE (" + CardPileInstance.DbField.ID + "," + CardPileInstance.DbField.SCENARIO_ID + "," + CardPileInstance.DbField.POS_X
-						+ "," + CardPileInstance.DbField.POS_Y + ") values ('" + pile.getCardPileInstance().getId() + "','1'," + (pile.x - getX()) + "," + (pile.y - getY()) + ")";
+						+ "," + CardPileInstance.DbField.POS_Y + ") values ('" + pile.getCardPileInstance().getId() + "','" + mapScreen.scenario.getId() + "'," + (pile.x - getX())
+						+ "," + (pile.y - getY()) + ")";
 
 				fos.write("db.execSQL(\"".getBytes());
 				fos.write(sql.getBytes());

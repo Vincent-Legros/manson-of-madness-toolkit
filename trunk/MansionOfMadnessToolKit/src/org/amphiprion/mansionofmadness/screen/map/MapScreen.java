@@ -54,7 +54,7 @@ import android.view.animation.BounceInterpolator;
  */
 public class MapScreen extends GameScreen {
 	private Context context;
-	private Scenario scenario;
+	protected Scenario scenario;
 
 	public enum ComponentKey {
 		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON, ADD_CARD_PILE_ICON, EDIT_CARD_PILE_ICON
