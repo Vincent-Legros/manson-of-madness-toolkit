@@ -186,6 +186,9 @@ public class Image2D implements IObject2D, IHMIComponent {
 
 	@Override
 	public boolean contains(int px, int py) {
+		if (texture == null) {
+			return false;
+		}
 		if (px < (x - texture.originalWidth * scale / 2) * globalScale) {
 			return false;
 		}

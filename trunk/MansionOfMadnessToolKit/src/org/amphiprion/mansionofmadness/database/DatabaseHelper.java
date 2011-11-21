@@ -160,37 +160,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("create table TILE_INSTANCE (" + TileInstance.DbField.ID + " text primary key, " + TileInstance.DbField.SCENARIO_ID + " text not null, "
 					+ TileInstance.DbField.TILE_ID + " text not null, " + TileInstance.DbField.POS_X + " number not null, " + TileInstance.DbField.POS_Y + " number not null, "
 					+ TileInstance.DbField.ROTATION + " number not null) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('c6a12334-6836-436d-aff7-019b26ab76b6','1',413,144,'13',90) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('ed0e7689-4e59-434d-8aa4-ba2f21bdf45f','1',188,144,'14',270) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('4031c6fb-0146-4085-b5db-06d6815bea6a','1',713,219,'20',180) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('c331c447-abfd-4451-b261-6ad9335c8739','1',1013,219,'18',0) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('58daccfe-3849-4f55-abae-edc901cec5f9','1',263,444,'3',180) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('11e902db-27d2-4530-b543-a76654d7bb67','1',713,69,'6',0) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('a3241545-7e4d-4181-a4ed-9afc6a0537ba','1',1013,444,'23',0) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('e033026e-bbef-4916-9f4e-8058772fc826','1',638,444,'7',0) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('248169c8-0745-428a-afb4-bd700bf39f87','1',1013,69,'24',180) ");
-			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('36405fab-11a9-4e03-b455-777c53dd92c9','1',1013,744,'5',90) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('c6a12334-6836-436d-aff7-019b26ab76b6','1',450,150,'13',90) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('ed0e7689-4e59-434d-8aa4-ba2f21bdf45f','1',225,150,'14',270) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('4031c6fb-0146-4085-b5db-06d6815bea6a','1',750,225,'20',180) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('c331c447-abfd-4451-b261-6ad9335c8739','1',1050,225,'18',0) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('58daccfe-3849-4f55-abae-edc901cec5f9','1',300,450,'3',180) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('11e902db-27d2-4530-b543-a76654d7bb67','1',750,75,'6',0) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('a3241545-7e4d-4181-a4ed-9afc6a0537ba','1',1050,450,'23',0) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('e033026e-bbef-4916-9f4e-8058772fc826','1',675,450,'7',0) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('248169c8-0745-428a-afb4-bd700bf39f87','1',1050,75,'24',180) ");
+			db.execSQL("insert into TILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y,TILE_ID,ROTATION) values ('36405fab-11a9-4e03-b455-777c53dd92c9','1',1050,750,'5',90) ");
 
 			db.execSQL("create table CARD_PILE_INSTANCE (" + CardPileInstance.DbField.ID + " text primary key, " + CardPileInstance.DbField.SCENARIO_ID + " text not null, "
 					+ CardPileInstance.DbField.POS_X + " number not null, " + CardPileInstance.DbField.POS_Y + " number not null) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('1865218e-b741-4593-a1a4-bb77c76dac2c','1',192,143) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('dacb4e2c-f4e3-40d4-a525-1b08ae0330d1','1',332,220) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('1ac9054f-ecbb-4b44-b626-fdf453d7f2f9','1',397,69) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('27679b0b-f53a-4362-b504-9a44daa5e0ba','1',479,215) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('fa9f40f9-1104-4ffd-b326-9bd6c6ef06f3','1',691,220) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('e93cc863-fb1c-4de0-8514-773c0233531d','1',659,70) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('feb2820a-0f2d-4bb6-a13d-d1e56d197c44','1',810,71) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('c15f18d3-e9bb-4787-abab-b1224a751e9f','1',1016,70) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('e2bd2f16-d054-4c47-b547-8f8ad8861d2b','1',1007,215) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('e888cc12-5c96-4e6b-942c-7ce1a4898d07','1',639,484) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('6048e6fa-ee45-4864-a193-ee331a9beb19','1',263,512) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('fd2fb2c6-7772-47f9-8c0c-2f44379dffc9','1',205,366) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('02227a75-b7d6-4aa1-983b-96842f15136e','1',357,369) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('a0e64c97-e013-43aa-ac7b-551c8d4abc6d','1',940,433) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('49e65658-fa3a-4679-8800-a9afb2b048ac','1',1084,483) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('5dd7b54e-3f93-42cc-9399-635ce9231e6a','1',1084,349) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('46f9f977-2f2d-4627-a0f7-d59b8fa5aa54','1',928,741) ");
-			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('b502c184-a496-4298-a60a-8b7256dfe7b1','1',1089,649) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('1865218e-b741-4593-a1a4-bb77c76dac2c','1',228,155) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('dacb4e2c-f4e3-40d4-a525-1b08ae0330d1','1',371,221) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('1ac9054f-ecbb-4b44-b626-fdf453d7f2f9','1',456,73) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('27679b0b-f53a-4362-b504-9a44daa5e0ba','1',518,220) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('fa9f40f9-1104-4ffd-b326-9bd6c6ef06f3','1',753,230) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('e93cc863-fb1c-4de0-8514-773c0233531d','1',706,79) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('feb2820a-0f2d-4bb6-a13d-d1e56d197c44','1',844,72) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('c15f18d3-e9bb-4787-abab-b1224a751e9f','1',1053,77) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('e2bd2f16-d054-4c47-b547-8f8ad8861d2b','1',1054,228) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('e888cc12-5c96-4e6b-942c-7ce1a4898d07','1',669,479) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('6048e6fa-ee45-4864-a193-ee331a9beb19','1',304,518) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('fd2fb2c6-7772-47f9-8c0c-2f44379dffc9','1',240,376) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('02227a75-b7d6-4aa1-983b-96842f15136e','1',392,371) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('a0e64c97-e013-43aa-ac7b-551c8d4abc6d','1',976,446) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('49e65658-fa3a-4679-8800-a9afb2b048ac','1',1117,488) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('5dd7b54e-3f93-42cc-9399-635ce9231e6a','1',1120,354) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('46f9f977-2f2d-4627-a0f7-d59b8fa5aa54','1',978,763) ");
+			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('b502c184-a496-4298-a60a-8b7256dfe7b1','1',1115,660) ");
 
 			db.execSQL("create table CARD_PILE_CARD (" + CardPileCard.DbField.ID + " text primary key, " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " text not null, "
 					+ CardPileCard.DbField.CARD_ID + " text not null, " + CardPileCard.DbField.POS_ORDER + " number not null) ");
