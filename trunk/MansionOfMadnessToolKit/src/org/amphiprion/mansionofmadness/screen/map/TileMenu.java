@@ -25,6 +25,7 @@ import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Tile;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 
 import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
@@ -138,7 +139,7 @@ public class TileMenu extends TouchableGroup2D {
 			lastPointerY = ny;
 			if (nx >= ComponentTab.WIDTH && tileIndex > -1) {
 				mapScreen.collapseTileMenu();
-				Tile2D tile = new Tile2D(availableTiles.get(tileIndex));
+				Tile2D tile = new Tile2D(new TileInstance(), availableTiles.get(tileIndex));
 				tile.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
 				tile.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
 				mapScreen.boardMenu.addAndSelectTile(tile, nx, ny);

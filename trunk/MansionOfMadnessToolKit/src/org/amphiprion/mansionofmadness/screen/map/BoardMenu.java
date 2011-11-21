@@ -21,7 +21,6 @@ package org.amphiprion.mansionofmadness.screen.map;
 
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.UUID;
 
 import org.amphiprion.gameengine3d.Group2D;
 import org.amphiprion.gameengine3d.IObject2D;
@@ -30,6 +29,7 @@ import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.MapScreen.ComponentKey;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
@@ -154,7 +154,7 @@ public class BoardMenu extends TouchableGroup2D {
 				img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.ADD_CARD_PILE_ICON);
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
-					selectedCardPile = new CardPile2D();
+					selectedCardPile = new CardPile2D(new CardPileInstance());
 					selectedCardPile.x = nx;
 					selectedCardPile.y = ny;
 					addAndSelectCardPile(selectedCardPile, nx, ny);
@@ -595,11 +595,22 @@ public class BoardMenu extends TouchableGroup2D {
 			for (Object o : tileGroup.getObjects()) {
 				Tile2D tile = (Tile2D) o;
 				String sql = "insert into TILE_INSTANCE (" + TileInstance.DbField.ID + "," + TileInstance.DbField.SCENARIO_ID + "," + TileInstance.DbField.POS_X + ","
-						+ TileInstance.DbField.POS_Y + "," + TileInstance.DbField.TILE_ID + "," + TileInstance.DbField.ROTATION + ") values ('" + UUID.randomUUID().toString()
+						+ TileInstance.DbField.POS_Y + "," + TileInstance.DbField.TILE_ID + "," + TileInstance.DbField.ROTATION + ") values ('" + tile.getTileInstance().getId()
 						+ "','1'," + tile.x + "," + tile.y + ",'" + tile.getTile().getId() + "'," + tile.getRotation() + ")";
 				fos.write(sql.getBytes());
 				fos.write("\n".getBytes());
 			}
+			fos.write("\n".getBytes());
+
+			for (Object o : cardPileGroup.getObjects()) {
+				CardPile2D pile = (CardPile2D) o;
+				String sql = "insert into CARD_PILE_INSTANCE (" + CardPileInstance.DbField.ID + "," + CardPileInstance.DbField.SCENARIO_ID + "," + CardPileInstance.DbField.POS_X
+						+ "," + CardPileInstance.DbField.POS_Y + ") values ('" + pile.getCardPileInstance().getId() + "','1'," + pile.x + "," + pile.y + ")";
+
+				fos.write(sql.getBytes());
+				fos.write("\n".getBytes());
+			}
+
 		} catch (Exception e) {
 			Log.e(ApplicationConstants.PACKAGE, "", e);
 		}
