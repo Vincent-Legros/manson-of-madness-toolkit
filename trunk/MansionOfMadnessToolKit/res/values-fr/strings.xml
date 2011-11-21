@@ -6,4 +6,6 @@
 <string name="discard_selected">Défausser la sélection</string>
 <string name="cancel">Annuler</string>
 <string name="card_pile_title">Pile de carte</string>
+<string name="loading">Chargement...</string>
+    
 </resources>

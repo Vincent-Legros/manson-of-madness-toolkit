@@ -1,5 +1,7 @@
 package org.amphiprion.mansionofmadness;
 
+import org.amphiprion.mansionofmadness.activity.scenario.ScenarioListActivity;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,23 +18,14 @@ public class HomeTabActivity extends TabActivity {
 		TabHost.TabSpec spec; // Resusable TabSpec for each tab
 		Intent intent; // Reusable Intent for each tab
 
-		// List<Section> sections =
-		// SectionDao.getInstance(this).getSections(deck.getGame().getId());
-		// Log.d(ApplicationConstants.PACKAGE, "sections:" + sections.size());
-		// for (Section s : sections) {
-		// // Create an Intent to launch an Activity for the tab (to be reused)
-		// intent = new Intent().setClass(this, DeckContentListActivity.class);
-		// intent.putExtra("DECK", deck);
-		// intent.putExtra("SECTION", s);
-		// // Initialize a TabSpec for each tab and add it to the TabHost
-		// spec =
-		// tabHost.newTabSpec(s.getName()).setIndicator(s.getName()).setContent(intent);
-		// tabHost.addTab(spec);
-		// Log.d(ApplicationConstants.PACKAGE, "Add tab:" + s.getName());
-		// }
-		// for (int i = 0; i < sections.size(); i++) {
-		// tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
-		//
-		// }
+		// Create an Intent to launch an Activity for the tab (to be reused)
+		intent = new Intent().setClass(this, ScenarioListActivity.class);
+		// Initialize a TabSpec for each tab and add it to the TabHost
+		spec = tabHost.newTabSpec("Scenario").setIndicator(getText(R.string.scenario_title)).setContent(intent);
+		tabHost.addTab(spec);
+
+		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
+		}
 	}
 }
