@@ -71,12 +71,7 @@ public class RandomCardZone2D extends Image2D implements ICardPile {
 	}
 
 	private void computeImage() {
-		if (cards.size() == 0) {
-			changeUri("cards/card_pile.png");
-		} else {
-			Card card = cards.get(cards.size() - 1);
-			changeUri("cards/back_" + card.getType() + ".png");
-		}
+
 		imgPileSize.setText("" + cards.size());
 	}
 
