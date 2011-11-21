@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_attic">Attic</string>
-    <string name="tile_corridor_angle">Corridor Angle</string>
+    <string name="tile_corridor_angle">Bathroom</string>
     <string name="tile_diner_room">Diner Room</string>
-    <string name="tile_driveway">Driveway</string>
+    <string name="tile_driveway">Veranda</string>
     <string name="tile_garden">Garden</string>
     <string name="tile_guest_room">Guest Room</string>
     <string name="tile_park">Park</string>

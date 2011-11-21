@@ -4,5 +4,9 @@
     <string name="empty_scenario_list">\nUtiliser le menu pour ajouter un nouveau scenario.\n\nPour exécuter une action sur un scénario, faites un click long dessus.</string>
 	<string name="edit_scenario">Modifier</string>
        
-       <string name="scenario_history_1">History 1: La chute de la maison Lynch</string>
+    <string name="scenario_1_history">Histoire 1: La Chute de la Maison Lynch</string>
+    <string name="scenario_2_history">Histoire 2: Le Coeur de la Loge</string>
+    <string name="scenario_3_history">Histoire 3: Le Lien du Sang</string>
+    <string name="scenario_4_history">Histoire 4: Malédictions dans la Salle de Classe</string>
+    <string name="scenario_5_history">Histoire 5: Le Garçon aux Yeux Verts</string>
 </resources>
