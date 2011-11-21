@@ -89,7 +89,7 @@ public class MapScreen extends GameScreen {
 		List<Card> availableCards = CardDao.getInstance(context).getCards();
 
 		// ######### build the background #########
-		Image2D background = new Image2D("background/map_background.png", false, true);
+		Image2D background = new Image2D("board/board_background.jpg", false, true);
 		background.x = 1280 / 2;
 		background.y = 800 / 2;
 		objects2d.add(background);
