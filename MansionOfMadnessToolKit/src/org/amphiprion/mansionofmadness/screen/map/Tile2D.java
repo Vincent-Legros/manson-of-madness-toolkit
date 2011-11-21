@@ -21,17 +21,20 @@ package org.amphiprion.mansionofmadness.screen.map;
 
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Tile;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 
 /**
  * @author Amphiprion
  * 
  */
 public class Tile2D extends Image2D {
+	private TileInstance tileInstance;
 	private Tile tile;
 
-	public Tile2D(Tile tile) {
+	public Tile2D(TileInstance tileInstance, Tile tile) {
 		super("tiles/" + tile.getImageName());
 		this.tile = tile;
+		this.tileInstance = tileInstance;
 	}
 
 	/**
@@ -39,6 +42,13 @@ public class Tile2D extends Image2D {
 	 */
 	public Tile getTile() {
 		return tile;
+	}
+
+	/**
+	 * @return the tileInstance
+	 */
+	public TileInstance getTileInstance() {
+		return tileInstance;
 	}
 
 	public int getTileWidth() {

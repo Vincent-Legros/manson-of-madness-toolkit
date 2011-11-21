@@ -145,7 +145,7 @@ public class MapScreen extends GameScreen {
 		List<TileInstance> tileInstances = TileInstanceDao.getInstance(context).getTileInstances(scenario.getId());
 		for (TileInstance tileInstance : tileInstances) {
 			int index = availableTiles.indexOf(tileInstance.getTile());
-			Tile2D tile = new Tile2D(availableTiles.get(index));
+			Tile2D tile = new Tile2D(tileInstance, availableTiles.get(index));
 			tile.x = tileInstance.getPosX();
 			tile.y = tileInstance.getPosY();
 			tile.setRotation(tileInstance.getRotation());
@@ -165,7 +165,7 @@ public class MapScreen extends GameScreen {
 		// ### FILL Board pile from database
 		List<CardPileInstance> cardPileInstances = CardPileInstanceDao.getInstance(context).getCardPileInstances(scenario.getId());
 		for (CardPileInstance cardPileInstance : cardPileInstances) {
-			CardPile2D pile = new CardPile2D();
+			CardPile2D pile = new CardPile2D(cardPileInstance);
 			pile.x = cardPileInstance.getPosX();
 			pile.y = cardPileInstance.getPosY();
 			boardMenu.cardPileGroup.addObject(pile);

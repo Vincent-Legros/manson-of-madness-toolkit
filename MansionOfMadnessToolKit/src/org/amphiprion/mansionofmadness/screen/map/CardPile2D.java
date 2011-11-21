@@ -26,6 +26,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 
 /**
  * @author Amphiprion
@@ -34,11 +35,20 @@ import org.amphiprion.mansionofmadness.dto.Card;
 public class CardPile2D extends Image2D implements ICardPile {
 	private List<Card> cards = new ArrayList<Card>();
 	private Text2D imgPileSize;
+	private CardPileInstance cardPileInstance;
 
-	public CardPile2D() {
+	public CardPile2D(CardPileInstance cardPileInstance) {
 		// super("cards/back_exploration.png");
 		super("cards/card_pile.png");
 		imgPileSize = new Text2D("0", 20);
+		this.cardPileInstance = cardPileInstance;
+	}
+
+	/**
+	 * @return the cardPileInstance
+	 */
+	public CardPileInstance getCardPileInstance() {
+		return cardPileInstance;
 	}
 
 	/**
