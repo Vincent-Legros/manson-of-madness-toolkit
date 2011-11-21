@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
-import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Tile;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
 
@@ -74,13 +73,8 @@ public class TileMenu extends TouchableGroup2D {
 			img.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2;
 
 			addObject(img);
-			String txt;
-			if (tile.isEmbedded()) {
-				txt = mapScreen.getContext().getString(mapScreen.getContext().getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE));
-			} else {
-				txt = tile.getName();
-			}
-			Image2D imgTxt = new Image2D("@String/" + txt);
+
+			Image2D imgTxt = new Image2D("@String/" + tile.getDisplayName());
 			imgTxt.x = ComponentTab.WIDTH / 2;
 			imgTxt.y = index * TileMenu.HEIGHT + TileMenu.HEIGHT / 2 + (int) (tile.getHeight() * (150 / 2) / scale) + 15;
 			addObject(imgTxt);

@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
-import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Card;
 
 import android.view.MotionEvent;
@@ -73,14 +72,8 @@ public class CardMenu extends TouchableGroup2D {
 			img.y = index * CardMenu.HEIGHT + CardMenu.HEIGHT / 2;
 
 			addObject(img);
-			String txt;
-			if (card.isEmbedded()) {
-				txt = mapScreen.getContext().getString(
-						mapScreen.getContext().getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE));
-			} else {
-				txt = card.getName();
-			}
-			Image2D imgTxt = new Image2D("@String/" + txt);
+
+			Image2D imgTxt = new Image2D("@String/" + card.getDisplayName());
 			imgTxt.x = ComponentTab.WIDTH / 2;
 			imgTxt.y = index * CardMenu.HEIGHT + CardMenu.HEIGHT / 2 + 65;
 			addObject(imgTxt);
