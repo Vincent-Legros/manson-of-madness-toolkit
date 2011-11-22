@@ -29,8 +29,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +41,6 @@ import android.widget.TextView;
  */
 public class ScenarioSummaryView extends LinearLayout {
 	private Scenario scenario;
-	private static Interpolator interpolator = new BounceInterpolator();
 
 	/**
 	 * Construct an scenario view.
