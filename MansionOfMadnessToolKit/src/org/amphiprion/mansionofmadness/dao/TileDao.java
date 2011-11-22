@@ -159,11 +159,15 @@ public class TileDao extends AbstractDao {
 	}
 
 	private void update(Tile entity) {
-		String sql = "update TILE set " + Tile.DbField.NAME + "=?," + Tile.DbField.IMAGE_NAME + "=? WHERE " + Tile.DbField.ID + "=?";
-		Object[] params = new Object[3];
+		String sql = "update TILE set " + Tile.DbField.NAME + "=?," + Tile.DbField.IMAGE_NAME + "=?," + Tile.DbField.IS_EMBEDDED + "=?," + Tile.DbField.WIDTH + "=?,"
+				+ Tile.DbField.HEIGHT + "=? WHERE " + Tile.DbField.ID + "=?";
+		Object[] params = new Object[6];
 		params[0] = entity.getName();
 		params[1] = entity.getImageName();
-		params[2] = entity.getId();
+		params[2] = entity.isEmbedded() ? "1" : "0";
+		params[3] = entity.getWidth();
+		params[4] = entity.getHeight();
+		params[5] = entity.getId();
 
 		execSQL(sql, params);
 
