@@ -47,6 +47,7 @@ import org.amphiprion.mansionofmadness.dto.SoundInstance;
 import org.amphiprion.mansionofmadness.dto.Tile;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.TouchableGroup2D.PointerState;
+import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.content.Context;
 import android.view.MotionEvent;
@@ -85,8 +86,11 @@ public class MapScreen extends GameScreen {
 	// private Tile2D selectedTile;
 
 	public MapScreen(Context context, Scenario scenario) {
+
 		this.context = context;
 		this.scenario = scenario;
+
+		DeviceUtil.stopMusic();
 
 		// ##### load libray elements
 		String txt;

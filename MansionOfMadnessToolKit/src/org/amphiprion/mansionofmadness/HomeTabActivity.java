@@ -5,6 +5,7 @@ import org.amphiprion.mansionofmadness.activity.card.CardListActivity;
 import org.amphiprion.mansionofmadness.activity.scenario.ScenarioListActivity;
 import org.amphiprion.mansionofmadness.activity.sound.SoundListActivity;
 import org.amphiprion.mansionofmadness.activity.tile.TileListActivity;
+import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -80,5 +81,16 @@ public class HomeTabActivity extends TabActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return getLocalActivityManager().getCurrentActivity().onOptionsItemSelected(item);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.ActivityGroup#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		DeviceUtil.stopMusic();
 	}
 }
