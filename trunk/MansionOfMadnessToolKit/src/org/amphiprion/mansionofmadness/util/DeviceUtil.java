@@ -34,6 +34,7 @@ public class DeviceUtil {
 	private static boolean disableVibration = false;
 	private static Vibrator vibrator;
 	private static MediaPlayer mp;
+	private static Sound currentSound;
 
 	public static void init(Context context) {
 		try {
@@ -58,9 +59,11 @@ public class DeviceUtil {
 
 	public static MediaPlayer playSound(Sound sound) {
 		try {
-			if (mp != null) {
-				mp.stop();
+			if (currentSound == sound && mp != null && mp.isPlaying()) {
+				stopMusic();
+				return null;
 			}
+			stopMusic();
 			if (sound.isEmbedded()) {
 				int id = context.getResources().getIdentifier(sound.getSoundName(), "raw", ApplicationConstants.PACKAGE);
 				mp = MediaPlayer.create(context, id);
@@ -68,6 +71,7 @@ public class DeviceUtil {
 				mp = MediaPlayer.create(context, Uri.parse(sound.getSoundName()));
 			}
 			mp.start();
+			currentSound = sound;
 			return mp;
 		} catch (Throwable t) {
 			Log.e(ApplicationConstants.PACKAGE, "", t);
@@ -79,5 +83,6 @@ public class DeviceUtil {
 		if (mp != null) {
 			mp.stop();
 		}
+		currentSound = null;
 	}
 }
