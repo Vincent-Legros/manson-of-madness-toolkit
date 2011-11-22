@@ -64,7 +64,7 @@ public class TileMenu extends TouchableGroup2D {
 
 		int index = 0;
 		for (Tile tile : availableTiles) {
-			Image2D img = new Image2D("tiles/" + tile.getImageName());
+			Image2D img = new Image2D(tile.isEmbedded() ? "tiles/" + tile.getImageName() : tile.getImageName());
 			// rescale to enter in a 150x150 pixel (a case have a size of
 			// 150x150pixel)
 			float scale = Math.max(tile.getWidth(), tile.getHeight());

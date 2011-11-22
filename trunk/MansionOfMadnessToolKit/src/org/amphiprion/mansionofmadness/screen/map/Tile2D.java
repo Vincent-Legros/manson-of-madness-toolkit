@@ -32,7 +32,7 @@ public class Tile2D extends Image2D {
 	private Tile tile;
 
 	public Tile2D(TileInstance tileInstance, Tile tile) {
-		super("tiles/" + tile.getImageName());
+		super(tile.isEmbedded() ? "tiles/" + tile.getImageName() : tile.getImageName());
 		this.tile = tile;
 		this.tileInstance = tileInstance;
 	}

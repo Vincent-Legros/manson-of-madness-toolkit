@@ -95,15 +95,15 @@ public class SoundDao extends AbstractDao {
 	 * @return all existing sounds
 	 */
 	public List<Sound> getSounds() {
-		return getSounds(" order by " + Sound.DbField.NAME + " asc");
+		return getSounds("");
 	}
 
 	public List<Sound> getSounds(int pageIndex, int pageSize, boolean addEmbedded) {
 		String addOn = null;
 		if (addEmbedded) {
-			addOn = " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+			addOn = " order by " + Sound.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
 		} else {
-			addOn = " where " + Sound.DbField.IS_EMBEDDED + "=0 order by " + Sound.DbField.NAME + " asc limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+			addOn = " where " + Sound.DbField.IS_EMBEDDED + "=0 order by " + Sound.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
 		}
 		return getSounds(addOn);
 	}
