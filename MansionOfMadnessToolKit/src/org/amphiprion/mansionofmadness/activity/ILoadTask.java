@@ -17,28 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with MansionOfMadnessToolKit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.amphiprion.mansionofmadness.activity.scenario;
+package org.amphiprion.mansionofmadness.activity;
 
-import java.util.List;
-
-import org.amphiprion.mansionofmadness.dto.Scenario;
-import org.amphiprion.mansionofmadness.view.MyScrollView;
+import android.os.AsyncTask;
 
 /**
- * This class is the context of the game list view.
- * 
- * @author amphiprion
+ * @author ng00124c
  * 
  */
-public class ScenarioListContext {
-	public static final int PAGE_SIZE = 30;
-
-	public int loadedPage;
-	public List<Scenario> scenarios;
-	public MyScrollView scrollView;
-	public Scenario current;
-	public boolean allLoaded;
-	public boolean loading;
-	public LoadScenariosTask task;
-
+public interface ILoadTask<T> {
+	@SuppressWarnings("rawtypes")
+	AsyncTask execute(Void... params);
 }

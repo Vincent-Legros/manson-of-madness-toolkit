@@ -21,6 +21,8 @@ package org.amphiprion.mansionofmadness.activity.scenario;
 
 import java.util.List;
 
+import org.amphiprion.mansionofmadness.activity.ILoadTask;
+import org.amphiprion.mansionofmadness.activity.LoadDataListener;
 import org.amphiprion.mansionofmadness.dao.ScenarioDao;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 
@@ -31,15 +33,15 @@ import android.os.AsyncTask;
  * @author amphiprion
  * 
  */
-public class LoadScenariosTask extends AsyncTask<Void, Integer, List<Scenario>> {
-	private LoadScenarioListener caller;
+public class LoadScenariosTask extends AsyncTask<Void, Integer, List<Scenario>> implements ILoadTask<Scenario> {
+	private LoadDataListener<Scenario> caller;
 	private int pageIndex;
 	private int pageSize;
 
 	/**
 	 * Default constructor.
 	 */
-	public LoadScenariosTask(LoadScenarioListener caller, int pageIndex, int pageSize) {
+	public LoadScenariosTask(LoadDataListener<Scenario> caller, int pageIndex, int pageSize) {
 		this.caller = caller;
 		this.pageIndex = pageIndex;
 		this.pageSize = pageSize;
