@@ -45,7 +45,7 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 	 * 
 	 */
 	public ScenarioListActivity() {
-		super(new PaginedListContext<Scenario>(20));
+		super(new PaginedListContext<Scenario>(20), R.layout.scenario_list, R.id.scroll_view, R.id.scenario_list, R.string.empty_scenario_list);
 	}
 
 	@Override
