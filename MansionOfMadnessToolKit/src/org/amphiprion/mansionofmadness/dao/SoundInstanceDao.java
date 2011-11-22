@@ -133,6 +133,15 @@ public class SoundInstanceDao extends AbstractDao {
 
 	}
 
+	private void delete(SoundInstance entity) {
+		String sql = "delete FROM SOUND_INSTANCE WHERE " + SoundInstance.DbField.ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+
+		execSQL(sql, params);
+
+	}
+
 	/**
 	 * Persist the entity. Depending its state, this method will perform an
 	 * insert or an update.
@@ -145,6 +154,8 @@ public class SoundInstanceDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 

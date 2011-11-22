@@ -129,6 +129,19 @@ public class CardPileInstanceDao extends AbstractDao {
 
 	}
 
+	private void delete(CardPileInstance entity) {
+		// delete children
+		CardPileCardDao.getInstance(context).deleteAll(entity);
+
+		// delete the instance
+		String sql = "delete FROM CARD_PILE_INSTANCE WHERE " + CardPileInstance.DbField.ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+
+		execSQL(sql, params);
+
+	}
+
 	/**
 	 * Persist the entity. Depending its state, this method will perform an
 	 * insert or an update.
@@ -141,6 +154,8 @@ public class CardPileInstanceDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 

@@ -21,6 +21,7 @@ package org.amphiprion.mansionofmadness.screen.map;
 
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Sound;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
 
 /**
  * @author Amphiprion
@@ -28,10 +29,12 @@ import org.amphiprion.mansionofmadness.dto.Sound;
  */
 public class Sound2D extends Image2D {
 	private Sound sound;
+	private SoundInstance soundInstance;
 
-	public Sound2D(Sound sound) {
+	public Sound2D(SoundInstance soundInstance, Sound sound) {
 		super("sounds/sound.png");
 		this.sound = sound;
+		this.soundInstance = soundInstance;
 	}
 
 	/**
@@ -41,4 +44,10 @@ public class Sound2D extends Image2D {
 		return sound;
 	}
 
+	/**
+	 * @return the soundInstance
+	 */
+	public SoundInstance getSoundInstance() {
+		return soundInstance;
+	}
 }
