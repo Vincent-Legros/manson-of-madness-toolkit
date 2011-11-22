@@ -39,4 +39,14 @@ public class MansionOfMadnessToolKitApplication extends Application {
 		super.onCreate();
 		DeviceUtil.init(this);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Application#onTerminate()
+	 */
+	@Override
+	public void onTerminate() {
+		super.onTerminate();
+	}
 }

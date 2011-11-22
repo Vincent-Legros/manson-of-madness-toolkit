@@ -21,6 +21,7 @@ package org.amphiprion.mansionofmadness.activity.sound;
 
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.dto.Sound;
+import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -75,9 +76,15 @@ public class SoundSummaryView extends LinearLayout {
 		imglp.rightMargin = 5;
 		img.setLayoutParams(imglp);
 
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scenario_icon);
+		Bitmap bitmap = BitmapFactory.decodeStream(getClass().getResourceAsStream("/images/sounds/sound.png"));
 
 		img.setImageBitmap(bitmap);
+		img.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DeviceUtil.playSound(sound);
+			}
+		});
 		return img;
 	}
 
