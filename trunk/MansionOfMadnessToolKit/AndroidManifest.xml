@@ -28,6 +28,10 @@
             android:label="@string/app_name"
             android:name=".activity.sound.SoundListActivity" >
         </activity>
+        <activity 
+            android:label="@string/app_name"
+            android:name=".activity.card.CardListActivity" >
+        </activity>
         </application>
 
     <supports-screens
