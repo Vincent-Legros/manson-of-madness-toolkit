@@ -101,12 +101,6 @@ public class MapScreen extends GameScreen {
 		Collections.sort(availableTiles, new TileComparator());
 
 		List<Sound> availableSounds = SoundDao.getInstance(context).getSounds();
-		for (Sound sound : availableSounds) {
-			if (sound.isEmbedded()) {
-				txt = context.getString(context.getResources().getIdentifier("sound_" + sound.getName(), "string", ApplicationConstants.PACKAGE));
-				sound.setDisplayName(txt);
-			}
-		}
 		Collections.sort(availableSounds, new SoundComparator());
 
 		List<Card> availableCards = CardDao.getInstance(context).getCards();

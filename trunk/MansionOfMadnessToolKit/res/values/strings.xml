@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<string name="install_file_chooser_title">Install a file explorer</string>
+<string name="install_file_chooser_message">To be able to select a file, you need to install for example AndExplorer. Click OK to install it, or Cancel.</string>
+<string name="edit_sound_title">Sound Definition</string>
+<string name="name">Name:</string>            
+<string name="filename">File on SD card:</string>
     <string name="hello">Hello World, MansionOfMadnessToolKitActivity!</string>
     <string name="app_name">Mansion Of Madness ToolKit</string>
 <string name="discard_selected">Discard Selected</string>

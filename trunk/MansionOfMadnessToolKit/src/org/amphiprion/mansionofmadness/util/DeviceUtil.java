@@ -24,7 +24,9 @@ import org.amphiprion.mansionofmadness.dto.Sound;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Vibrator;
+import android.util.Log;
 
 public class DeviceUtil {
 	public static Context context;
@@ -54,9 +56,20 @@ public class DeviceUtil {
 	}
 
 	public static MediaPlayer playSound(Sound sound) {
-		int id = context.getResources().getIdentifier(sound.getSoundName(), "raw", ApplicationConstants.PACKAGE);
-		MediaPlayer mp = MediaPlayer.create(context, id);
-		mp.start();
-		return mp;
+		try {
+			if (sound.isEmbedded()) {
+				int id = context.getResources().getIdentifier(sound.getSoundName(), "raw", ApplicationConstants.PACKAGE);
+				MediaPlayer mp = MediaPlayer.create(context, id);
+				mp.start();
+				return mp;
+			} else {
+				MediaPlayer mp = MediaPlayer.create(context, Uri.parse(sound.getSoundName()));
+				mp.start();
+				return mp;
+			}
+		} catch (Throwable t) {
+			Log.e(ApplicationConstants.PACKAGE, "", t);
+			return null;
+		}
 	}
 }

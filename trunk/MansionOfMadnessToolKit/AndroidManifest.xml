@@ -24,6 +24,10 @@
             android:label="@string/app_name"
             android:name=".activity.scenario.ScenarioListActivity" >
         </activity>
+        <activity 
+            android:label="@string/app_name"
+            android:name=".activity.sound.SoundListActivity" >
+        </activity>
         </application>
 
     <supports-screens
