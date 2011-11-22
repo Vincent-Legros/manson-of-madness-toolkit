@@ -22,6 +22,7 @@ package org.amphiprion.mansionofmadness.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Card;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 
@@ -82,20 +83,31 @@ public class CardDao extends AbstractDao {
 			entity.setName(cursor.getString(1));
 			entity.setType(cursor.getString(2));
 			entity.setEmbedded(cursor.getInt(3) != 0);
+			updateDisplayName(entity);
 			result = entity;
 		}
 		cursor.close();
 		return result;
 	}
 
-	/**
-	 * 
-	 * @return all existing cards
-	 */
 	public List<Card> getCards() {
+		return getCards(" order by " + Card.DbField.TYPE + "," + Card.DbField.NAME);
+	}
 
-		String sql = "SELECT " + Card.DbField.ID + "," + Card.DbField.NAME + "," + Card.DbField.TYPE + "," + Card.DbField.IS_EMBEDDED + " from CARD order by " + Card.DbField.TYPE
-				+ "," + Card.DbField.NAME;
+	public List<Card> getCards(int pageIndex, int pageSize, boolean addEmbedded) {
+		String addOn = null;
+		if (addEmbedded) {
+			addOn = " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+		} else {
+			addOn = " where " + Card.DbField.IS_EMBEDDED + "=0 order by " + Card.DbField.TYPE + "," + Card.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex
+					* pageSize;
+		}
+		return getCards(addOn);
+	}
+
+	private List<Card> getCards(String sqlAddon) {
+		String sql = "SELECT " + Card.DbField.ID + "," + Card.DbField.NAME + "," + Card.DbField.TYPE + "," + Card.DbField.IS_EMBEDDED + " from CARD ";
+		sql += sqlAddon;
 
 		Cursor cursor = getDatabase().rawQuery(sql, null);
 		ArrayList<Card> result = new ArrayList<Card>();
@@ -105,6 +117,7 @@ public class CardDao extends AbstractDao {
 				entity.setName(cursor.getString(1));
 				entity.setType(cursor.getString(2));
 				entity.setEmbedded(cursor.getInt(3) != 0);
+				updateDisplayName(entity);
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -165,4 +178,10 @@ public class CardDao extends AbstractDao {
 		}
 	}
 
+	private void updateDisplayName(Card card) {
+		if (card.isEmbedded()) {
+			card.setDisplayName(context.getString(context.getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE)));
+		}
+
+	}
 }

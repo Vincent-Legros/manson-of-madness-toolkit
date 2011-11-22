@@ -27,6 +27,8 @@ public interface ApplicationConstants {
 	static final int MENU_ID_CREATE_SOUND = 4;
 	static final int MENU_ID_EDIT_SOUND = 5;
 	static final int MENU_ID_COPY_SCENARIO = 6;
+	static final int MENU_ID_CREATE_CARD = 7;
+	static final int MENU_ID_EDIT_CARD = 8;
 
 	static final int ACTIVITY_RETURN_CHOOSE_SOUND_FILE = 1;
 }

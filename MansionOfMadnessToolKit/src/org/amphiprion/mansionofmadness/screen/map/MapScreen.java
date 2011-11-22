@@ -104,12 +104,6 @@ public class MapScreen extends GameScreen {
 		Collections.sort(availableSounds, new SoundComparator());
 
 		List<Card> availableCards = CardDao.getInstance(context).getCards();
-		for (Card card : availableCards) {
-			if (card.isEmbedded()) {
-				txt = context.getString(context.getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE));
-				card.setDisplayName(txt);
-			}
-		}
 		Collections.sort(availableCards, new CardComparator());
 
 		// ######### build the background #########

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="card_title">Cards</string>
+<string name="create_card">New Card</string>
+<string name="edit_card_title">Card Definition</string>
+<string name="edit_card">Edit</string>
+<string name="empty_card_list">\nUse the menu to add a new Card. \n\nTo execute an action on a Card, do a long click on it.</string>
+<string name="card_type">Card Type</string>    
+    <string-array name="card_types">
+        <item>Exploration</item>
+        <item>Lock</item>
+        <item>Obstacle</item>
+    </string-array>   
+    
+   
+</resources>
