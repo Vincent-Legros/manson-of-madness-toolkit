@@ -39,19 +39,27 @@ import android.widget.TextView;
 
 public abstract class PaginedListActivity<T> extends Activity {
 	private PaginedListContext<T> listContext;
+	private int viewLayoutId;
+	private int scrollViewId;
+	private int listViewId;
+	private int emptyTextId;
 
 	/**
 	 * 
 	 */
-	public PaginedListActivity(PaginedListContext<T> listContext) {
+	public PaginedListActivity(PaginedListContext<T> listContext, int viewLayoutId, int scrollViewId, int listViewId, int emptyTextId) {
 		this.listContext = listContext;
+		this.viewLayoutId = viewLayoutId;
+		this.scrollViewId = scrollViewId;
+		this.listViewId = listViewId;
+		this.emptyTextId = emptyTextId;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.scenario_list);
+		setContentView(viewLayoutId);
 		showDataList();
 	}
 
@@ -59,7 +67,7 @@ public abstract class PaginedListActivity<T> extends Activity {
 		listContext.reset();
 
 		final Rect r = new Rect();
-		listContext.setScrollView((MyScrollView) findViewById(R.id.scroll_view));
+		listContext.setScrollView((MyScrollView) findViewById(scrollViewId));
 		listContext.getScrollView().setOnScrollChanged(new OnScrollChangedListener() {
 			@Override
 			public void onScrollChanged() {
@@ -142,19 +150,19 @@ public abstract class PaginedListActivity<T> extends Activity {
 
 	private void buildList() {
 
-		LinearLayout ln = (LinearLayout) findViewById(R.id.scenario_list);
+		LinearLayout ln = (LinearLayout) findViewById(listViewId);
 		ln.removeAllViews();
 		if (listContext.getDatas() != null && listContext.getDatas().size() > 0) {
 			addElementToList(listContext.getDatas());
 		} else {
 			TextView tv = new TextView(this);
-			tv.setText(R.string.empty_scenario_list);
+			tv.setText(emptyTextId);
 			ln.addView(tv);
 		}
 	}
 
 	private void addElementToList(List<T> newDatas) {
-		LinearLayout ln = (LinearLayout) findViewById(R.id.scenario_list);
+		LinearLayout ln = (LinearLayout) findViewById(listViewId);
 
 		if (newDatas != listContext.getDatas()) {
 			listContext.getDatas().addAll(newDatas);
