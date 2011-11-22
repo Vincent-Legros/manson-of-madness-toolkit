@@ -132,7 +132,7 @@ public class TileDao extends AbstractDao {
 			params[0] = entity.getId();
 			params[1] = entity.getName();
 			params[2] = entity.getImageName();
-			params[3] = entity.isEmbedded() ? "0" : "1";
+			params[3] = entity.isEmbedded() ? "1" : "0";
 			params[4] = entity.getWidth();
 			params[5] = entity.getHeight();
 

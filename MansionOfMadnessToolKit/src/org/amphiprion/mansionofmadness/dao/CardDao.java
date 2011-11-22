@@ -127,7 +127,7 @@ public class CardDao extends AbstractDao {
 			params[0] = entity.getId();
 			params[1] = entity.getName();
 			params[2] = entity.getType();
-			params[3] = entity.isEmbedded() ? "0" : "1";
+			params[3] = entity.isEmbedded() ? "1" : "0";
 
 			execSQL(sql, params);
 

@@ -1,6 +1,7 @@
 package org.amphiprion.mansionofmadness;
 
 import org.amphiprion.mansionofmadness.activity.scenario.ScenarioListActivity;
+import org.amphiprion.mansionofmadness.activity.sound.SoundListActivity;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -22,6 +23,12 @@ public class HomeTabActivity extends TabActivity {
 		intent = new Intent().setClass(this, ScenarioListActivity.class);
 		// Initialize a TabSpec for each tab and add it to the TabHost
 		spec = tabHost.newTabSpec("Scenario").setIndicator(getText(R.string.scenario_title)).setContent(intent);
+		tabHost.addTab(spec);
+
+		// Create an Intent to launch an Activity for the tab (to be reused)
+		intent = new Intent().setClass(this, SoundListActivity.class);
+		// Initialize a TabSpec for each tab and add it to the TabHost
+		spec = tabHost.newTabSpec("Sound").setIndicator(getText(R.string.sound_title)).setContent(intent);
 		tabHost.addTab(spec);
 
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {

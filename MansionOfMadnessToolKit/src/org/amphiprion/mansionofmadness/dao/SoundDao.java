@@ -22,6 +22,7 @@ package org.amphiprion.mansionofmadness.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Sound;
 
@@ -82,6 +83,7 @@ public class SoundDao extends AbstractDao {
 			entity.setName(cursor.getString(1));
 			entity.setSoundName(cursor.getString(2));
 			entity.setEmbedded(cursor.getInt(3) != 0);
+			updateDisplayName(entity);
 			result = entity;
 		}
 		cursor.close();
@@ -93,9 +95,23 @@ public class SoundDao extends AbstractDao {
 	 * @return all existing sounds
 	 */
 	public List<Sound> getSounds() {
+		return getSounds(" order by " + Sound.DbField.NAME + " asc");
+	}
 
-		String sql = "SELECT " + Sound.DbField.ID + "," + Sound.DbField.NAME + "," + Sound.DbField.SOUND_NAME + "," + Sound.DbField.IS_EMBEDDED + " from SOUND order by "
-				+ Sound.DbField.NAME;
+	public List<Sound> getSounds(int pageIndex, int pageSize, boolean addEmbedded) {
+		String addOn = null;
+		if (addEmbedded) {
+			addOn = " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+		} else {
+			addOn = " where " + Sound.DbField.IS_EMBEDDED + "=0 order by " + Sound.DbField.NAME + " asc limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+		}
+		return getSounds(addOn);
+	}
+
+	private List<Sound> getSounds(String sqlAddon) {
+
+		String sql = "SELECT " + Sound.DbField.ID + "," + Sound.DbField.NAME + "," + Sound.DbField.SOUND_NAME + "," + Sound.DbField.IS_EMBEDDED + " from SOUND";
+		sql += sqlAddon;
 
 		Cursor cursor = getDatabase().rawQuery(sql, null);
 		ArrayList<Sound> result = new ArrayList<Sound>();
@@ -105,12 +121,19 @@ public class SoundDao extends AbstractDao {
 				entity.setName(cursor.getString(1));
 				entity.setSoundName(cursor.getString(2));
 				entity.setEmbedded(cursor.getInt(3) != 0);
+				updateDisplayName(entity);
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
 
 		return result;
+	}
+
+	private void updateDisplayName(Sound sound) {
+		if (sound.isEmbedded()) {
+			sound.setDisplayName(getContext().getText(getContext().getResources().getIdentifier("sound_" + sound.getName(), "string", ApplicationConstants.PACKAGE)).toString());
+		}
 	}
 
 	/**
@@ -128,7 +151,7 @@ public class SoundDao extends AbstractDao {
 			params[0] = entity.getId();
 			params[1] = entity.getName();
 			params[2] = entity.getSoundName();
-			params[3] = entity.isEmbedded() ? "0" : "1";
+			params[3] = entity.isEmbedded() ? "1" : "0";
 
 			execSQL(sql, params);
 

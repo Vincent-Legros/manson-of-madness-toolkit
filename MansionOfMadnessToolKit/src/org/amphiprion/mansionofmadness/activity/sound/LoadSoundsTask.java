@@ -17,14 +17,14 @@
  * You should have received a copy of the GNU General Public License
  * along with MansionOfMadnessToolKit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.amphiprion.mansionofmadness.activity.scenario;
+package org.amphiprion.mansionofmadness.activity.sound;
 
 import java.util.List;
 
 import org.amphiprion.mansionofmadness.activity.ILoadTask;
 import org.amphiprion.mansionofmadness.activity.LoadDataListener;
-import org.amphiprion.mansionofmadness.dao.ScenarioDao;
-import org.amphiprion.mansionofmadness.dto.Scenario;
+import org.amphiprion.mansionofmadness.dao.SoundDao;
+import org.amphiprion.mansionofmadness.dto.Sound;
 
 import android.os.AsyncTask;
 
@@ -32,15 +32,15 @@ import android.os.AsyncTask;
  * @author amphiprion
  * 
  */
-public class LoadScenariosTask extends AsyncTask<Void, Integer, List<Scenario>> implements ILoadTask<Scenario> {
-	private LoadDataListener<Scenario> caller;
+public class LoadSoundsTask extends AsyncTask<Void, Integer, List<Sound>> implements ILoadTask<Sound> {
+	private LoadDataListener<Sound> caller;
 	private int pageIndex;
 	private int pageSize;
 
 	/**
 	 * Default constructor.
 	 */
-	public LoadScenariosTask(LoadDataListener<Scenario> caller, int pageIndex, int pageSize) {
+	public LoadSoundsTask(LoadDataListener<Sound> caller, int pageIndex, int pageSize) {
 		this.caller = caller;
 		this.pageIndex = pageIndex;
 		this.pageSize = pageSize;
@@ -48,10 +48,10 @@ public class LoadScenariosTask extends AsyncTask<Void, Integer, List<Scenario>> 
 	}
 
 	@Override
-	protected List<Scenario> doInBackground(Void... v) {
+	protected List<Sound> doInBackground(Void... v) {
 		try {
-			List<Scenario> scenarios = ScenarioDao.getInstance(caller.getContext()).getScenarios(pageIndex, pageSize);
-			return scenarios;
+			List<Sound> sounds = SoundDao.getInstance(caller.getContext()).getSounds(pageIndex, pageSize, false);
+			return sounds;
 
 		} catch (Exception e) {
 			return null;
@@ -67,8 +67,8 @@ public class LoadScenariosTask extends AsyncTask<Void, Integer, List<Scenario>> 
 	}
 
 	@Override
-	protected void onPostExecute(List<Scenario> scenarios) {
-		caller.importEnded(!isCancelled() && scenarios != null, scenarios);
+	protected void onPostExecute(List<Sound> sounds) {
+		caller.importEnded(!isCancelled() && sounds != null, sounds);
 	}
 
 }

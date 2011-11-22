@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<string name="install_file_chooser_title">Installer un explorateur de fichier</string>
+        <string name="install_file_chooser_message">Pour pouvoir sélectionner un fichier, vous devez installer par exemple l\'application AndExplorer. Cliquez sur OK pour l\'installer, ou Annuler pour abandonner.</string>
+<string name="edit_sound_title">Définition du Son</string>
+<string name="name">Nom:</string>            
+<string name="filename">Fichier sur la carte SD:</string>
+            
     <string name="hello">Hello World, MansionOfMadnessToolKitActivity!</string>
     <string name="app_name">Toolkit: Demeure de l\'épouvante</string>
 <string name="discard_selected">Défausser la sélection</string>
