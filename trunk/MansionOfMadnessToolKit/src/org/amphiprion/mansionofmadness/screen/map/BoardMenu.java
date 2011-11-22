@@ -20,6 +20,7 @@
 package org.amphiprion.mansionofmadness.screen.map;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.amphiprion.gameengine3d.Group2D;
@@ -28,8 +29,18 @@ import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
+import org.amphiprion.mansionofmadness.dao.CardPileCardDao;
+import org.amphiprion.mansionofmadness.dao.CardPileInstanceDao;
+import org.amphiprion.mansionofmadness.dao.RandomCardPileCardDao;
+import org.amphiprion.mansionofmadness.dao.SoundInstanceDao;
+import org.amphiprion.mansionofmadness.dao.TileInstanceDao;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
 import org.amphiprion.mansionofmadness.dto.CardPileInstance;
+import org.amphiprion.mansionofmadness.dto.Entity;
+import org.amphiprion.mansionofmadness.dto.Entity.DbState;
+import org.amphiprion.mansionofmadness.dto.RandomCardPileCard;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.MapScreen.ComponentKey;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
@@ -39,12 +50,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 /**
  * @author ng00124c
  * 
  */
 public class BoardMenu extends TouchableGroup2D {
+	private List<Entity> deletedEntities = new ArrayList<Entity>();
+
 	private MapScreen mapScreen;
 	private Tile2D selectedTile;
 	private Sound2D selectedSound;
@@ -165,6 +179,9 @@ public class BoardMenu extends TouchableGroup2D {
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
 					tileGroup.removeObject(selectedTile);
+					if (selectedTile.getTileInstance().getState() != DbState.NEW) {
+						deletedEntities.add(selectedTile.getTileInstance());
+					}
 					selectedTile = null;
 					return PointerState.NONE;
 				}
@@ -194,6 +211,9 @@ public class BoardMenu extends TouchableGroup2D {
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
 					soundGroup.removeObject(selectedSound);
+					if (selectedSound.getSoundInstance().getState() != DbState.NEW) {
+						deletedEntities.add(selectedSound.getSoundInstance());
+					}
 					selectedSound = null;
 					return PointerState.NONE;
 				}
@@ -212,6 +232,9 @@ public class BoardMenu extends TouchableGroup2D {
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
 					cardPileGroup.removeObject(selectedCardPile);
+					if (selectedCardPile.getCardPileInstance().getState() != DbState.NEW) {
+						deletedEntities.add(selectedCardPile.getCardPileInstance());
+					}
 					selectedCardPile = null;
 					return PointerState.NONE;
 				}
@@ -379,6 +402,8 @@ public class BoardMenu extends TouchableGroup2D {
 						if (mapScreen.randomPile.getCards().size() > 0) {
 							editCardInPile(mapScreen.randomPile);
 						}
+					} else if (mapScreen.saveButton.contains(nx, ny)) {
+						saveScenario();
 					} else {
 						for (IObject2D o : soundGroup.getObjects()) {
 							if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
@@ -621,4 +646,84 @@ public class BoardMenu extends TouchableGroup2D {
 			Log.e(ApplicationConstants.PACKAGE, "", e);
 		}
 	}
+
+	private void saveScenario() {
+		// TODO move it into a AsyncTask
+		try {
+			TileInstanceDao.getInstance(mapScreen.getContext()).getDatabase().beginTransaction();
+
+			for (Object o : tileGroup.getObjects()) {
+				Tile2D tile = (Tile2D) o;
+				TileInstance instance = tile.getTileInstance();
+				instance.setScenario(mapScreen.scenario);
+				instance.setTile(tile.getTile());
+				instance.setPosX((tile.x - getX()));
+				instance.setPosY((tile.y - getY()));
+				instance.setRotation(tile.getRotation());
+
+				TileInstanceDao.getInstance(mapScreen.getContext()).persist(instance);
+			}
+
+			for (Object o : soundGroup.getObjects()) {
+				Sound2D sound = (Sound2D) o;
+				SoundInstance instance = sound.getSoundInstance();
+				instance.setScenario(mapScreen.scenario);
+				instance.setSound(sound.getSound());
+				instance.setPosX((sound.x - getX()));
+				instance.setPosY((sound.y - getY()));
+
+				SoundInstanceDao.getInstance(mapScreen.getContext()).persist(instance);
+			}
+
+			for (Object o : cardPileGroup.getObjects()) {
+				CardPile2D pile = (CardPile2D) o;
+				CardPileInstance instance = pile.getCardPileInstance();
+				instance.setScenario(mapScreen.scenario);
+				instance.setPosX((pile.x - getX()));
+				instance.setPosY((pile.y - getY()));
+
+				CardPileInstanceDao.getInstance(mapScreen.getContext()).persist(instance);
+
+				// save content
+				CardPileCardDao.getInstance(mapScreen.getContext()).deleteAll(instance);
+				int index = 0;
+				for (Card card : pile.getCards()) {
+					CardPileCard content = new CardPileCard();
+					content.setCard(card);
+					content.setCardPileInstance(instance);
+					content.setOrder(index++);
+					CardPileCardDao.getInstance(mapScreen.getContext()).persist(content);
+				}
+			}
+
+			RandomCardPileCardDao.getInstance(mapScreen.getContext()).deleteAll(mapScreen.scenario);
+			int index = 0;
+			for (Card card : mapScreen.randomPile.getCards()) {
+				RandomCardPileCard content = new RandomCardPileCard();
+				content.setCard(card);
+				content.setScenario(mapScreen.scenario);
+				content.setOrder(index++);
+				RandomCardPileCardDao.getInstance(mapScreen.getContext()).persist(content);
+			}
+
+			// DELETION
+			for (Entity entity : deletedEntities) {
+				entity.setState(DbState.DELETE);
+				if (entity instanceof TileInstance) {
+					TileInstanceDao.getInstance(mapScreen.getContext()).persist((TileInstance) entity);
+				} else if (entity instanceof SoundInstance) {
+					SoundInstanceDao.getInstance(mapScreen.getContext()).persist((SoundInstance) entity);
+				} else if (entity instanceof CardPileInstance) {
+					CardPileInstanceDao.getInstance(mapScreen.getContext()).persist((CardPileInstance) entity);
+				}
+			}
+
+			TileInstanceDao.getInstance(mapScreen.getContext()).getDatabase().setTransactionSuccessful();
+			deletedEntities.clear();
+			Toast.makeText(mapScreen.getContext(), "Map Saved", 1000).show();
+		} finally {
+			TileInstanceDao.getInstance(mapScreen.getContext()).getDatabase().endTransaction();
+		}
+	}
+
 }

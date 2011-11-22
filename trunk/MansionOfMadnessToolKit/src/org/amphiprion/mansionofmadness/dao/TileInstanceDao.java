@@ -136,6 +136,15 @@ public class TileInstanceDao extends AbstractDao {
 
 	}
 
+	private void delete(TileInstance entity) {
+		String sql = "delete FROM TILE_INSTANCE WHERE " + TileInstance.DbField.ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+
+		execSQL(sql, params);
+
+	}
+
 	/**
 	 * Persist the entity. Depending its state, this method will perform an
 	 * insert or an update.
@@ -148,6 +157,8 @@ public class TileInstanceDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 

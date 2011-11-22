@@ -76,6 +76,7 @@ public class MapScreen extends GameScreen {
 	private TileMenu tileMenu;
 	protected BoardMenu boardMenu;
 	protected RandomCardZone2D randomPile;
+	protected Image2D saveButton;
 	private Translation2DAnimation tileMenuTabAnimation;
 	// private Translation2DAnimation tileMenuAnimation;
 	private Image2D imgTab;
@@ -160,6 +161,10 @@ public class MapScreen extends GameScreen {
 		randomPile = new RandomCardZone2D();
 		objects2d.add(randomPile);
 
+		saveButton = new Image2D("board/save.png");
+		saveButton.x = 1280 - 45;
+		saveButton.y = 800 / 2;
+		objects2d.add(saveButton);
 		// start collapsed
 		tileTab.setX(-ComponentTab.WIDTH / 2);
 
@@ -185,7 +190,7 @@ public class MapScreen extends GameScreen {
 		List<SoundInstance> soundInstances = SoundInstanceDao.getInstance(context).getSoundInstances(scenario.getId());
 		for (SoundInstance soundInstance : soundInstances) {
 			int index = availableSounds.indexOf(soundInstance.getSound());
-			Sound2D sound = new Sound2D(availableSounds.get(index));
+			Sound2D sound = new Sound2D(soundInstance, availableSounds.get(index));
 			sound.x = soundInstance.getPosX();
 			sound.y = soundInstance.getPosY();
 			boardMenu.soundGroup.addObject(sound);

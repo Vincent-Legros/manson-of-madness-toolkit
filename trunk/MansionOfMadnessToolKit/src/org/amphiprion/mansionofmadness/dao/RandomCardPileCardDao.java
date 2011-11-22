@@ -147,4 +147,15 @@ public class RandomCardPileCardDao extends AbstractDao {
 		}
 	}
 
+	/**
+	 * @param scenario
+	 */
+	public void deleteAll(Scenario scenario) {
+		String sql = "delete FROM RANDOM_CARD_PILE_CARD WHERE " + RandomCardPileCard.DbField.SCENARIO_ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = scenario.getId();
+
+		execSQL(sql, params);
+	}
+
 }

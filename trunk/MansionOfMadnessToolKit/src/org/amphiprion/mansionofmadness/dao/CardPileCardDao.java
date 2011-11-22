@@ -71,8 +71,8 @@ public class CardPileCardDao extends AbstractDao {
 	 */
 	public List<CardPileCard> getCardPileCards(String cardPlieInstanceId) {
 
-		String sql = "SELECT " + CardPileCard.DbField.ID + "," + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "," + CardPileCard.DbField.CARD_ID + "," + CardPileCard.DbField.POS_ORDER
-				+ " from CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=? order by " + CardPileCard.DbField.POS_ORDER;
+		String sql = "SELECT " + CardPileCard.DbField.ID + "," + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "," + CardPileCard.DbField.CARD_ID + ","
+				+ CardPileCard.DbField.POS_ORDER + " from CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=? order by " + CardPileCard.DbField.POS_ORDER;
 
 		Cursor cursor = getDatabase().rawQuery(sql, new String[] { cardPlieInstanceId });
 		ArrayList<CardPileCard> result = new ArrayList<CardPileCard>();
@@ -143,6 +143,18 @@ public class CardPileCardDao extends AbstractDao {
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
 		}
+	}
+
+	/**
+	 * @param entity
+	 */
+	public void deleteAll(CardPileInstance entity) {
+		String sql = "delete FROM CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=?";
+
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+
+		execSQL(sql, params);
 	}
 
 }

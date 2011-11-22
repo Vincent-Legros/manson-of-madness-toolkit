@@ -24,6 +24,7 @@ import java.util.List;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Sound;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.view.MotionEvent;
@@ -135,7 +136,7 @@ public class SoundMenu extends TouchableGroup2D {
 			lastPointerY = ny;
 			if (nx >= ComponentTab.WIDTH && soundIndex > -1) {
 				mapScreen.collapseTileMenu();
-				Sound2D sound = new Sound2D(availableSounds.get(soundIndex));
+				Sound2D sound = new Sound2D(new SoundInstance(), availableSounds.get(soundIndex));
 				sound.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
 				sound.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
 				mapScreen.boardMenu.addAndSelectSound(sound, nx, ny);

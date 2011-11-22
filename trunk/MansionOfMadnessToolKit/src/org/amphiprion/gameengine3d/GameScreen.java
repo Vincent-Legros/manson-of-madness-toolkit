@@ -69,16 +69,19 @@ public class GameScreen {
 	public void onUpdate(float sElapsed) {
 
 		long msElapsed = (long) (sElapsed * 1000);
-		for (int i = animations.size() - 1; i >= 0; i--) {
-			GameComponentAnimation anim = animations.get(i);
+		List<GameComponentAnimation> cloneAnim = new ArrayList<GameComponentAnimation>(animations);
+
+		for (GameComponentAnimation anim : animations) {
 
 			if (!anim.onUpdate(msElapsed)) {
 				// if (anim.isRemoveComponentAtEnd()) {
 				// mustBeRemoved = true;// on doit remover le composant associé
 				// }
-				animations.remove(i);
+				animations.remove(anim);
 			}
 		}
+		cloneAnim.clear();
+		cloneAnim = null;
 
 		// delayed
 		for (int i = delayedRuns.size() - 1; i >= 0; i--) {
