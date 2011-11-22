@@ -25,6 +25,7 @@ import java.util.List;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.activity.ILoadTask;
+import org.amphiprion.mansionofmadness.activity.IMenuProvider;
 import org.amphiprion.mansionofmadness.activity.LoadDataListener;
 import org.amphiprion.mansionofmadness.activity.PaginedListActivity;
 import org.amphiprion.mansionofmadness.activity.PaginedListContext;
@@ -47,7 +48,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SoundListActivity extends PaginedListActivity<Sound> {
+public class SoundListActivity extends PaginedListActivity<Sound> implements IMenuProvider {
 	private Sound currentSound;
 	private Button btPath;
 
@@ -141,12 +142,17 @@ public class SoundListActivity extends PaginedListActivity<Sound> {
 	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
 	 */
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
+		buildOptionMenu(menu);
+
+		return true;
+	}
+
+	@Override
+	public void buildOptionMenu(Menu menu) {
 		menu.clear();
 		MenuItem mi = menu.add(0, ApplicationConstants.MENU_ID_CREATE_SOUND, 0, R.string.create_sound);
 		mi.setIcon(android.R.drawable.ic_menu_add);
-
-		return true;
 	}
 
 	/*

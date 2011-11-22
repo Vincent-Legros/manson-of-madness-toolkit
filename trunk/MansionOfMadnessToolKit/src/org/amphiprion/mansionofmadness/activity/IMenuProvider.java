@@ -17,16 +17,14 @@
  * You should have received a copy of the GNU General Public License
  * along with MansionOfMadnessToolKit.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.amphiprion.mansionofmadness;
+package org.amphiprion.mansionofmadness.activity;
 
-public interface ApplicationConstants {
-	static final String PACKAGE = "org.amphiprion.mansionofmadness";
-	static final int MENU_ID_EDIT_SCENARIO = 1;
-	static final int MENU_ID_CREATE_SCENARIO = 2;
-	static final int MENU_ID_RENAME_SCENARIO = 3;
-	static final int MENU_ID_CREATE_SOUND = 4;
-	static final int MENU_ID_EDIT_SOUND = 5;
-	static final int MENU_ID_COPY_SCENARIO = 6;
+import android.view.Menu;
 
-	static final int ACTIVITY_RETURN_CHOOSE_SOUND_FILE = 1;
+/**
+ * @author Amphiprion
+ * 
+ */
+public interface IMenuProvider {
+	void buildOptionMenu(Menu menu);
 }
