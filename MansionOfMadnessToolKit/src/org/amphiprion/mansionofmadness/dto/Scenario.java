@@ -31,6 +31,7 @@ public class Scenario extends Entity {
 
 	private String name;
 	private boolean embedded;
+	private String displayName;
 
 	/**
 	 * 
@@ -56,6 +57,22 @@ public class Scenario extends Entity {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		displayName = name;
+	}
+
+	/**
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * @param displayName
+	 *            the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	/**

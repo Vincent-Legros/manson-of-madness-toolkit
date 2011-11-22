@@ -22,4 +22,6 @@ package org.amphiprion.mansionofmadness;
 public interface ApplicationConstants {
 	static final String PACKAGE = "org.amphiprion.mansionofmadness";
 	static final int MENU_ID_EDIT_SCENARIO = 1;
+	static final int MENU_ID_CREATE_SCENARIO = 2;
+	static final int MENU_ID_RENAME_SCENARIO = 3;
 }

@@ -31,12 +31,16 @@ import org.amphiprion.mansionofmadness.activity.PaginedListContext;
 import org.amphiprion.mansionofmadness.dao.ScenarioDao;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 	private Scenario currentScenario;
@@ -111,19 +115,23 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 		if (v instanceof ScenarioSummaryView) {
 			currentScenario = ((ScenarioSummaryView) v).getScenario();
 			menu.add(0, ApplicationConstants.MENU_ID_EDIT_SCENARIO, 0, R.string.edit_scenario);
+			if (!currentScenario.isEmbedded()) {
+				menu.add(0, ApplicationConstants.MENU_ID_RENAME_SCENARIO, 1, R.string.rename_scenario);
+			}
 		}
 
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-
 		if (item.getItemId() == ApplicationConstants.MENU_ID_EDIT_SCENARIO) {
 			Intent i = new Intent(this, MapActivity.class);
 			i.putExtra("SCENARIO", currentScenario);
 			// startActivityForResult(i,
 			// ApplicationConstants.ACTIVITY_RETURN_MANAGE_SET);
 			startActivity(i);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_RENAME_SCENARIO) {
+			updateScenarioName(currentScenario);
 		} // } else if (item.getItemId() ==
 			// ApplicationConstants.MENU_ID_MANAGE_DECK) {
 			// Intent i = new Intent(this, DeckListActivity.class);
@@ -141,4 +149,55 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
+		MenuItem mi = menu.add(0, ApplicationConstants.MENU_ID_CREATE_SCENARIO, 0, R.string.create_scenario);
+		mi.setIcon(android.R.drawable.ic_menu_add);
+
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == ApplicationConstants.MENU_ID_CREATE_SCENARIO) {
+			updateScenarioName(new Scenario());
+		}
+		return true;
+	}
+
+	private void updateScenarioName(final Scenario scenario) {
+		final EditText input = new EditText(ScenarioListActivity.this);
+		if (scenario.getDisplayName() != null) {
+			input.setText(scenario.getDisplayName());
+		}
+		new AlertDialog.Builder(ScenarioListActivity.this).setTitle(R.string.scenario_edit_name).setView(input)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int whichButton) {
+						String name = input.getText().toString();
+						if (name != null && !"".equals(name)) {
+							scenario.setName(name);
+							scenario.setEmbedded(false);
+							ScenarioDao.getInstance(ScenarioListActivity.this).persist(scenario);
+							showDataList();
+						}
+					}
+				}).setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int whichButton) {
+						//
+					}
+				}).show();
+	}
 }

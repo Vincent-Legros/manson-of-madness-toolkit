@@ -19,7 +19,6 @@
  */
 package org.amphiprion.mansionofmadness.activity.scenario;
 
-import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 
@@ -103,11 +102,7 @@ public class ScenarioSummaryView extends LinearLayout {
 		LayoutParams tlp = new LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		t.setLayoutParams(tlp);
-		if (scenario.isEmbedded()) {
-			t.setText(getContext().getText(getContext().getResources().getIdentifier("scenario_" + scenario.getName(), "string", ApplicationConstants.PACKAGE)));
-		} else {
-			t.setText(scenario.getName());
-		}
+		t.setText(scenario.getDisplayName());
 		t.setTextSize(16);
 		t.setTypeface(Typeface.DEFAULT_BOLD);
 		t.setTextColor(getContext().getResources().getColor(R.color.white));
