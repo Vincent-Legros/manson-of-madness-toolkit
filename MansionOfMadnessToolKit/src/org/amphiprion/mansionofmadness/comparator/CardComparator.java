@@ -38,7 +38,7 @@ public class CardComparator implements Comparator<Card> {
 	public int compare(Card object1, Card object2) {
 		int i = object1.getType().compareTo(object2.getType());
 		if (i == 0) {
-			return object1.getDisplayName().compareTo(object2.getDisplayName());
+			return object1.getDisplayName().compareToIgnoreCase(object2.getDisplayName());
 		} else {
 			return i;
 		}

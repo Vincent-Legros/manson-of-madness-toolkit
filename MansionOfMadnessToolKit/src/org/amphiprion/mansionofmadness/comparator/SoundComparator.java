@@ -36,6 +36,6 @@ public class SoundComparator implements Comparator<Sound> {
 	 */
 	@Override
 	public int compare(Sound object1, Sound object2) {
-		return object1.getDisplayName().compareTo(object2.getDisplayName());
+		return object1.getDisplayName().compareToIgnoreCase(object2.getDisplayName());
 	}
 }
