@@ -1,14 +1,18 @@
 package org.amphiprion.mansionofmadness;
 
+import org.amphiprion.mansionofmadness.activity.IMenuProvider;
 import org.amphiprion.mansionofmadness.activity.scenario.ScenarioListActivity;
 import org.amphiprion.mansionofmadness.activity.sound.SoundListActivity;
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class HomeTabActivity extends TabActivity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +36,35 @@ public class HomeTabActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
-			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 40;
+			tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 50;
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.clear();
+		menu.add(0, 0, 0, "---");
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onMenuOpened(int, android.view.Menu)
+	 */
+	@Override
+	public boolean onMenuOpened(int featureId, Menu menu) {
+		menu.clear();
+		if (getLocalActivityManager().getCurrentActivity() instanceof IMenuProvider) {
+			((IMenuProvider) getLocalActivityManager().getCurrentActivity()).buildOptionMenu(menu);
+			return true;
+		}
+		return true;
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return getLocalActivityManager().getCurrentActivity().onOptionsItemSelected(item);
 	}
 }

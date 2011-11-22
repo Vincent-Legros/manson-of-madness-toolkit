@@ -25,13 +25,23 @@ import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.MapActivity;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.activity.ILoadTask;
+import org.amphiprion.mansionofmadness.activity.IMenuProvider;
 import org.amphiprion.mansionofmadness.activity.LoadDataListener;
 import org.amphiprion.mansionofmadness.activity.PaginedListActivity;
 import org.amphiprion.mansionofmadness.activity.PaginedListContext;
+import org.amphiprion.mansionofmadness.dao.CardPileCardDao;
+import org.amphiprion.mansionofmadness.dao.CardPileInstanceDao;
 import org.amphiprion.mansionofmadness.dao.ScenarioDao;
+import org.amphiprion.mansionofmadness.dao.SoundInstanceDao;
+import org.amphiprion.mansionofmadness.dao.TileInstanceDao;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 import org.amphiprion.mansionofmadness.dto.Scenario;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,7 +52,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-public class ScenarioListActivity extends PaginedListActivity<Scenario> {
+public class ScenarioListActivity extends PaginedListActivity<Scenario> implements IMenuProvider {
 	private Scenario currentScenario;
 
 	/**
@@ -118,6 +128,8 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 			if (!currentScenario.isEmbedded()) {
 				menu.add(0, ApplicationConstants.MENU_ID_RENAME_SCENARIO, 1, R.string.rename_scenario);
 			}
+
+			menu.add(1, ApplicationConstants.MENU_ID_COPY_SCENARIO, 0, R.string.scenario_copy);
 		}
 
 	}
@@ -132,19 +144,9 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 			startActivity(i);
 		} else if (item.getItemId() == ApplicationConstants.MENU_ID_RENAME_SCENARIO) {
 			updateScenarioName(currentScenario);
-		} // } else if (item.getItemId() ==
-			// ApplicationConstants.MENU_ID_MANAGE_DECK) {
-			// Intent i = new Intent(this, DeckListActivity.class);
-			// i.putExtra("GAME", currentGame);
-			// startActivityForResult(i,
-			// ApplicationConstants.ACTIVITY_RETURN_MANAGE_DECK);
-			// } else if (item.getItemId() ==
-			// ApplicationConstants.MENU_ID_MANAGE_TABLE) {
-			// Intent i = new Intent(this, TableListActivity.class);
-			// i.putExtra("GAME", currentGame);
-			// startActivityForResult(i,
-			// ApplicationConstants.ACTIVITY_RETURN_MANAGE_TABLE);
-			// }
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_COPY_SCENARIO) {
+			showCopyScenarioDialog(currentScenario);
+		}
 
 		return true;
 	}
@@ -152,15 +154,26 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
+		buildOptionMenu(menu);
+
+		return true;
+	}/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.amphiprion.mansionofmadness.activity.IMenuProvider#buildOptionMenu
+	 * (android.view.Menu)
+	 */
+
+	@Override
+	public void buildOptionMenu(Menu menu) {
 		menu.clear();
 		MenuItem mi = menu.add(0, ApplicationConstants.MENU_ID_CREATE_SCENARIO, 0, R.string.create_scenario);
 		mi.setIcon(android.R.drawable.ic_menu_add);
-
-		return true;
 	}
 
 	/*
@@ -174,6 +187,122 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> {
 			updateScenarioName(new Scenario());
 		}
 		return true;
+	}
+
+	private void showCopyScenarioDialog(final Scenario source) {
+		String[] _options = getResources().getStringArray(R.array.scenario_copy_options);
+
+		boolean[] _selections = new boolean[_options.length];
+		for (int i = 0; i < _selections.length; i++) {
+			_selections[i] = true;
+		}
+
+		Dialog dlg = new AlertDialog.Builder(this).setTitle(this.getString(R.string.scenario_copy))
+				.setMultiChoiceItems(_options, _selections, new DialogSelectionClickHandler(_selections))
+				.setPositiveButton(this.getString(R.string.ok), new DialogButtonClickHandler(source, _selections))
+				.setNegativeButton(this.getString(R.string.cancel), new DialogButtonClickHandler()).create();
+		dlg.show();
+	}
+
+	private class DialogSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener {
+		private boolean[] _selections;
+
+		/**
+		 * 
+		 */
+		public DialogSelectionClickHandler(boolean[] _selections) {
+			this._selections = _selections;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+			_selections[which] = isChecked;
+		}
+
+	}
+
+	private class DialogButtonClickHandler implements DialogInterface.OnClickListener {
+		private boolean okButton;
+		private Scenario source;
+		private boolean[] _selection;
+
+		private DialogButtonClickHandler() {
+			okButton = false;
+		}
+
+		private DialogButtonClickHandler(Scenario source, boolean[] _selection) {
+			okButton = true;
+			this.source = source;
+			this._selection = _selection;
+		}
+
+		@Override
+		public void onClick(DialogInterface arg0, int arg1) {
+			if (okButton) {
+				copyScenario(source, _selection);
+			}
+		}
+
+	}
+
+	private void copyScenario(Scenario source, boolean[] options) {
+		try {
+			TileInstanceDao.getInstance(this).getDatabase().beginTransaction();
+
+			Scenario dest = new Scenario();
+			dest.setName(source.getDisplayName() + "_copy");
+			ScenarioDao.getInstance(this).persist(dest);
+
+			if (options[0]) {
+				List<TileInstance> tileInstances = TileInstanceDao.getInstance(this).getTileInstances(source.getId());
+				for (TileInstance i : tileInstances) {
+					TileInstance di = new TileInstance();
+					di.setPosX(i.getPosX());
+					di.setPosY(i.getPosY());
+					di.setScenario(dest);
+					di.setRotation(i.getRotation());
+					di.setTile(i.getTile());
+					TileInstanceDao.getInstance(this).persist(di);
+				}
+			}
+			if (options[1]) {
+				List<SoundInstance> soundInstances = SoundInstanceDao.getInstance(this).getSoundInstances(source.getId());
+				for (SoundInstance i : soundInstances) {
+					SoundInstance di = new SoundInstance();
+					di.setPosX(i.getPosX());
+					di.setPosY(i.getPosY());
+					di.setScenario(dest);
+					di.setSound(i.getSound());
+					SoundInstanceDao.getInstance(this).persist(di);
+				}
+			}
+			if (options[2]) {
+				List<CardPileInstance> pileInstances = CardPileInstanceDao.getInstance(this).getCardPileInstances(source.getId());
+				for (CardPileInstance i : pileInstances) {
+					CardPileInstance di = new CardPileInstance();
+					di.setPosX(i.getPosX());
+					di.setPosY(i.getPosY());
+					di.setScenario(dest);
+					CardPileInstanceDao.getInstance(this).persist(di);
+					if (options[3]) {
+						int index = 0;
+						List<CardPileCard> contents = CardPileCardDao.getInstance(this).getCardPileCards(i.getId());
+						for (CardPileCard c : contents) {
+							CardPileCard dc = new CardPileCard();
+							dc.setCard(c.getCard());
+							dc.setCardPileInstance(di);
+							dc.setOrder(index++);
+							CardPileCardDao.getInstance(this).persist(dc);
+						}
+					}
+				}
+			}
+
+			TileInstanceDao.getInstance(this).getDatabase().setTransactionSuccessful();
+			showDataList();
+		} finally {
+			TileInstanceDao.getInstance(this).getDatabase().endTransaction();
+		}
 	}
 
 	private void updateScenarioName(final Scenario scenario) {

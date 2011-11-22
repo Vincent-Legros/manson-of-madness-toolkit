@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="sound_title">Sounds</string>
-<string name="create_sound">New</string>
+<string name="create_sound">New Sound</string>
 <string name="edit_sound">Edit</string>
 <string name="empty_sound_list">\nUse the menu to add a new sound.\n\nTo execute an action on a Sound, do a long click on it.</string>
     
