@@ -36,7 +36,7 @@ public class TileComparator implements Comparator<Tile> {
 	 */
 	@Override
 	public int compare(Tile object1, Tile object2) {
-		return object1.getDisplayName().compareTo(object2.getDisplayName());
+		return object1.getDisplayName().compareToIgnoreCase(object2.getDisplayName());
 	}
 
 }
