@@ -22,6 +22,7 @@ package org.amphiprion.mansionofmadness.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
@@ -84,21 +85,31 @@ public class TileDao extends AbstractDao {
 			entity.setEmbedded(cursor.getInt(3) != 0);
 			entity.setWidth(cursor.getInt(4));
 			entity.setHeight(cursor.getInt(5));
+			updateDisplayName(entity);
 			result = entity;
 		}
 		cursor.close();
 		return result;
 	}
 
-	/**
-	 * 
-	 * @return all existing tiles
-	 */
 	public List<Tile> getTiles() {
+		return getTiles("");
+	}
 
+	public List<Tile> getTiles(int pageIndex, int pageSize, boolean addEmbedded) {
+		String addOn = null;
+		if (addEmbedded) {
+			addOn = " order by " + Tile.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+		} else {
+			addOn = " where " + Tile.DbField.IS_EMBEDDED + "=0 order by " + Tile.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+		}
+		return getTiles(addOn);
+	}
+
+	private List<Tile> getTiles(String sqlAddon) {
 		String sql = "SELECT " + Tile.DbField.ID + "," + Tile.DbField.NAME + "," + Tile.DbField.IMAGE_NAME + "," + Tile.DbField.IS_EMBEDDED + "," + Tile.DbField.WIDTH + ","
-				+ Tile.DbField.HEIGHT + " from TILE order by " + Tile.DbField.NAME;
-
+				+ Tile.DbField.HEIGHT + " from TILE";
+		sql += sqlAddon;
 		Cursor cursor = getDatabase().rawQuery(sql, null);
 		ArrayList<Tile> result = new ArrayList<Tile>();
 		if (cursor.moveToFirst()) {
@@ -109,6 +120,7 @@ public class TileDao extends AbstractDao {
 				entity.setEmbedded(cursor.getInt(3) != 0);
 				entity.setWidth(cursor.getInt(4));
 				entity.setHeight(cursor.getInt(5));
+				updateDisplayName(entity);
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -172,4 +184,10 @@ public class TileDao extends AbstractDao {
 		}
 	}
 
+	private void updateDisplayName(Tile tile) {
+		if (tile.isEmbedded()) {
+			tile.setDisplayName(context.getString(context.getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE)));
+		}
+
+	}
 }

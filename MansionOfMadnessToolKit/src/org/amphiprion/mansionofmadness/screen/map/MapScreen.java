@@ -26,7 +26,6 @@ import org.amphiprion.gameengine3d.GameScreen;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
-import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.comparator.CardComparator;
 import org.amphiprion.mansionofmadness.comparator.SoundComparator;
 import org.amphiprion.mansionofmadness.comparator.TileComparator;
@@ -92,12 +91,6 @@ public class MapScreen extends GameScreen {
 		// ##### load libray elements
 		String txt;
 		List<Tile> availableTiles = TileDao.getInstance(context).getTiles();
-		for (Tile tile : availableTiles) {
-			if (tile.isEmbedded()) {
-				txt = context.getString(context.getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE));
-				tile.setDisplayName(txt);
-			}
-		}
 		Collections.sort(availableTiles, new TileComparator());
 
 		List<Sound> availableSounds = SoundDao.getInstance(context).getSounds();

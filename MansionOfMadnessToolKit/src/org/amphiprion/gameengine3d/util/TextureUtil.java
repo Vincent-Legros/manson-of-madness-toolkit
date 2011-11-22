@@ -1,5 +1,6 @@
 package org.amphiprion.gameengine3d.util;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +85,18 @@ public class TextureUtil {
 				textures.put(uri + "|" + angle + "|" + textSize, texture);
 			} else {
 				InputStream is = null;
-				is = TextureUtil.class.getResourceAsStream("/images/" + uri);
+				if (uri.startsWith("file://")) {
+					try {
+						is = new FileInputStream(uri.substring(7));
+					} catch (Exception e) {
+					}
+				} else {
+					is = TextureUtil.class.getResourceAsStream("/images/" + uri);
+				}
+				if (is == null) {
+					is = TextureUtil.class.getResourceAsStream("/images/tiles/icons/close.png");
+				}
+
 				// Log.d("OPENGL", "load texture:" + uri);
 				Bitmap bitmap = BitmapFactory.decodeStream(is);
 				int contentWidth = bitmap.getWidth();

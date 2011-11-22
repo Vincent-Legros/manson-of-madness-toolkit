@@ -91,13 +91,13 @@ public class CardDao extends AbstractDao {
 	}
 
 	public List<Card> getCards() {
-		return getCards(" order by " + Card.DbField.TYPE + "," + Card.DbField.NAME);
+		return getCards("");
 	}
 
 	public List<Card> getCards(int pageIndex, int pageSize, boolean addEmbedded) {
 		String addOn = null;
 		if (addEmbedded) {
-			addOn = " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
+			addOn = " order by " + Card.DbField.TYPE + "," + Card.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex * pageSize;
 		} else {
 			addOn = " where " + Card.DbField.IS_EMBEDDED + "=0 order by " + Card.DbField.TYPE + "," + Card.DbField.NAME + " limit " + (pageSize + 1) + " offset " + pageIndex
 					* pageSize;
