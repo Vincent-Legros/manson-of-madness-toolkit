@@ -3,7 +3,10 @@
 <string name="scenario_title">Scenario</string>
     <string name="empty_scenario_list">\nUtiliser le menu pour ajouter un nouveau scenario.\n\nPour exécuter une action sur un scénario, faites un click long dessus.</string>
 	<string name="edit_scenario">Modifier</string>
-       
+   <string name="create_scenario">Nouveau</string>    
+<string name="rename_scenario">Renommer</string>
+<string name="scenario_edit_name">Nom du Scénario</string>    
+       	    
     <string name="scenario_1_history">Histoire 1: La Chute de la Maison Lynch</string>
     <string name="scenario_2_history">Histoire 2: Le Coeur de la Loge</string>
     <string name="scenario_3_history">Histoire 3: Le Lien du Sang</string>

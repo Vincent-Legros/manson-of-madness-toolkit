@@ -3,7 +3,9 @@
 <string name="scenario_title">Scenario</string>
 <string name="empty_scenario_list">\nUse the menu to add a new scenario.\n\nTo execute an action on a Scenario, do a long click on it.</string>
 <string name="edit_scenario">Edit</string>
-    
+<string name="rename_scenario">Rename</string>
+<string name="scenario_edit_name">Enter Scenario Name</string>    
+<string name="create_scenario">New</string>    
     <string name="scenario_1_history">History 1: Linch House Down</string>
     <string name="scenario_2_history">History 2: The Heart of the Lodge</string>
     <string name="scenario_3_history">History 3: The Blood Link</string>

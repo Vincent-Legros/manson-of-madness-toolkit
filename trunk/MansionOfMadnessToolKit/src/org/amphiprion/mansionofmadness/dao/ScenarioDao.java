@@ -22,6 +22,7 @@ package org.amphiprion.mansionofmadness.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 
@@ -80,6 +81,7 @@ public class ScenarioDao extends AbstractDao {
 			Scenario entity = new Scenario(cursor.getString(0));
 			entity.setName(cursor.getString(1));
 			entity.setEmbedded(cursor.getInt(2) != 0);
+			updateDisplayName(entity);
 			result = entity;
 		}
 		cursor.close();
@@ -102,6 +104,7 @@ public class ScenarioDao extends AbstractDao {
 				Scenario entity = new Scenario(cursor.getString(0));
 				entity.setName(cursor.getString(1));
 				entity.setEmbedded(cursor.getInt(2) != 0);
+				updateDisplayName(entity);
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -123,7 +126,7 @@ public class ScenarioDao extends AbstractDao {
 			Object[] params = new Object[3];
 			params[0] = entity.getId();
 			params[1] = entity.getName();
-			params[2] = entity.isEmbedded() ? "0" : "1";
+			params[2] = entity.isEmbedded() ? "1" : "0";
 
 			execSQL(sql, params);
 
@@ -136,10 +139,11 @@ public class ScenarioDao extends AbstractDao {
 	}
 
 	private void update(Scenario entity) {
-		String sql = "update SCENARIO set " + Scenario.DbField.NAME + "=? WHERE " + Scenario.DbField.ID + "=?";
-		Object[] params = new Object[2];
+		String sql = "update SCENARIO set " + Scenario.DbField.NAME + "=?," + Scenario.DbField.IS_EMBEDDED + "=? WHERE " + Scenario.DbField.ID + "=?";
+		Object[] params = new Object[3];
 		params[0] = entity.getName();
-		params[1] = entity.getId();
+		params[1] = entity.isEmbedded() ? "1" : "0";
+		params[2] = entity.getId();
 
 		execSQL(sql, params);
 
@@ -160,4 +164,11 @@ public class ScenarioDao extends AbstractDao {
 		}
 	}
 
+	private void updateDisplayName(Scenario scenario) {
+		if (scenario.isEmbedded()) {
+			scenario.setDisplayName(getContext().getText(getContext().getResources().getIdentifier("scenario_" + scenario.getName(), "string", ApplicationConstants.PACKAGE))
+					.toString());
+		}
+
+	}
 }

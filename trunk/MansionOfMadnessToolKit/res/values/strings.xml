@@ -4,6 +4,7 @@
     <string name="hello">Hello World, MansionOfMadnessToolKitActivity!</string>
     <string name="app_name">Mansion Of Madness ToolKit</string>
 <string name="discard_selected">Discard Selected</string>
+<string name="ok">Ok</string>
 <string name="cancel">Cancel</string>
 <string name="card_pile_title">Card Pile</string>
 <string name="loading">Loading...</string>
