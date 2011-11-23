@@ -98,12 +98,17 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 	 * getDataSummaryView(java.lang.Object)
 	 */
 	@Override
-	protected View getDataSummaryView(Scenario data) {
+	protected View getDataSummaryView(final Scenario data) {
 		ScenarioSummaryView view = new ScenarioSummaryView(this, data);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				boolean sessionExists = ScenarioDao.getInstance(ScenarioListActivity.this).isGameInProgress(data);
+				if (!sessionExists) {
+					startScenario(data);
+				} else {
+					chooseScenarioExecutionMode(data);
+				}
 			}
 		});
 		view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -343,7 +348,7 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 		ScenarioDao.getInstance(this).initScenario(scenario);
 
 		Intent i = new Intent(this, MapActivity.class);
-		i.putExtra("SCENARIO", currentScenario);
+		i.putExtra("SCENARIO", scenario);
 		i.putExtra("IN_EDITION", false);
 		i.putExtra("RESUME_SESSION", false);
 		startActivity(i);
@@ -351,9 +356,29 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 
 	private void resumeScenario(Scenario scenario) {
 		Intent i = new Intent(this, MapActivity.class);
-		i.putExtra("SCENARIO", currentScenario);
+		i.putExtra("SCENARIO", scenario);
 		i.putExtra("IN_EDITION", false);
 		i.putExtra("RESUME_SESSION", true);
 		startActivity(i);
+	}
+
+	private void chooseScenarioExecutionMode(final Scenario scenario) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(this.getString(R.string.session_exist_title));
+		builder.setMessage(this.getString(R.string.session_exist_message));
+		builder.setCancelable(true).setPositiveButton(getResources().getString(R.string.bt_resume), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				resumeScenario(scenario);
+			}
+		});
+		builder.setNegativeButton(getResources().getString(R.string.bt_new), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				startScenario(scenario);
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 }

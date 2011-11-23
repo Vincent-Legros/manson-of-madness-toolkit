@@ -92,13 +92,17 @@ public class MapScreen extends GameScreen {
 	// private Tile2D selectedTile;
 
 	public MapScreen(Context context, Scenario scenario, boolean inEdition, boolean resumeSession) {
-
 		this.context = context;
 		this.scenario = scenario;
 		this.inEdition = inEdition;
 		this.resumeSession = resumeSession;
 
 		DeviceUtil.stopMusic();
+
+		if (scenario == null) {
+			((Activity) context).finish();
+			return;
+		}
 
 		// ##### load libray elements
 		String txt;
