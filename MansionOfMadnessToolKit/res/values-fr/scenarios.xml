@@ -8,7 +8,12 @@
 <string name="scenario_edit_name">Nom du Scénario</string>    
 <string name="resume_scenario">Reprendre le jeu en cous</string>
 <string name="start_scenario">Démarrer une nouvelle partie</string>
-    	    
+ 
+<string name="session_exist_title">Une Partie est en cours</string>    
+<string name="session_exist_message">Voulez-vous reprendre la partie en cours, ou commencer une nouvelle partie ? \nDémarrer une nouvelle partie effacera la partie en cours.</string>    
+<string name="bt_resume">Reprendre</string>   	    
+<string name="bt_new">Nouvelle</string>   
+	    
 <string name="scenario_copy">Dupliquer</string>    
        	    <string-array name="scenario_copy_options">
        	    	<item>Tuiles</item>

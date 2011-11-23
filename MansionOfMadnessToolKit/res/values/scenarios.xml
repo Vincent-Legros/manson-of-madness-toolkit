@@ -9,6 +9,11 @@
 <string name="resume_scenario">Resume the Previous Game Session</string>
 <string name="start_scenario">Start a New Game Session</string>
     
+<string name="session_exist_title">A Game Session exists</string>    
+<string name="session_exist_message">Do you want to resume the existing session, or start a new Session ? \nStarting a new session will delete the current session.</string>    
+<string name="bt_resume">Resume</string>   	    
+<string name="bt_new">Start</string>   
+    
 <string name="scenario_copy">Copy</string>    
        	    <string-array name="scenario_copy_options">
        	    	<item>Tiles</item>
