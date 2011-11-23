@@ -176,10 +176,14 @@ public class SoundDao extends AbstractDao {
 	}
 
 	private void delete(Sound entity) {
-		String sql = "delete FROM SOUND where " + Sound.DbField.ID + "=?";
+		String sql = "delete FROM SOUND_INSTANCE where " + SoundInstance.DbField.SOUND_ID + "=?";
 		Object[] params = new Object[1];
 		params[0] = entity.getId();
+		execSQL(sql, params);
 
+		sql = "delete FROM SOUND where " + Sound.DbField.ID + "=?";
+		params = new Object[1];
+		params[0] = entity.getId();
 		execSQL(sql, params);
 	}
 
