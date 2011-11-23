@@ -3,11 +3,15 @@
 <string name="scenario_title">Scenario</string>
 <string name="empty_scenario_list">\nUse the menu to add a new scenario.\n\nTo execute an action on a Scenario, do a long click on it.</string>
 <string name="edit_scenario">Edit</string>
+<string name="delete_scenario">Delete</string>
 <string name="rename_scenario">Rename</string>
 <string name="scenario_edit_name">Enter Scenario Name</string>    
 <string name="create_scenario">New Scenario</string>    
 <string name="resume_scenario">Resume the Previous Game Session</string>
 <string name="start_scenario">Start a New Game Session</string>
+ 
+ <string name="delete_scenario_title">Delete scenario</string>
+<string name="delete_scenario_message">Are you sure you want to delete this scenario ?</string>
     
 <string name="session_exist_title">A Game Session exists</string>    
 <string name="session_exist_message">Do you want to resume the existing session, or start a new Session ? \nStarting a new session will delete the current session.</string>    

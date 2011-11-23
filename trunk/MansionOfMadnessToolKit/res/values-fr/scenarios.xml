@@ -3,11 +3,15 @@
 <string name="scenario_title">Scenario</string>
     <string name="empty_scenario_list">\nUtiliser le menu pour ajouter un nouveau scenario.\n\nPour exécuter une action sur un scénario, faites un click long dessus.</string>
 	<string name="edit_scenario">Modifier</string>
+<string name="delete_scenario">Supprimer</string>
    <string name="create_scenario">Nouveau Scénario</string>    
 <string name="rename_scenario">Renommer</string>
 <string name="scenario_edit_name">Nom du Scénario</string>    
 <string name="resume_scenario">Reprendre le jeu en cous</string>
 <string name="start_scenario">Démarrer une nouvelle partie</string>
+ 
+  <string name="delete_scenario_title">Supprimer le Scenario</string>
+<string name="delete_scenario_message">Etes-vous sûr de vouloir supprimer ce scénario ?</string>
  
 <string name="session_exist_title">Une Partie est en cours</string>    
 <string name="session_exist_message">Voulez-vous reprendre la partie en cours, ou commencer une nouvelle partie ? \nDémarrer une nouvelle partie effacera la partie en cours.</string>    

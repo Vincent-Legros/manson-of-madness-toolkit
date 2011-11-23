@@ -36,6 +36,7 @@ import org.amphiprion.mansionofmadness.dao.SoundInstanceDao;
 import org.amphiprion.mansionofmadness.dao.TileInstanceDao;
 import org.amphiprion.mansionofmadness.dto.CardPileCard;
 import org.amphiprion.mansionofmadness.dto.CardPileInstance;
+import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 import org.amphiprion.mansionofmadness.dto.SoundInstance;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
@@ -137,6 +138,7 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 			menu.add(1, ApplicationConstants.MENU_ID_EDIT_SCENARIO, 0, R.string.edit_scenario);
 			if (!currentScenario.isEmbedded()) {
 				menu.add(1, ApplicationConstants.MENU_ID_RENAME_SCENARIO, 1, R.string.rename_scenario);
+				menu.add(1, ApplicationConstants.MENU_ID_DELETE_SCENARIO, 2, R.string.delete_scenario);
 			}
 
 			menu.add(2, ApplicationConstants.MENU_ID_COPY_SCENARIO, 0, R.string.scenario_copy);
@@ -160,9 +162,37 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 			updateScenarioName(currentScenario);
 		} else if (item.getItemId() == ApplicationConstants.MENU_ID_COPY_SCENARIO) {
 			showCopyScenarioDialog(currentScenario);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_DELETE_SCENARIO) {
+			checkDeleteScenario(currentScenario);
 		}
 
 		return true;
+	}
+
+	private void checkDeleteScenario(final Scenario scenario) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(this.getString(R.string.delete_scenario_title));
+		builder.setMessage(this.getString(R.string.delete_scenario_message));
+		builder.setCancelable(true).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				deleteScenario(scenario);
+			}
+		});
+		builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void deleteScenario(Scenario scenario) {
+		scenario.setState(DbState.DELETE);
+		ScenarioDao.getInstance(this).persist(scenario);
+		showDataList();
 	}
 
 	/*
