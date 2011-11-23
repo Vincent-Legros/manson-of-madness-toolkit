@@ -16,4 +16,7 @@
 <string name="exit_message">Voulez-vous sauver avant de quitter ?</string>
 <string name="yes">Oui</string>
 <string name="no">Non</string>
+<string name="used_item_title">Elément Référencé</string>
+<string name="used_item_message">Cet élément est référencé dans au moins un scénario. \n\nEtes-vous sûr de vouloir supprimer cet élément ?</string>
+
 </resources>

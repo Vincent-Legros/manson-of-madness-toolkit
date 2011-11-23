@@ -30,6 +30,7 @@ import org.amphiprion.mansionofmadness.activity.LoadDataListener;
 import org.amphiprion.mansionofmadness.activity.PaginedListActivity;
 import org.amphiprion.mansionofmadness.activity.PaginedListContext;
 import org.amphiprion.mansionofmadness.dao.SoundDao;
+import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Sound;
 
 import android.app.AlertDialog;
@@ -123,6 +124,7 @@ public class SoundListActivity extends PaginedListActivity<Sound> implements IMe
 			currentSound = ((SoundSummaryView) v).getSound();
 			if (!currentSound.isEmbedded()) {
 				menu.add(0, ApplicationConstants.MENU_ID_EDIT_SOUND, 0, R.string.edit_sound);
+				menu.add(0, ApplicationConstants.MENU_ID_DELETE_SOUND, 1, R.string.delete_sound);
 			}
 		}
 
@@ -132,8 +134,40 @@ public class SoundListActivity extends PaginedListActivity<Sound> implements IMe
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == ApplicationConstants.MENU_ID_EDIT_SOUND) {
 			updateSound(currentSound);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_DELETE_SOUND) {
+			checkDeleteSound(currentSound);
 		}
 		return true;
+	}
+
+	private void checkDeleteSound(final Sound sound) {
+		if (SoundDao.getInstance(this).isUsed(currentSound)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(this.getString(R.string.used_item_title));
+			builder.setMessage(this.getString(R.string.used_item_message));
+			builder.setCancelable(true).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					deleteSound(sound);
+				}
+			});
+			builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
+		} else {
+			deleteSound(sound);
+		}
+	}
+
+	private void deleteSound(Sound sound) {
+		sound.setState(DbState.DELETE);
+		SoundDao.getInstance(this).persist(sound);
+		showDataList();
 	}
 
 	/*
