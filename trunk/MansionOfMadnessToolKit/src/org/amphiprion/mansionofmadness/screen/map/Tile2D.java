@@ -19,6 +19,8 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Tile;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
@@ -30,11 +32,15 @@ import org.amphiprion.mansionofmadness.dto.TileInstance;
 public class Tile2D extends Image2D {
 	private TileInstance tileInstance;
 	private Tile tile;
+	private Text2D imgName;
+	private MapScreen mapScreen;
 
-	public Tile2D(TileInstance tileInstance, Tile tile) {
+	public Tile2D(MapScreen mapScreen, TileInstance tileInstance, Tile tile) {
 		super(tile.isEmbedded() ? "tiles/" + tile.getImageName() : tile.getImageName());
 		this.tile = tile;
 		this.tileInstance = tileInstance;
+		imgName = new Text2D(tile.getDisplayName(), 25);
+		this.mapScreen = mapScreen;
 	}
 
 	/**
@@ -64,6 +70,24 @@ public class Tile2D extends Image2D {
 			return tile.getWidth();
 		} else {
 			return tile.getHeight();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.amphiprion.gameengine3d.mesh.Image2D#draw(javax.microedition.khronos
+	 * .opengles.GL10, float, int, int)
+	 */
+	@Override
+	public void draw(GL10 gl, float screenScale, int screenWidth, int screenHeight) {
+		super.draw(gl, screenScale, screenWidth, screenHeight);
+		if (mapScreen.showLabels) {
+			imgName.x = x;
+			imgName.y = y;
+			imgName.setGlobalScale(getGlobalScale());
+			imgName.draw(gl, screenScale, screenWidth, screenHeight);
 		}
 	}
 }

@@ -66,6 +66,7 @@ public class MapScreen extends GameScreen {
 	protected Scenario scenario;
 	protected boolean inEdition;
 	private boolean resumeSession;
+	protected boolean showLabels;
 
 	public enum ComponentKey {
 		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON, ADD_CARD_PILE_ICON, EDIT_CARD_PILE_ICON
@@ -83,6 +84,7 @@ public class MapScreen extends GameScreen {
 	protected BoardMenu boardMenu;
 	protected RandomCardZone2D randomPile;
 	protected Image2D saveButton;
+	protected Image2D labelButton;
 	private Translation2DAnimation tileMenuTabAnimation;
 	// private Translation2DAnimation tileMenuAnimation;
 	private Image2D imgTab;
@@ -105,7 +107,6 @@ public class MapScreen extends GameScreen {
 		}
 
 		// ##### load libray elements
-		String txt;
 		List<Tile> availableTiles = TileDao.getInstance(context).getTiles();
 		Collections.sort(availableTiles, new TileComparator());
 
@@ -163,9 +164,15 @@ public class MapScreen extends GameScreen {
 
 			saveButton = new Image2D("board/save.png");
 			saveButton.x = 1280 - 45;
-			saveButton.y = 800 / 2;
+			saveButton.y = 800 / 2 - 100;
 			objects2d.add(saveButton);
 		}
+
+		labelButton = new Image2D("board/labels.png");
+		labelButton.x = 1280 - 45;
+		labelButton.y = 200;
+		objects2d.add(labelButton);
+
 		// start collapsed
 		tileTab.setX(-ComponentTab.WIDTH / 2);
 
@@ -183,7 +190,7 @@ public class MapScreen extends GameScreen {
 		List<TileInstance> tileInstances = TileInstanceDao.getInstance(context).getTileInstances(scenario.getId());
 		for (TileInstance tileInstance : tileInstances) {
 			int index = availableTiles.indexOf(tileInstance.getTile());
-			Tile2D tile = new Tile2D(tileInstance, availableTiles.get(index));
+			Tile2D tile = new Tile2D(this, tileInstance, availableTiles.get(index));
 			tile.x = tileInstance.getPosX();
 			tile.y = tileInstance.getPosY();
 			tile.setRotation(tileInstance.getRotation());
@@ -194,7 +201,7 @@ public class MapScreen extends GameScreen {
 		List<SoundInstance> soundInstances = SoundInstanceDao.getInstance(context).getSoundInstances(scenario.getId());
 		for (SoundInstance soundInstance : soundInstances) {
 			int index = availableSounds.indexOf(soundInstance.getSound());
-			Sound2D sound = new Sound2D(soundInstance, availableSounds.get(index));
+			Sound2D sound = new Sound2D(this, soundInstance, availableSounds.get(index));
 			sound.x = soundInstance.getPosX();
 			sound.y = soundInstance.getPosY();
 			boardMenu.soundGroup.addObject(sound);

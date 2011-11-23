@@ -136,7 +136,7 @@ public class SoundMenu extends TouchableGroup2D {
 			lastPointerY = ny;
 			if (mapScreen.inEdition && nx >= ComponentTab.WIDTH && soundIndex > -1) {
 				mapScreen.collapseTileMenu();
-				Sound2D sound = new Sound2D(new SoundInstance(), availableSounds.get(soundIndex));
+				Sound2D sound = new Sound2D(mapScreen, new SoundInstance(), availableSounds.get(soundIndex));
 				sound.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
 				sound.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
 				mapScreen.boardMenu.addAndSelectSound(sound, nx, ny);
