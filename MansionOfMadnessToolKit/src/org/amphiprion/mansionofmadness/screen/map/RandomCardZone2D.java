@@ -88,7 +88,7 @@ public class RandomCardZone2D extends Image2D implements ICardPile {
 	 *            the selection start with top card and end with bottom card
 	 */
 	@Override
-	public void removeSelection(boolean[] _selection) {
+	public void removeSelection(MapScreen mapScreen, boolean[] _selection) {
 		int index = cards.size() - 1;
 		for (int i = 0; i < _selection.length; i++) {
 			if (_selection[i]) {

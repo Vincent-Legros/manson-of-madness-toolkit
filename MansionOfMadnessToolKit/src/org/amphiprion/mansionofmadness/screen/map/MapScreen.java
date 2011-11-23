@@ -153,24 +153,27 @@ public class MapScreen extends GameScreen {
 		objects2d.add(tileTab);
 
 		// ######## ADD Global icons ##########
-		randomPile = new RandomCardZone2D();
-		objects2d.add(randomPile);
+		if (inEdition) {
+			randomPile = new RandomCardZone2D();
+			objects2d.add(randomPile);
 
-		saveButton = new Image2D("board/save.png");
-		saveButton.x = 1280 - 45;
-		saveButton.y = 800 / 2;
-		objects2d.add(saveButton);
+			saveButton = new Image2D("board/save.png");
+			saveButton.x = 1280 - 45;
+			saveButton.y = 800 / 2;
+			objects2d.add(saveButton);
+		}
 		// start collapsed
 		tileTab.setX(-ComponentTab.WIDTH / 2);
 
 		// ### FILL Random Pile from database
 		List<RandomCardPileCard> rndCards = RandomCardPileCardDao.getInstance(context).getRandomCardPileCards(scenario.getId());
-		for (RandomCardPileCard rndCard : rndCards) {
-			int index = availableCards.indexOf(rndCard.getCard());
-			randomPile.addCard(availableCards.get(index));
-		}
-		if (!inEdition && !resumeSession) {
-			Collections.shuffle(randomPile.getCards());
+		if (inEdition) {
+			for (RandomCardPileCard rndCard : rndCards) {
+				int index = availableCards.indexOf(rndCard.getCard());
+				randomPile.addCard(availableCards.get(index));
+			}
+		} else if (!resumeSession) {
+			Collections.shuffle(rndCards);
 		}
 		// ### FILL Board tile from database
 		List<TileInstance> tileInstances = TileInstanceDao.getInstance(context).getTileInstances(scenario.getId());
@@ -206,13 +209,15 @@ public class MapScreen extends GameScreen {
 				for (CardPileCard pileCard : pileCards) {
 					if (inEdition || !pileCard.isDiscarded()) {
 						int index = availableCards.indexOf(pileCard.getCard());
-						pile.addCard(availableCards.get(index));
+						pileCard.setCard(availableCards.get(index));
+						pile.addCard(pileCard);
 					}
 				}
 			} else if (!inEdition && !resumeSession) {
 				// Random affectation
-				if (randomPile.getCards().size() > 0) {
-					Card c = randomPile.getCards().get(0);
+				if (rndCards.size() > 0) {
+					int index = availableCards.indexOf(rndCards.get(0).getCard());
+					Card c = availableCards.get(index);
 					CardPileCard cTemp = new CardPileCard();
 					cTemp.setCard(c);
 					cTemp.setCardPileInstance(cardPileInstance);
@@ -220,8 +225,8 @@ public class MapScreen extends GameScreen {
 					cTemp.setTemporary(true);
 					CardPileCardDao.getInstance(context).persist(cTemp);
 
-					pile.addCard(c);
-					randomPile.getCards().remove(0);
+					pile.addCard(cTemp);
+					rndCards.remove(0);
 				}
 			}
 		}
@@ -306,6 +311,9 @@ public class MapScreen extends GameScreen {
 	 */
 	@Override
 	public boolean backRequested() {
+		if (!inEdition) {
+			return true;
+		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(context.getString(R.string.exit_message_title));
 		builder.setMessage(context.getString(R.string.exit_message));
