@@ -26,6 +26,7 @@ import org.amphiprion.gameengine3d.GameScreen;
 import org.amphiprion.gameengine3d.ScreenProperty;
 import org.amphiprion.gameengine3d.animation.Translation2DAnimation;
 import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.comparator.CardComparator;
 import org.amphiprion.mansionofmadness.comparator.SoundComparator;
 import org.amphiprion.mansionofmadness.comparator.TileComparator;
@@ -49,7 +50,10 @@ import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.TouchableGroup2D.PointerState;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.animation.BounceInterpolator;
 
@@ -269,4 +273,37 @@ public class MapScreen extends GameScreen {
 		addAnimation(tileMenuTabAnimation);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.amphiprion.gameengine3d.GameScreen#backRequested()
+	 */
+	@Override
+	public boolean backRequested() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(context.getString(R.string.exit_message_title));
+		builder.setMessage(context.getString(R.string.exit_message));
+		builder.setCancelable(true).setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				boardMenu.saveScenario();
+				((Activity) context).finish();
+			}
+		});
+		builder.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				((Activity) context).finish();
+			}
+		});
+		builder.setNeutralButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+
+		return false;
+	}
 }
