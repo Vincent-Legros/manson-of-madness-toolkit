@@ -25,6 +25,7 @@ import java.util.List;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Sound;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -174,6 +175,14 @@ public class SoundDao extends AbstractDao {
 
 	}
 
+	private void delete(Sound entity) {
+		String sql = "delete FROM SOUND where " + Sound.DbField.ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+
+		execSQL(sql, params);
+	}
+
 	/**
 	 * Persist the entity. Depending its state, this method will perform an
 	 * insert or an update.
@@ -186,7 +195,25 @@ public class SoundDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 
+	/**
+	 * Return true if this sound is used in at least one scenario
+	 * 
+	 * @param sound
+	 * @return
+	 */
+	public boolean isUsed(Sound sound) {
+		boolean result = false;
+		String sql = "Select 1 FROM SOUND_INSTANCE WHERE " + SoundInstance.DbField.SOUND_ID + "=? limit 1 offset 0";
+		Cursor cursor = getDatabase().rawQuery(sql, new String[] { sound.getId() });
+		if (cursor.moveToFirst()) {
+			result = true;
+		}
+		cursor.close();
+		return result;
+	}
 }

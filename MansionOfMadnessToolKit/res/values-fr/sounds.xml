@@ -3,6 +3,7 @@
     <string name="sound_title">Sons</string>
 <string name="create_sound">Nouveau Son</string>
 <string name="edit_sound">Modifier</string>
+<string name="delete_sound">Supprimer</string>
         <string name="empty_sound_list">\nUtiliser le menu pour ajouter un nouveau Son.\n\nPour exécuter une action sur un Son, faites un click long dessus.</string>
     
     <string name="sound_door_lock">Serrure</string>

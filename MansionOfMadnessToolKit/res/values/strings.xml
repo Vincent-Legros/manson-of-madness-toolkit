@@ -16,4 +16,6 @@
 <string name="exit_message">Do you want to save before exiting ?</string>
 <string name="yes">Yes</string>
 <string name="no">No</string>
+<string name="used_item_title">Used Item</string>
+<string name="used_item_message">This item is used in at least one scenario. \n\nAre you sure you want to delete this item ?</string>
 </resources>
