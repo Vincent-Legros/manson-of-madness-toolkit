@@ -64,6 +64,8 @@ import android.view.animation.BounceInterpolator;
 public class MapScreen extends GameScreen {
 	private Context context;
 	protected Scenario scenario;
+	protected boolean inEdition;
+	private boolean resumeSession;
 
 	public enum ComponentKey {
 		MOVE_ICON, DELETE_ICON, ROTATE_CLOCK_ICON, ROTATE_COUNTER_CLOCK_ICON, PLAY_ICON, ADD_CARD_PILE_ICON, EDIT_CARD_PILE_ICON
@@ -89,10 +91,12 @@ public class MapScreen extends GameScreen {
 	// private int tileIndex = -1;
 	// private Tile2D selectedTile;
 
-	public MapScreen(Context context, Scenario scenario) {
+	public MapScreen(Context context, Scenario scenario, boolean inEdition, boolean resumeSession) {
 
 		this.context = context;
 		this.scenario = scenario;
+		this.inEdition = inEdition;
+		this.resumeSession = resumeSession;
 
 		DeviceUtil.stopMusic();
 
@@ -120,13 +124,14 @@ public class MapScreen extends GameScreen {
 
 		tileTab = new ComponentTab(this);
 		// ######### build the tile Menu ##########
-		imgTab = new Image2D("tiles/tab.png", false, true);
-		imgTab.x = ComponentTab.WIDTH + 76 / 2;
-		imgTab.y = 800 / 2;
-		tileMenu = new TileMenu(this, "tiles/tab_background.png", availableTiles);
+		if (inEdition) {
+			imgTab = new Image2D("tiles/tab.png", false, true);
+			imgTab.x = ComponentTab.WIDTH + 76 / 2;
+			imgTab.y = 800 / 2;
+			tileMenu = new TileMenu(this, "tiles/tab_background.png", availableTiles);
 
-		tileTab.addContentTab(tileMenu, imgTab);
-
+			tileTab.addContentTab(tileMenu, imgTab);
+		}
 		// ######### build the sound Menu ##########
 		Image2D imgSoundTab = new Image2D("sounds/tab.png", false, true);
 		imgSoundTab.x = ComponentTab.WIDTH + 76 / 2;
@@ -136,13 +141,14 @@ public class MapScreen extends GameScreen {
 		tileTab.addContentTab(soundMenu, imgSoundTab);
 
 		// ######### build the card Menu ##########
-		Image2D imgCardTab = new Image2D("cards/tab.png", false, true);
-		imgCardTab.x = ComponentTab.WIDTH + 76 / 2;
-		imgCardTab.y = 800 / 2;
-		CardMenu cardMenu = new CardMenu(this, "cards/tab_background.png", availableCards);
+		if (inEdition) {
+			Image2D imgCardTab = new Image2D("cards/tab.png", false, true);
+			imgCardTab.x = ComponentTab.WIDTH + 76 / 2;
+			imgCardTab.y = 800 / 2;
+			CardMenu cardMenu = new CardMenu(this, "cards/tab_background.png", availableCards);
 
-		tileTab.addContentTab(cardMenu, imgCardTab);
-
+			tileTab.addContentTab(cardMenu, imgCardTab);
+		}
 		// add the tile menu to the rendering object tree
 		objects2d.add(tileTab);
 
@@ -163,7 +169,9 @@ public class MapScreen extends GameScreen {
 			int index = availableCards.indexOf(rndCard.getCard());
 			randomPile.addCard(availableCards.get(index));
 		}
-
+		if (!inEdition && !resumeSession) {
+			Collections.shuffle(randomPile.getCards());
+		}
 		// ### FILL Board tile from database
 		List<TileInstance> tileInstances = TileInstanceDao.getInstance(context).getTileInstances(scenario.getId());
 		for (TileInstance tileInstance : tileInstances) {
@@ -194,9 +202,27 @@ public class MapScreen extends GameScreen {
 			boardMenu.cardPileGroup.addObject(pile);
 
 			List<CardPileCard> pileCards = CardPileCardDao.getInstance(context).getCardPileCards(cardPileInstance.getId());
-			for (CardPileCard pileCard : pileCards) {
-				int index = availableCards.indexOf(pileCard.getCard());
-				pile.addCard(availableCards.get(index));
+			if (pileCards.size() > 0) {
+				for (CardPileCard pileCard : pileCards) {
+					if (inEdition || !pileCard.isDiscarded()) {
+						int index = availableCards.indexOf(pileCard.getCard());
+						pile.addCard(availableCards.get(index));
+					}
+				}
+			} else if (!inEdition && !resumeSession) {
+				// Random affectation
+				if (randomPile.getCards().size() > 0) {
+					Card c = randomPile.getCards().get(0);
+					CardPileCard cTemp = new CardPileCard();
+					cTemp.setCard(c);
+					cTemp.setCardPileInstance(cardPileInstance);
+					cTemp.setOrder(0);
+					cTemp.setTemporary(true);
+					CardPileCardDao.getInstance(context).persist(cTemp);
+
+					pile.addCard(c);
+					randomPile.getCards().remove(0);
+				}
 			}
 		}
 	}

@@ -31,6 +31,8 @@ public interface ApplicationConstants {
 	static final int MENU_ID_EDIT_CARD = 8;
 	static final int MENU_ID_CREATE_TILE = 9;
 	static final int MENU_ID_EDIT_TILE = 10;
+	static final int MENU_ID_RESUME_SCENARIO = 11;
+	static final int MENU_ID_START_SCENARIO = 12;
 
 	static final int ACTIVITY_RETURN_CHOOSE_SOUND_FILE = 1;
 	static final int ACTIVITY_RETURN_CHOOSE_TILE_FILE = 2;

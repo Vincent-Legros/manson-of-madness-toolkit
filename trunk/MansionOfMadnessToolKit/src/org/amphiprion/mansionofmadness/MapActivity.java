@@ -35,7 +35,9 @@ public class MapActivity extends GameActivity {
 
 		Intent i = getIntent();
 		Scenario scenario = (Scenario) i.getSerializableExtra("SCENARIO");
-		view.addScreen(new MapScreen(this, scenario));
+		boolean inEdition = i.getBooleanExtra("IN_EDITION", true);
+		boolean resumeSession = i.getBooleanExtra("RESUME_SESSION", false);
+		view.addScreen(new MapScreen(this, scenario, inEdition, resumeSession));
 	}
 
 	/*

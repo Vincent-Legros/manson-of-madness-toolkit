@@ -333,7 +333,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("insert into CARD_PILE_INSTANCE (ID,SCENARIO_ID,POS_X,POS_Y) values ('eb7ac9a0-452c-42b3-9b8c-753dab2cba94','5',1046,501) ");
 
 			db.execSQL("create table CARD_PILE_CARD (" + CardPileCard.DbField.ID + " text primary key, " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " text not null, "
-					+ CardPileCard.DbField.CARD_ID + " text not null, " + CardPileCard.DbField.POS_ORDER + " number not null) ");
+					+ CardPileCard.DbField.CARD_ID + " text not null, " + CardPileCard.DbField.POS_ORDER + " number not null, " + CardPileCard.DbField.IS_DISCARDED
+					+ " number(1) not null, " + CardPileCard.DbField.IS_TEMP + " number(1) not null) ");
 
 			db.execSQL("create table RANDOM_CARD_PILE_CARD (" + RandomCardPileCard.DbField.ID + " text primary key, " + RandomCardPileCard.DbField.SCENARIO_ID + " text not null, "
 					+ RandomCardPileCard.DbField.CARD_ID + " text not null, " + RandomCardPileCard.DbField.POS_ORDER + " number not null) ");

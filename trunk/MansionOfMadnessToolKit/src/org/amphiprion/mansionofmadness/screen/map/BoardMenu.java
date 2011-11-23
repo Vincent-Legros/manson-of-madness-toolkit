@@ -158,7 +158,7 @@ public class BoardMenu extends TouchableGroup2D {
 			lastPointerDeltaY = 0;
 
 			lastPointerDownTime = System.currentTimeMillis();
-			if (selectedTile != null) {
+			if (mapScreen.inEdition && selectedTile != null) {
 				Image2D img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.MOVE_ICON);
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
@@ -201,7 +201,7 @@ public class BoardMenu extends TouchableGroup2D {
 					defineTileIcons();
 					return PointerState.NONE;
 				}
-			} else if (selectedSound != null) {
+			} else if (mapScreen.inEdition && selectedSound != null) {
 				Image2D img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.MOVE_ICON);
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
@@ -222,7 +222,7 @@ public class BoardMenu extends TouchableGroup2D {
 					DeviceUtil.playSound(selectedSound.getSound());
 					return PointerState.NONE;
 				}
-			} else if (selectedCardPile != null) {
+			} else if (mapScreen.inEdition && selectedCardPile != null) {
 				Image2D img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.MOVE_ICON);
 				if (img.contains(nx, ny)) {
 					clearTileIcons();
@@ -399,16 +399,18 @@ public class BoardMenu extends TouchableGroup2D {
 					if (mapScreen.randomPile.contains(nx, ny)) {
 						// TODO Remove the dump
 						// dump();
-						if (mapScreen.randomPile.getCards().size() > 0) {
-							editCardInPile(mapScreen.randomPile);
-						}
-					} else if (mapScreen.saveButton.contains(nx, ny)) {
+						editCardInPile(mapScreen.randomPile);
+					} else if (mapScreen.inEdition && mapScreen.saveButton.contains(nx, ny)) {
 						saveScenario();
 					} else {
 						for (IObject2D o : soundGroup.getObjects()) {
 							if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
 								selectedSound = (Sound2D) o;
-								defineSoundIcons();
+								if (mapScreen.inEdition) {
+									defineSoundIcons();
+								} else {
+									DeviceUtil.playSound(selectedSound.getSound());
+								}
 								break;
 							}
 						}
@@ -416,12 +418,17 @@ public class BoardMenu extends TouchableGroup2D {
 							for (IObject2D o : cardPileGroup.getObjects()) {
 								if (o instanceof CardPile2D && ((CardPile2D) o).contains(nx, ny)) {
 									selectedCardPile = (CardPile2D) o;
-									defineCardPileIcons();
+									if (mapScreen.inEdition) {
+										defineCardPileIcons();
+									} else {
+										editCardInPile(selectedCardPile);
+									}
 									break;
+
 								}
 							}
 						}
-						if (selectedSound == null && selectedCardPile == null) {
+						if (mapScreen.inEdition && selectedSound == null && selectedCardPile == null) {
 							for (IObject2D o : tileGroup.getObjects()) {
 								if (o instanceof Tile2D && ((Tile2D) o).contains(nx, ny)) {
 									selectedTile = (Tile2D) o;
@@ -550,6 +557,9 @@ public class BoardMenu extends TouchableGroup2D {
 
 	private void editCardInPile(ICardPile cardPile) {
 		List<Card> cards = cardPile.getCards();
+		if (cards == null || cards.size() == 0) {
+			return;
+		}
 		CharSequence[] _options = new CharSequence[cards.size()];
 		int index = 0;
 		for (int i = _options.length - 1; i >= 0; i--) {

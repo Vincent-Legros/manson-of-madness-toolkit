@@ -124,12 +124,17 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 
 		if (v instanceof ScenarioSummaryView) {
 			currentScenario = ((ScenarioSummaryView) v).getScenario();
-			menu.add(0, ApplicationConstants.MENU_ID_EDIT_SCENARIO, 0, R.string.edit_scenario);
+			if (ScenarioDao.getInstance(this).isGameInProgress(currentScenario)) {
+				menu.add(0, ApplicationConstants.MENU_ID_RESUME_SCENARIO, 0, R.string.resume_scenario);
+			}
+			menu.add(0, ApplicationConstants.MENU_ID_START_SCENARIO, 0, R.string.start_scenario);
+
+			menu.add(1, ApplicationConstants.MENU_ID_EDIT_SCENARIO, 0, R.string.edit_scenario);
 			if (!currentScenario.isEmbedded()) {
-				menu.add(0, ApplicationConstants.MENU_ID_RENAME_SCENARIO, 1, R.string.rename_scenario);
+				menu.add(1, ApplicationConstants.MENU_ID_RENAME_SCENARIO, 1, R.string.rename_scenario);
 			}
 
-			menu.add(1, ApplicationConstants.MENU_ID_COPY_SCENARIO, 0, R.string.scenario_copy);
+			menu.add(2, ApplicationConstants.MENU_ID_COPY_SCENARIO, 0, R.string.scenario_copy);
 		}
 
 	}
@@ -139,9 +144,12 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 		if (item.getItemId() == ApplicationConstants.MENU_ID_EDIT_SCENARIO) {
 			Intent i = new Intent(this, MapActivity.class);
 			i.putExtra("SCENARIO", currentScenario);
-			// startActivityForResult(i,
-			// ApplicationConstants.ACTIVITY_RETURN_MANAGE_SET);
+			i.putExtra("IN_EDITION", true);
 			startActivity(i);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_START_SCENARIO) {
+			startScenario(currentScenario);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_RESUME_SCENARIO) {
+			resumeScenario(currentScenario);
 		} else if (item.getItemId() == ApplicationConstants.MENU_ID_RENAME_SCENARIO) {
 			updateScenarioName(currentScenario);
 		} else if (item.getItemId() == ApplicationConstants.MENU_ID_COPY_SCENARIO) {
@@ -328,5 +336,23 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 						//
 					}
 				}).show();
+	}
+
+	private void startScenario(Scenario scenario) {
+		ScenarioDao.getInstance(this).initScenario(scenario);
+
+		Intent i = new Intent(this, MapActivity.class);
+		i.putExtra("SCENARIO", currentScenario);
+		i.putExtra("IN_EDITION", false);
+		i.putExtra("RESUME_SESSION", false);
+		startActivity(i);
+	}
+
+	private void resumeScenario(Scenario scenario) {
+		Intent i = new Intent(this, MapActivity.class);
+		i.putExtra("SCENARIO", currentScenario);
+		i.putExtra("IN_EDITION", false);
+		i.putExtra("RESUME_SESSION", true);
+		startActivity(i);
 	}
 }

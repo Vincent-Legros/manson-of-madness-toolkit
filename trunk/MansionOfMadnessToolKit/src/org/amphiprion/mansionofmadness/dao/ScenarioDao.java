@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.amphiprion.mansionofmadness.ApplicationConstants;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
+import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 
@@ -170,5 +172,42 @@ public class ScenarioDao extends AbstractDao {
 					.toString());
 		}
 
+	}
+
+	/**
+	 * @param currentScenario
+	 * @return
+	 */
+	public boolean isGameInProgress(Scenario scenario) {
+		boolean inProgress = false;
+
+		String sql = "SELECT 1 FROM CARD_PILE_CARD c WHERE c." + CardPileCard.DbField.IS_DISCARDED + "=1 AND c." + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " in (";
+		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		sql += ")";
+		sql += " limit 1 offset 0";
+		Cursor cursor = getDatabase().rawQuery(sql, new String[] { scenario.getId() });
+		if (cursor.moveToFirst()) {
+			inProgress = true;
+		}
+		cursor.close();
+		return inProgress;
+	}
+
+	/**
+	 * Call this method before starting a new game session.
+	 * 
+	 * @param scenario
+	 */
+	public void initScenario(Scenario scenario) {
+		String sql = "DELETE from CARD_PILE_CARD WHERE " + CardPileCard.DbField.IS_TEMP + "=1 AND " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " in (";
+		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		sql += ")";
+		execSQL(sql);
+
+		sql = "UPDATE CARD_PILE_CARD set " + CardPileCard.DbField.IS_DISCARDED + "=0 WHERE " + CardPileCard.DbField.IS_DISCARDED + "=1 AND "
+				+ CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " in (";
+		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		sql += ")";
+		execSQL(sql);
 	}
 }
