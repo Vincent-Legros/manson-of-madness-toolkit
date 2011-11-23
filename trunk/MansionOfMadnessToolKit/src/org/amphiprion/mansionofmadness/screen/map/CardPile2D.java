@@ -25,7 +25,9 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.amphiprion.gameengine3d.mesh.Image2D;
+import org.amphiprion.mansionofmadness.dao.CardPileCardDao;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
 import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 
 /**
@@ -33,7 +35,7 @@ import org.amphiprion.mansionofmadness.dto.CardPileInstance;
  * 
  */
 public class CardPile2D extends Image2D implements ICardPile {
-	private List<Card> cards = new ArrayList<Card>();
+	private List<CardPileCard> cardPilesCards = new ArrayList<CardPileCard>();
 	private Text2D imgPileSize;
 	private CardPileInstance cardPileInstance;
 
@@ -56,7 +58,15 @@ public class CardPile2D extends Image2D implements ICardPile {
 	 */
 	@Override
 	public List<Card> getCards() {
+		List<Card> cards = new ArrayList<Card>();
+		for (CardPileCard cpc : cardPilesCards) {
+			cards.add(cpc.getCard());
+		}
 		return cards;
+	}
+
+	public int count() {
+		return cardPilesCards.size();
 	}
 
 	/*
@@ -75,24 +85,24 @@ public class CardPile2D extends Image2D implements ICardPile {
 		imgPileSize.draw(gl, screenScale, screenWidth, screenHeight);
 	}
 
-	public void addCard(Card card) {
-		cards.add(card);
+	public void addCard(CardPileCard card) {
+		cardPilesCards.add(card);
 		computeImage();
 	}
 
-	public void removeCard(Card card) {
-		cards.remove(card);
+	public void removeCard(CardPileCard card) {
+		cardPilesCards.remove(card);
 		computeImage();
 	}
 
 	private void computeImage() {
-		if (cards.size() == 0) {
+		if (cardPilesCards.size() == 0) {
 			changeUri("cards/card_pile.png");
 		} else {
-			Card card = cards.get(cards.size() - 1);
+			Card card = cardPilesCards.get(cardPilesCards.size() - 1).getCard();
 			changeUri("cards/back_" + card.getType() + ".png");
 		}
-		imgPileSize.setText("" + cards.size());
+		imgPileSize.setText("" + cardPilesCards.size());
 	}
 
 	/**
@@ -100,11 +110,17 @@ public class CardPile2D extends Image2D implements ICardPile {
 	 *            the selection start with top card and end with bottom card
 	 */
 	@Override
-	public void removeSelection(boolean[] _selection) {
-		int index = cards.size() - 1;
+	public void removeSelection(MapScreen mapScreen, boolean[] _selection) {
+		int index = cardPilesCards.size() - 1;
 		for (int i = 0; i < _selection.length; i++) {
 			if (_selection[i]) {
-				cards.remove(index);
+				if (!mapScreen.inEdition) {
+					CardPileCard cpc = cardPilesCards.get(index);
+					cpc.setDiscarded(true);
+					CardPileCardDao.getInstance(mapScreen.getContext()).persist(cpc);
+				}
+				cardPilesCards.remove(index);
+
 			}
 			index--;
 		}

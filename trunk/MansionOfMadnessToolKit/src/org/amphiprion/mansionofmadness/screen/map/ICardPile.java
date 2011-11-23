@@ -35,7 +35,7 @@ public interface ICardPile {
 	 * @param selection
 	 *            the selection
 	 */
-	void removeSelection(boolean[] selection);
+	void removeSelection(MapScreen mapScreen, boolean[] selection);
 
 	List<Card> getCards();
 }

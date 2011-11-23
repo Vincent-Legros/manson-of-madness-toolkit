@@ -200,13 +200,13 @@ public class ScenarioDao extends AbstractDao {
 	 */
 	public void initScenario(Scenario scenario) {
 		String sql = "DELETE from CARD_PILE_CARD WHERE " + CardPileCard.DbField.IS_TEMP + "=1 AND " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " in (";
-		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "='" + scenario.getId() + "'";
 		sql += ")";
 		execSQL(sql);
 
 		sql = "UPDATE CARD_PILE_CARD set " + CardPileCard.DbField.IS_DISCARDED + "=0 WHERE " + CardPileCard.DbField.IS_DISCARDED + "=1 AND "
 				+ CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " in (";
-		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "='" + scenario.getId() + "'";
 		sql += ")";
 		execSQL(sql);
 	}

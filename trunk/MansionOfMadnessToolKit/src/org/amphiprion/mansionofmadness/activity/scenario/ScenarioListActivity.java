@@ -142,6 +142,7 @@ public class ScenarioListActivity extends PaginedListActivity<Scenario> implemen
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == ApplicationConstants.MENU_ID_EDIT_SCENARIO) {
+			ScenarioDao.getInstance(this).initScenario(currentScenario);
 			Intent i = new Intent(this, MapActivity.class);
 			i.putExtra("SCENARIO", currentScenario);
 			i.putExtra("IN_EDITION", true);

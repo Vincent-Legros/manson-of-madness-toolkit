@@ -238,7 +238,7 @@ public class BoardMenu extends TouchableGroup2D {
 					selectedCardPile = null;
 					return PointerState.NONE;
 				}
-				if (selectedCardPile.getCards().size() > 0) {
+				if (selectedCardPile.count() > 0) {
 					img = (Image2D) mapScreen.getHMIComponent(MapScreen.ComponentKey.EDIT_CARD_PILE_ICON);
 					if (img.contains(nx, ny)) {
 						clearTileIcons();
@@ -323,7 +323,10 @@ public class BoardMenu extends TouchableGroup2D {
 						if (o instanceof CardPile2D) {
 							((CardPile2D) o).setScale(1);
 							if (!alreadyAdded && ((CardPile2D) o).contains(nx, ny)) {
-								((CardPile2D) o).addCard(selectedCardDrag.getCard());
+								CardPileCard cpc = new CardPileCard();
+								cpc.setCard(selectedCardDrag.getCard());
+								cpc.setCardPileInstance(((CardPile2D) o).getCardPileInstance());
+								((CardPile2D) o).addCard(cpc);
 								alreadyAdded = true;
 							}
 						}
@@ -396,7 +399,7 @@ public class BoardMenu extends TouchableGroup2D {
 					selectedSound = null;
 					selectedCardPile = null;
 					selectedTile = null;
-					if (mapScreen.randomPile.contains(nx, ny)) {
+					if (mapScreen.inEdition && mapScreen.randomPile.contains(nx, ny)) {
 						// TODO Remove the dump
 						// dump();
 						editCardInPile(mapScreen.randomPile);
@@ -487,7 +490,7 @@ public class BoardMenu extends TouchableGroup2D {
 			mapScreen.registerHMIComponent(ComponentKey.DELETE_ICON, img);
 			addObject(img);
 
-			if (selectedCardPile.getCards().size() > 0) {
+			if (selectedCardPile.count() > 0) {
 				img = new Image2D("tiles/icons/edit_card_pile.png");
 				img.x = selectedCardPile.x + 64 / 2 + 24;
 				img.y = selectedCardPile.y - 64 / 2 - 24;
@@ -618,7 +621,7 @@ public class BoardMenu extends TouchableGroup2D {
 		@Override
 		public void onClick(DialogInterface arg0, int arg1) {
 			if (okButton) {
-				cardPile.removeSelection(_selection);
+				cardPile.removeSelection(mapScreen, _selection);
 			}
 		}
 
