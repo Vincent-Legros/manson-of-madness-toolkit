@@ -30,8 +30,11 @@ import org.amphiprion.mansionofmadness.activity.PaginedListActivity;
 import org.amphiprion.mansionofmadness.activity.PaginedListContext;
 import org.amphiprion.mansionofmadness.dao.CardDao;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -117,6 +120,7 @@ public class CardListActivity extends PaginedListActivity<Card> implements IMenu
 			currentCard = ((CardSummaryView) v).getCard();
 			if (!currentCard.isEmbedded()) {
 				menu.add(0, ApplicationConstants.MENU_ID_EDIT_CARD, 0, R.string.edit_card);
+				menu.add(0, ApplicationConstants.MENU_ID_DELETE_CARD, 1, R.string.delete_card);
 			}
 		}
 
@@ -126,8 +130,40 @@ public class CardListActivity extends PaginedListActivity<Card> implements IMenu
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == ApplicationConstants.MENU_ID_EDIT_CARD) {
 			updateCard(currentCard);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_DELETE_CARD) {
+			checkDeleteCard(currentCard);
 		}
 		return true;
+	}
+
+	private void checkDeleteCard(final Card card) {
+		if (CardDao.getInstance(this).isUsed(card)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(this.getString(R.string.used_item_title));
+			builder.setMessage(this.getString(R.string.used_item_message));
+			builder.setCancelable(true).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					deleteCard(card);
+				}
+			});
+			builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
+		} else {
+			deleteCard(card);
+		}
+	}
+
+	private void deleteCard(Card card) {
+		card.setState(DbState.DELETE);
+		CardDao.getInstance(this).persist(card);
+		showDataList();
 	}
 
 	/*

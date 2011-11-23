@@ -6,8 +6,8 @@
 <string name="name">Nom:</string>            
 <string name="filename">Fichier sur la carte SD:</string>
             
-    <string name="hello">Hello World, MansionOfMadnessToolKitActivity!</string>
-    <string name="app_name">Toolkit: Demeure de l\'épouvante</string>
+<string name="app_name">Demeure de l\'épouvante - Toolkit</string>
+
 <string name="discard_selected">Défausser la sélection</string>
 <string name="cancel">Annuler</string>
 <string name="card_pile_title">Pile de carte</string>
