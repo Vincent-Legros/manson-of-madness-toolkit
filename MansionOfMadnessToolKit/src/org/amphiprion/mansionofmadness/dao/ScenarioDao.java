@@ -26,7 +26,10 @@ import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.CardPileCard;
 import org.amphiprion.mansionofmadness.dto.CardPileInstance;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
+import org.amphiprion.mansionofmadness.dto.RandomCardPileCard;
 import org.amphiprion.mansionofmadness.dto.Scenario;
+import org.amphiprion.mansionofmadness.dto.SoundInstance;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -163,6 +166,8 @@ public class ScenarioDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 
@@ -210,4 +215,40 @@ public class ScenarioDao extends AbstractDao {
 		sql += ")";
 		execSQL(sql);
 	}
+
+	public void delete(Scenario scenario) {
+		String sql = "DELETE from CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + " in (";
+		sql += "SELECT i." + CardPileInstance.DbField.ID + " from CARD_PILE_INSTANCE i WHERE i." + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		sql += ")";
+		Object[] params = new Object[1];
+		params[0] = scenario.getId();
+		execSQL(sql, params);
+
+		sql = "DELETE from RANDOM_CARD_PILE_CARD WHERE " + RandomCardPileCard.DbField.SCENARIO_ID + "=?";
+		params = new Object[1];
+		params[0] = scenario.getId();
+		execSQL(sql, params);
+
+		sql = "DELETE from SOUND_INSTANCE WHERE " + SoundInstance.DbField.SCENARIO_ID + "=?";
+		params = new Object[1];
+		params[0] = scenario.getId();
+		execSQL(sql, params);
+
+		sql = "DELETE from CARD_PILE_INSTANCE WHERE " + CardPileInstance.DbField.SCENARIO_ID + "=?";
+		params = new Object[1];
+		params[0] = scenario.getId();
+		execSQL(sql, params);
+
+		sql = "DELETE from TILE_INSTANCE WHERE " + TileInstance.DbField.SCENARIO_ID + "=?";
+		params = new Object[1];
+		params[0] = scenario.getId();
+		execSQL(sql, params);
+
+		sql = "DELETE from SCENARIO WHERE " + Scenario.DbField.ID + "=?";
+		params = new Object[1];
+		params[0] = scenario.getId();
+		execSQL(sql, params);
+
+	}
+
 }
