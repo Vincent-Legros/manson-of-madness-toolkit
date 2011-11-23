@@ -202,6 +202,9 @@ public class MapScreen extends GameScreen {
 
 		// ### FILL Board pile from database
 		List<CardPileInstance> cardPileInstances = CardPileInstanceDao.getInstance(context).getCardPileInstances(scenario.getId());
+		if (!inEdition && !resumeSession) {
+			Collections.shuffle(cardPileInstances);
+		}
 		for (CardPileInstance cardPileInstance : cardPileInstances) {
 			CardPile2D pile = new CardPile2D(cardPileInstance);
 			pile.x = cardPileInstance.getPosX();
