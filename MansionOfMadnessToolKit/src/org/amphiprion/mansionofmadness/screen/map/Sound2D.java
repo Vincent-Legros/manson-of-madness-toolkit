@@ -19,6 +19,8 @@
  */
 package org.amphiprion.mansionofmadness.screen.map;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.amphiprion.gameengine3d.mesh.Image2D;
 import org.amphiprion.mansionofmadness.dto.Sound;
 import org.amphiprion.mansionofmadness.dto.SoundInstance;
@@ -30,11 +32,15 @@ import org.amphiprion.mansionofmadness.dto.SoundInstance;
 public class Sound2D extends Image2D {
 	private Sound sound;
 	private SoundInstance soundInstance;
+	private Text2D imgName;
+	private MapScreen mapScreen;
 
-	public Sound2D(SoundInstance soundInstance, Sound sound) {
+	public Sound2D(MapScreen mapScreen, SoundInstance soundInstance, Sound sound) {
 		super("sounds/sound.png");
 		this.sound = sound;
 		this.soundInstance = soundInstance;
+		imgName = new Text2D(sound.getDisplayName(), 18);
+		this.mapScreen = mapScreen;
 	}
 
 	/**
@@ -49,5 +55,23 @@ public class Sound2D extends Image2D {
 	 */
 	public SoundInstance getSoundInstance() {
 		return soundInstance;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.amphiprion.gameengine3d.mesh.Image2D#draw(javax.microedition.khronos
+	 * .opengles.GL10, float, int, int)
+	 */
+	@Override
+	public void draw(GL10 gl, float screenScale, int screenWidth, int screenHeight) {
+		super.draw(gl, screenScale, screenWidth, screenHeight);
+		if (mapScreen.showLabels) {
+			imgName.x = x;
+			imgName.y = y + 40;
+			imgName.setGlobalScale(getGlobalScale());
+			imgName.draw(gl, screenScale, screenWidth, screenHeight);
+		}
 	}
 }

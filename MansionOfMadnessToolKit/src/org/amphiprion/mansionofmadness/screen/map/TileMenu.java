@@ -133,7 +133,7 @@ public class TileMenu extends TouchableGroup2D {
 			lastPointerY = ny;
 			if (nx >= ComponentTab.WIDTH && tileIndex > -1) {
 				mapScreen.collapseTileMenu();
-				Tile2D tile = new Tile2D(new TileInstance(), availableTiles.get(tileIndex));
+				Tile2D tile = new Tile2D(mapScreen, new TileInstance(), availableTiles.get(tileIndex));
 				tile.x = (int) (nx / mapScreen.boardMenu.getGlobalScale());
 				tile.y = (int) (ny / mapScreen.boardMenu.getGlobalScale());
 				mapScreen.boardMenu.addAndSelectTile(tile, nx, ny);

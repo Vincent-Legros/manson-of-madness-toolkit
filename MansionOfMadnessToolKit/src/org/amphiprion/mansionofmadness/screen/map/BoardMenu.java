@@ -403,6 +403,8 @@ public class BoardMenu extends TouchableGroup2D {
 						// TODO Remove the dump
 						// dump();
 						editCardInPile(mapScreen.randomPile);
+					} else if (mapScreen.labelButton.contains(nx, ny)) {
+						mapScreen.showLabels = !mapScreen.showLabels;
 					} else if (mapScreen.inEdition && mapScreen.saveButton.contains(nx, ny)) {
 						saveScenario();
 					} else {
