@@ -647,7 +647,7 @@ public class BoardMenu extends TouchableGroup2D {
 		}
 	}
 
-	private void saveScenario() {
+	protected void saveScenario() {
 		// TODO move it into a AsyncTask
 		try {
 			TileInstanceDao.getInstance(mapScreen.getContext()).getDatabase().beginTransaction();
