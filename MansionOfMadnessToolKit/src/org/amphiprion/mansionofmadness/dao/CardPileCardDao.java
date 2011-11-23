@@ -72,7 +72,8 @@ public class CardPileCardDao extends AbstractDao {
 	public List<CardPileCard> getCardPileCards(String cardPlieInstanceId) {
 
 		String sql = "SELECT " + CardPileCard.DbField.ID + "," + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "," + CardPileCard.DbField.CARD_ID + ","
-				+ CardPileCard.DbField.POS_ORDER + " from CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=? order by " + CardPileCard.DbField.POS_ORDER;
+				+ CardPileCard.DbField.POS_ORDER + "," + CardPileCard.DbField.IS_DISCARDED + "," + CardPileCard.DbField.IS_TEMP + " from CARD_PILE_CARD WHERE "
+				+ CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=? order by " + CardPileCard.DbField.POS_ORDER;
 
 		Cursor cursor = getDatabase().rawQuery(sql, new String[] { cardPlieInstanceId });
 		ArrayList<CardPileCard> result = new ArrayList<CardPileCard>();
@@ -82,6 +83,8 @@ public class CardPileCardDao extends AbstractDao {
 				entity.setCardPileInstance(new CardPileInstance(cursor.getString(1)));
 				entity.setCard(new Card(cursor.getString(2)));
 				entity.setOrder(cursor.getInt(3));
+				entity.setDiscarded(cursor.getInt(4) != 0);
+				entity.setTemporary(cursor.getInt(5) != 0);
 				result.add(entity);
 			} while (cursor.moveToNext());
 		}
@@ -100,12 +103,14 @@ public class CardPileCardDao extends AbstractDao {
 		getDatabase().beginTransaction();
 		try {
 			String sql = "insert into CARD_PILE_CARD (" + CardPileCard.DbField.ID + "," + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "," + CardPileCard.DbField.CARD_ID + ","
-					+ CardPileCard.DbField.POS_ORDER + ") values (?,?,?,?)";
-			Object[] params = new Object[4];
+					+ CardPileCard.DbField.POS_ORDER + "," + CardPileCard.DbField.IS_DISCARDED + "," + CardPileCard.DbField.IS_TEMP + ") values (?,?,?,?,?,?)";
+			Object[] params = new Object[6];
 			params[0] = entity.getId();
 			params[1] = entity.getCardPileInstance().getId();
 			params[2] = entity.getCard().getId();
 			params[3] = entity.getOrder();
+			params[4] = entity.isDiscarded() ? "1" : "0";
+			params[5] = entity.isTemporary() ? "1" : "0";
 
 			execSQL(sql, params);
 
@@ -119,12 +124,14 @@ public class CardPileCardDao extends AbstractDao {
 
 	private void update(CardPileCard entity) {
 		String sql = "update CARD_PILE_CARD set " + CardPileCard.DbField.CARD_PILE_INSTANCE_ID + "=?," + CardPileCard.DbField.CARD_ID + "=?," + CardPileCard.DbField.POS_ORDER
-				+ "=? WHERE " + CardPileCard.DbField.ID + "=?";
-		Object[] params = new Object[4];
+				+ "=?," + CardPileCard.DbField.IS_DISCARDED + "=?," + CardPileCard.DbField.IS_TEMP + "=? WHERE " + CardPileCard.DbField.ID + "=?";
+		Object[] params = new Object[6];
 		params[0] = entity.getCardPileInstance().getId();
 		params[1] = entity.getCard().getId();
 		params[2] = entity.getOrder();
-		params[3] = entity.getId();
+		params[3] = entity.isDiscarded() ? "1" : "0";
+		params[4] = entity.isTemporary() ? "1" : "0";
+		params[5] = entity.getId();
 
 		execSQL(sql, params);
 

@@ -26,12 +26,14 @@ public class CardPileCard extends Entity {
 	private static final long serialVersionUID = 1L;
 
 	public enum DbField {
-		ID, CARD_PILE_INSTANCE_ID, CARD_ID, POS_ORDER
+		ID, CARD_PILE_INSTANCE_ID, CARD_ID, POS_ORDER, IS_DISCARDED, IS_TEMP
 	}
 
 	private CardPileInstance cardPileInstance;
 	private Card card;
 	private int order;
+	private boolean discarded;
+	private boolean temporary;
 
 	/**
 	 * 
@@ -42,6 +44,36 @@ public class CardPileCard extends Entity {
 
 	public CardPileCard(String id) {
 		super(id);
+	}
+
+	/**
+	 * @return the discarded
+	 */
+	public boolean isDiscarded() {
+		return discarded;
+	}
+
+	/**
+	 * @param discarded
+	 *            the discarded to set
+	 */
+	public void setDiscarded(boolean discarded) {
+		this.discarded = discarded;
+	}
+
+	/**
+	 * @return the temporary
+	 */
+	public boolean isTemporary() {
+		return temporary;
+	}
+
+	/**
+	 * @param temporary
+	 *            the temporary to set
+	 */
+	public void setTemporary(boolean temporary) {
+		this.temporary = temporary;
 	}
 
 	/**

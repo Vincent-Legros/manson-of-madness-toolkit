@@ -6,7 +6,9 @@
 <string name="rename_scenario">Rename</string>
 <string name="scenario_edit_name">Enter Scenario Name</string>    
 <string name="create_scenario">New Scenario</string>    
-
+<string name="resume_scenario">Resume the Previous Game Session</string>
+<string name="start_scenario">Start a New Game Session</string>
+    
 <string name="scenario_copy">Copy</string>    
        	    <string-array name="scenario_copy_options">
        	    	<item>Tiles</item>
