@@ -24,7 +24,9 @@ import java.util.List;
 
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Card;
+import org.amphiprion.mansionofmadness.dto.CardPileCard;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
+import org.amphiprion.mansionofmadness.dto.RandomCardPileCard;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -175,6 +177,8 @@ public class CardDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 
@@ -183,5 +187,47 @@ public class CardDao extends AbstractDao {
 			card.setDisplayName(context.getString(context.getResources().getIdentifier(card.getType() + "_" + card.getName(), "string", ApplicationConstants.PACKAGE)));
 		}
 
+	}
+
+	/**
+	 * Return true if this Card is used in at least one scenario
+	 * 
+	 * @param card
+	 * @return
+	 */
+	public boolean isUsed(Card card) {
+		boolean result = false;
+		String sql = "Select 1 FROM CARD_PILE_CARD WHERE " + CardPileCard.DbField.CARD_ID + "=? limit 1 offset 0";
+		Cursor cursor = getDatabase().rawQuery(sql, new String[] { card.getId() });
+		if (cursor.moveToFirst()) {
+			result = true;
+		}
+		cursor.close();
+		if (!result) {
+			sql = "Select 1 FROM RANDOM_CARD_PILE_CARD WHERE " + RandomCardPileCard.DbField.CARD_ID + "=? limit 1 offset 0";
+			cursor = getDatabase().rawQuery(sql, new String[] { card.getId() });
+			if (cursor.moveToFirst()) {
+				result = true;
+			}
+			cursor.close();
+		}
+		return result;
+	}
+
+	private void delete(Card entity) {
+		String sql = "delete FROM CARD_PILE_CARD where " + CardPileCard.DbField.CARD_ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+		execSQL(sql, params);
+
+		sql = "delete FROM RANDOM_CARD_PILE_CARD where " + RandomCardPileCard.DbField.CARD_ID + "=?";
+		params = new Object[1];
+		params[0] = entity.getId();
+		execSQL(sql, params);
+
+		sql = "delete FROM CARD where " + Card.DbField.ID + "=?";
+		params = new Object[1];
+		params[0] = entity.getId();
+		execSQL(sql, params);
 	}
 }

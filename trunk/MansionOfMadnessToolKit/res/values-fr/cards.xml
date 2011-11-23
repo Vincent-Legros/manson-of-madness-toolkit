@@ -4,6 +4,7 @@
 <string name="create_card">Nouvelle Carte</string>
 <string name="edit_card_title">Définition de la Carte</string>
 <string name="edit_card">Modifier</string>
+<string name="delete_card">Supprimer</string>
 <string name="empty_card_list">\nUtiliser le menu pour ajouter une nouvelle carte. \n\nPour exécuter une action sur une Carte, faites un click long dessus.</string>
 <string name="card_type">Type de la Carte</string>    
 <string-array name="card_types">
