@@ -34,6 +34,7 @@ public interface ApplicationConstants {
 	static final int MENU_ID_RESUME_SCENARIO = 11;
 	static final int MENU_ID_START_SCENARIO = 12;
 	static final int MENU_ID_DELETE_SOUND = 13;
+	static final int MENU_ID_DELETE_TILE = 14;
 
 	static final int ACTIVITY_RETURN_CHOOSE_SOUND_FILE = 1;
 	static final int ACTIVITY_RETURN_CHOOSE_TILE_FILE = 2;

@@ -31,6 +31,7 @@ import org.amphiprion.mansionofmadness.activity.LoadDataListener;
 import org.amphiprion.mansionofmadness.activity.PaginedListActivity;
 import org.amphiprion.mansionofmadness.activity.PaginedListContext;
 import org.amphiprion.mansionofmadness.dao.TileDao;
+import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
 import android.app.AlertDialog;
@@ -128,6 +129,7 @@ public class TileListActivity extends PaginedListActivity<Tile> implements IMenu
 			currentTile = ((TileSummaryView) v).getTile();
 			if (!currentTile.isEmbedded()) {
 				menu.add(0, ApplicationConstants.MENU_ID_EDIT_TILE, 0, R.string.edit_tile);
+				menu.add(0, ApplicationConstants.MENU_ID_DELETE_TILE, 1, R.string.delete_tile);
 			}
 		}
 
@@ -137,8 +139,40 @@ public class TileListActivity extends PaginedListActivity<Tile> implements IMenu
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == ApplicationConstants.MENU_ID_EDIT_TILE) {
 			updateTile(currentTile);
+		} else if (item.getItemId() == ApplicationConstants.MENU_ID_DELETE_TILE) {
+			checkDeleteTile(currentTile);
 		}
 		return true;
+	}
+
+	private void checkDeleteTile(final Tile tile) {
+		if (TileDao.getInstance(this).isUsed(tile)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(this.getString(R.string.used_item_title));
+			builder.setMessage(this.getString(R.string.used_item_message));
+			builder.setCancelable(true).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					deleteTile(tile);
+				}
+			});
+			builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
+		} else {
+			deleteTile(tile);
+		}
+	}
+
+	private void deleteTile(Tile tile) {
+		tile.setState(DbState.DELETE);
+		TileDao.getInstance(this).persist(tile);
+		showDataList();
 	}
 
 	/*

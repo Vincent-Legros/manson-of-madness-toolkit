@@ -141,7 +141,7 @@ public class SoundListActivity extends PaginedListActivity<Sound> implements IMe
 	}
 
 	private void checkDeleteSound(final Sound sound) {
-		if (SoundDao.getInstance(this).isUsed(currentSound)) {
+		if (SoundDao.getInstance(this).isUsed(sound)) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(this.getString(R.string.used_item_title));
 			builder.setMessage(this.getString(R.string.used_item_message));

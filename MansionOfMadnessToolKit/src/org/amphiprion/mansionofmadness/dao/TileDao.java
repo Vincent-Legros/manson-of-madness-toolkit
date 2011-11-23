@@ -25,6 +25,7 @@ import java.util.List;
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 import org.amphiprion.mansionofmadness.dto.Tile;
+import org.amphiprion.mansionofmadness.dto.TileInstance;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -185,6 +186,8 @@ public class TileDao extends AbstractDao {
 			create(entity);
 		} else if (entity.getState() == DbState.LOADED) {
 			update(entity);
+		} else if (entity.getState() == DbState.DELETE) {
+			delete(entity);
 		}
 	}
 
@@ -193,5 +196,34 @@ public class TileDao extends AbstractDao {
 			tile.setDisplayName(context.getString(context.getResources().getIdentifier("tile_" + tile.getName(), "string", ApplicationConstants.PACKAGE)));
 		}
 
+	}
+
+	/**
+	 * Return true if this Tile is used in at least one scenario
+	 * 
+	 * @param tile
+	 * @return
+	 */
+	public boolean isUsed(Tile tile) {
+		boolean result = false;
+		String sql = "Select 1 FROM TILE_INSTANCE WHERE " + TileInstance.DbField.TILE_ID + "=? limit 1 offset 0";
+		Cursor cursor = getDatabase().rawQuery(sql, new String[] { tile.getId() });
+		if (cursor.moveToFirst()) {
+			result = true;
+		}
+		cursor.close();
+		return result;
+	}
+
+	private void delete(Tile entity) {
+		String sql = "delete FROM TILE_INSTANCE where " + TileInstance.DbField.TILE_ID + "=?";
+		Object[] params = new Object[1];
+		params[0] = entity.getId();
+		execSQL(sql, params);
+
+		sql = "delete FROM TILE where " + Tile.DbField.ID + "=?";
+		params = new Object[1];
+		params[0] = entity.getId();
+		execSQL(sql, params);
 	}
 }
