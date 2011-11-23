@@ -23,8 +23,12 @@ import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.dto.Tile;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,33 +56,30 @@ public class TileSummaryView extends LinearLayout {
 		setLayoutParams(lp);
 		setBackgroundDrawable(context.getResources().getDrawable(R.drawable.list_item_black_background_states));
 
-		// addView(createIcon());
+		addView(createIcon());
 
 		addView(createAccountLayout());
 		// addView(createSetIcon());
 		// addView(createDeckIcon());
 	}
 
-	// /**
-	// * Create the collection icon view.
-	// *
-	// * @return the view
-	// */
-	// private View createIcon() {
-	// ImageView img = new ImageView(getContext());
-	// LayoutParams imglp = new
-	// LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-	// android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-	// imglp.gravity = Gravity.CENTER_VERTICAL;
-	// imglp.rightMargin = 5;
-	// img.setLayoutParams(imglp);
-	//
-	// Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-	// R.drawable.scenario_icon);
-	//
-	// img.setImageBitmap(bitmap);
-	// return img;
-	// }
+	/**
+	 * Create the collection icon view.
+	 * 
+	 * @return the view
+	 */
+	private View createIcon() {
+		ImageView img = new ImageView(getContext());
+		LayoutParams imglp = new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		imglp.gravity = Gravity.CENTER_VERTICAL;
+		imglp.rightMargin = 5;
+		img.setLayoutParams(imglp);
+
+		Bitmap bitmap = BitmapFactory.decodeStream(getClass().getResourceAsStream("/images/tiles/icons/tile_icon.png"));
+
+		img.setImageBitmap(bitmap);
+		return img;
+	}
 
 	/**
 	 * @return the tile
