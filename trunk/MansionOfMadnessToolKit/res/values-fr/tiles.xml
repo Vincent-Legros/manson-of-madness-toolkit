@@ -4,7 +4,8 @@
 <string name="create_tile">Nouvelle Tuile</string>
 <string name="edit_tile_title">Définition de la Tuile</string>
 <string name="edit_tile">Modifier</string>
-        <string name="empty_tile_list">\nUtiliser le menu pour ajouter une nouvelle Tuile. La largeur et la hauteur de l\'image doit être un multiple de 150 pixel.\n\nPour exécuter une action sur une Tuile, faites un click long dessus.</string>
+<string name="delete_tile">Supprimer</string>
+<string name="empty_tile_list">\nUtiliser le menu pour ajouter une nouvelle Tuile. La largeur et la hauteur de l\'image doit être un multiple de 150 pixel.\n\nPour exécuter une action sur une Tuile, faites un click long dessus.</string>
 <string name="wrong_tile_width">La largeur doit être un multiple de 150 pixel.</string>
 <string name="wrong_tile_height">La hauteur doit être un multiple of 150 pixel.</string>
 <string name="wrong_tile_file">Veuillez choisir un fichier image.</string>

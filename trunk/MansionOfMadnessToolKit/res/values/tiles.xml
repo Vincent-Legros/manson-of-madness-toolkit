@@ -4,6 +4,7 @@
 <string name="create_tile">New Tile</string>
 <string name="edit_tile_title">Tile Definition</string>
 <string name="edit_tile">Edit</string>
+<string name="delete_tile">Delete</string>
 <string name="empty_tile_list">\nUse the menu to add a new Tile. The Width and the Height of the image must be multiple of 150 pixel.\n\nTo execute an action on a Tile, do a long click on it.</string>
 <string name="wrong_tile_width">The width must be a multiple of 150 pixel.</string>
 <string name="wrong_tile_height">The height must be a multiple of 150 pixel.</string>
