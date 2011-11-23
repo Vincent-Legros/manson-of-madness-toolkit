@@ -12,7 +12,7 @@
 <string name="cancel">Cancel</string>
 <string name="card_pile_title">Card Pile</string>
 <string name="loading">Loading...</string>
-<string name="exit_message_title">Exit ?</string>
+<string name="exit_message_title">Save ?</string>
 <string name="exit_message">Do you want to save before exiting ?</string>
 <string name="yes">Yes</string>
 <string name="no">No</string>
