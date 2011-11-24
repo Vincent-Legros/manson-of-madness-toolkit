@@ -22,6 +22,7 @@ package org.amphiprion.mansionofmadness.activity.help;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.activity.ILoadTask;
 import org.amphiprion.mansionofmadness.activity.IMenuProvider;
@@ -30,6 +31,7 @@ import org.amphiprion.mansionofmadness.activity.PaginedListActivity;
 import org.amphiprion.mansionofmadness.activity.PaginedListContext;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,7 +147,29 @@ public class HelpListActivity extends PaginedListActivity<Help> implements IMenu
 	@Override
 	public void buildOptionMenu(Menu menu) {
 		menu.clear();
-		MenuItem mi = menu.add(0, 0, 0, "-");
+		MenuItem mi = menu.add(0, ApplicationConstants.MENU_ID_ASK_NEW_HELP, 0, R.string.help_menu_ask_new_help);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == ApplicationConstants.MENU_ID_ASK_NEW_HELP) {
+			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+			emailIntent.setType("plain/text");
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "amphiprions@gmail.com" });
+
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+
+			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.help_menu_ask_new_help_body));
+			startActivity(emailIntent);
+			// context.startActivity(Intent.createChooser(intent,
+			// "Send mail..."));
+
+		}
+		return true;
+	}
 }
