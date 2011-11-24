@@ -2,19 +2,19 @@
 <resources>
     <string name="help_title">Aides</string>
     <string name="help_menu_ask_new_help">Demander une nouvelle Aide</string>
-    <string name="help_menu_ask_new_help_body">Bonjour,\nPourriez-vous ajouter l\'aide suivante:\n</string>
+    <string name="help_menu_ask_new_help_body">Bonjour,\nPourriez-vous ajouter l\'aide suivante :\n</string>
 
 
     <string name="help_create_scenario">Définir un scénario</string>
-    <string name="help_create_scenario_text">Voici la marche à suivre pour crée un scénario du livret de règle du jeu de base:
+    <string name="help_create_scenario_text">Voici la marche à suivre pour créer un scénario du livret de règle du jeu de base :
 \n\n1) Dans l\'écran affichant la liste des scénario existants, vous prenez l\'"Histoire 1" par exemple, et avec un click long, vous choisissez "Dupliquer". 
-\n\n2) Vous renommez ce nouveau scénario, via un click long, en méttant à la fin, par exemple 1A-2B-1C (si vous avez choisi de créer ce cheminement d\'histoire) 
+\n\n2) Vous renommez ce nouveau scénario, via un click long, en mettant à la fin, par exemple 1A-2B-1C (si vous avez choisi de créer ce cheminement d\'histoire). 
 \n\n3) Vous faites un click long sur ce nouveau scénario et vous choisissez l\'option "Modifier". 
-\n\n     --> Vous vous servez du livret de règle pour connaitre la disposition des cartes dans chacune des salles (chaque pile de carte est représenté par un réctangle pointillé blanc sur l\'éditeur). 
-\n\n4) A l\'aide du menu déroulant à gauche, vous faites un glissé déplacé des cartes dans les bonnes piles (en suivant l\'ordre du livret) 
-\n\n5) Il doit ensuite rester des piles vides (dans lesquels viendront 1 carte aléatoirement lors du lancement du scénario) 
+\n\n     --> Vous vous servez du livret de règles pour connaître la disposition des cartes dans chacune des salles (chaque pile de carte est représentée par un rectangle pointillé blanc sur l\'éditeur). 
+\n\n4) A l\'aide du menu déroulant à gauche, vous faites un glisser-déplacer des cartes dans les bonnes piles (en suivant l\'ordre du livret). 
+\n\n5) Il doit ensuite rester des piles vides (dans lesquelles viendra 1 carte aléatoirement lors du lancement du scénario). 
 \n\n6) Pour ces cartes aléatoire, vous les glissez/déposez dans la pile fixe contenant un "Dé", située en haut à droite de l\'écran. 
-\n\n     --> Le scénario est crée (pensez à sauver régulièrement lorsque vous créez votre scénario, au cas où, en cliquant sur l\'image de la carte SD) 
+\n\n     --> Le scénario est créé (pensez à sauver régulièrement lorsque vous créez votre scénario, au cas où, en cliquant sur l\'image de la carte SD). 
 \n\n7) Ensuite revenez dans la liste des scénario et cliquez sur ce scénario pour lancer la "partie".</string>
 
 </resources> 
