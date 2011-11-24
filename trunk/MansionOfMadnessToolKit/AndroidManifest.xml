@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.amphiprion.mansionofmadness"
     android:versionCode="2"
-    android:versionName="1.1.O" >
+    android:versionName="1.1.0" >
 
     <application
         android:icon="@drawable/ic_launcher"
