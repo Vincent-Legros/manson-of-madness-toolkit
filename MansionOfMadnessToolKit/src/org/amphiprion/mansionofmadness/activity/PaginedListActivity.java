@@ -41,7 +41,7 @@ public abstract class PaginedListActivity<T> extends Activity {
 	private PaginedListContext<T> listContext;
 	private int viewLayoutId;
 	private int scrollViewId;
-	private int listViewId;
+	protected int listViewId;
 	private int emptyTextId;
 
 	/**
