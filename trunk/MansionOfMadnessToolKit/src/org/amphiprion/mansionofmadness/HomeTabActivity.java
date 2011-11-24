@@ -2,6 +2,7 @@ package org.amphiprion.mansionofmadness;
 
 import org.amphiprion.mansionofmadness.activity.IMenuProvider;
 import org.amphiprion.mansionofmadness.activity.card.CardListActivity;
+import org.amphiprion.mansionofmadness.activity.help.HelpListActivity;
 import org.amphiprion.mansionofmadness.activity.scenario.ScenarioListActivity;
 import org.amphiprion.mansionofmadness.activity.sound.SoundListActivity;
 import org.amphiprion.mansionofmadness.activity.tile.TileListActivity;
@@ -48,6 +49,12 @@ public class HomeTabActivity extends TabActivity {
 		intent = new Intent().setClass(this, TileListActivity.class);
 		// Initialize a TabSpec for each tab and add it to the TabHost
 		spec = tabHost.newTabSpec("Tile").setIndicator(getText(R.string.tile_title)).setContent(intent);
+		tabHost.addTab(spec);
+
+		// Create an Intent to launch an Activity for the tab (to be reused)
+		intent = new Intent().setClass(this, HelpListActivity.class);
+		// Initialize a TabSpec for each tab and add it to the TabHost
+		spec = tabHost.newTabSpec("Help").setIndicator(getText(R.string.help_title)).setContent(intent);
 		tabHost.addTab(spec);
 
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
