@@ -84,6 +84,7 @@ public class MapScreen extends GameScreen {
 	protected BoardMenu boardMenu;
 	protected RandomCardZone2D randomPile;
 	protected Image2D saveButton;
+	protected Image2D combatButton;
 	protected Image2D labelButton;
 	private Translation2DAnimation tileMenuTabAnimation;
 	// private Translation2DAnimation tileMenuAnimation;
@@ -156,21 +157,38 @@ public class MapScreen extends GameScreen {
 		}
 		// add the tile menu to the rendering object tree
 		objects2d.add(tileTab);
+		
+		// ######## ADD Global icons background ##########
+		Image2D elderSign = new Image2D("board/elder_sign.png", false, true);
+		elderSign.x = 1280 - 100;
+		elderSign.y = 800 - 200;
+		objects2d.add(elderSign);
 
 		// ######## ADD Global icons ##########
-		if (inEdition) {
+		if (inEdition) {			
 			randomPile = new RandomCardZone2D();
 			objects2d.add(randomPile);
 
-			saveButton = new Image2D("board/save.png");
-			saveButton.x = 1280 - 45;
-			saveButton.y = 800 / 2 - 100;
+			//saveButton = new Image2D("board/save.png");
+			//saveButton.x = 1280 - 45;
+			//saveButton.y = 800 / 2 - 100;
+			saveButton = new Image2D("board/save_button.png");
+			saveButton.x = 1280 - 59;
+			saveButton.y = 800 - 151;
 			objects2d.add(saveButton);
+			
+			combatButton = new Image2D("board/combat_button.png");
+			combatButton.x = 1280 - 107;
+			combatButton.y = 800 - 81;
+			objects2d.add(combatButton);
 		}
 
-		labelButton = new Image2D("board/labels.png");
-		labelButton.x = 1280 - 45;
-		labelButton.y = 200;
+		//labelButton = new Image2D("board/labels.png");
+		//labelButton.x = 1280 - 45;
+		//labelButton.y = 200;
+		labelButton = new Image2D("board/labels_button.png");
+		labelButton.x = 1280 - 58;
+		labelButton.y = 548;
 		objects2d.add(labelButton);
 
 		// start collapsed
