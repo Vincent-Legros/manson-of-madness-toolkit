@@ -169,9 +169,6 @@ public class MapScreen extends GameScreen {
 			randomPile = new RandomCardZone2D();
 			objects2d.add(randomPile);
 
-			//saveButton = new Image2D("board/save.png");
-			//saveButton.x = 1280 - 45;
-			//saveButton.y = 800 / 2 - 100;
 			saveButton = new Image2D("board/save_button.png");
 			saveButton.x = 1280 - 59;
 			saveButton.y = 800 - 151;
@@ -183,9 +180,6 @@ public class MapScreen extends GameScreen {
 			objects2d.add(combatButton);
 		}
 
-		//labelButton = new Image2D("board/labels.png");
-		//labelButton.x = 1280 - 45;
-		//labelButton.y = 200;
 		labelButton = new Image2D("board/labels_button.png");
 		labelButton.x = 1280 - 58;
 		labelButton.y = 548;
