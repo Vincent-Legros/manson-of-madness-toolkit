@@ -37,6 +37,7 @@ public interface ApplicationConstants {
 	static final int MENU_ID_DELETE_TILE = 14;
 	static final int MENU_ID_DELETE_CARD = 15;
 	static final int MENU_ID_DELETE_SCENARIO = 16;
+	static final int MENU_ID_ASK_NEW_HELP = 17;
 
 	static final int ACTIVITY_RETURN_CHOOSE_SOUND_FILE = 1;
 	static final int ACTIVITY_RETURN_CHOOSE_TILE_FILE = 2;

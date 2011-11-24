@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="help_title">Aides</string>
+    <string name="help_menu_ask_new_help">Demander une nouvelle Aide</string>
+    <string name="help_menu_ask_new_help_body">Bonjour,\nPourriez-vous ajouter l\'aide suivante:\n</string>
+
+
     <string name="help_create_scenario">Définir un scénario</string>
     <string name="help_create_scenario_text">Voici la marche à suivre pour crée un scénario du livret de règle du jeu de base:
 \n\n1) Dans l\'écran affichant la liste des scénario existants, vous prenez l\'"Histoire 1" par exemple, et avec un click long, vous choisissez "Dupliquer". 

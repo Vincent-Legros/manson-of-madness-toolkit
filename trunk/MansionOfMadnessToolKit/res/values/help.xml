@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="help_title">Helps</string>
+    <string name="help_menu_ask_new_help">Ask a new Help</string>
+    <string name="help_menu_ask_new_help_body">Hello,\nCould you please add the following help:\n</string>
+    
     <string name="help_create_scenario">Define a scenario</string>
     <string name="help_create_scenario_text">Here, a detailed example to create a scenario of the original rule book:
 \n\n1) From the screen displaying the list of existing scenarios, do a long click on the "History 1", for example, and choose the "Copy" menu option. 
