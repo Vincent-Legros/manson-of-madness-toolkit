@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="exploration_nothing">Du findest nichts Interessantes</string>
+    <string name="exploration_lantern">Laterne</string>
+    <string name="exploration_unspeakable_cults">Unaussprechliche Kulte</string>
+    <string name="exploration_silver_key">Silberschlüssel</string>
+    <string name="exploration_sledgehammer">Vorschlaghammer</string>
+    <string name="exploration_colt_38">38er Colt</string>
+    <string name="exploration_whateley_diary">Whateleys Tagebuch</string>
+    <string name="exploration_crowbar">Brechstange</string>
+    <string name="exploration_ceremonial_skull">Zeremonienschädel</string>
+    <string name="exploration_ruby_rlyeh">Rubin von R\'lyeh</string>
+    <string name="exploration_ancient_sign">Älteres Zeichenn</string>
+    <string name="exploration_whisky">Whiskey</string>
+    <string name="exploration_fire_extinguisher">Feuerlöscher</string>
+    <string name="exploration_shotgun">Schrotflinte</string>
+    <string name="exploration_de_vermis_mysreriis">De Vermis Mysrteriis</string>
+    <string name="exploration_axe">Axt</string>
+    <string name="exploration_knife">Messer</string>
+    <string name="exploration_sedative">Beruhigungsmittel</string>
+    <string name="exploration_cult_dress">Kultistenrobe</string>
+    <string name="exploration_crucifix">Kruzifix</string>
+    <string name="exploration_obvious_proof">Erschreckende Beweise</string>
+    <string name="exploration_brass_key">Messingschlüssel</string>
+    <string name="exploration_torch">Fackel</string>
+    <string name="exploration_dhol_song">Dholgesänge</string>
+    <string name="exploration_saturnien_wine">Dunkler Wein</string>
+    <string name="exploration_magic_sentence">Zauberformel</string>
+    <string name="exploration_password">Passwort</string>
+    <string name="exploration_clue_1a">Spur 1A</string>
+    <string name="exploration_clue_1b">Spur 1B</string>
+    <string name="exploration_clue_1c">Spur 1C</string>
+    <string name="exploration_clue_2a">Spur 2A</string>
+    <string name="exploration_clue_2b">Spur 2B</string>
+    <string name="exploration_clue_3a">Spur 3A</string>
+    <string name="exploration_clue_3b">Spur 3B</string>
+    <string name="exploration_clue_4a">Spur 4A</string>
+    <string name="exploration_clue_4b">Spur 4B</string>
+    <string name="exploration_clue_5a">Spur 5A</string>
+    <string name="exploration_clue_5b">Spur 5B</string>
+    <string name="exploration_clue_6a">Spur 6A</string>
+    <string name="exploration_clue_6b">Spur 6B</string>
+
+</resources>

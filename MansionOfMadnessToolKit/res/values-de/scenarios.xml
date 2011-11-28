@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 
 <string name="scenario_title">Scenario</string>
 <string name="empty_scenario_list">\nUse the menu to add a new scenario.\n\nTo execute an action on a Scenario, do a long click on it.</string>
 <string name="edit_scenario">Edit</string>
@@ -25,10 +26,10 @@
        	    	<item>Card Piles</item>
        	    	<item>Content of the Card Piles</item>
        	    </string-array>
-
-    <string name="scenario_1_history">Story 1: The Fall of House Lynch</string>
-    <string name="scenario_2_history">Story 2: The Inner Sanctum</string>
-    <string name="scenario_3_history">Story 3: Blood Ties</string>
-    <string name="scenario_4_history">Story 4: Classroom Curses</string>
-    <string name="scenario_5_history">Story 5: The Green-eyed Boy</string>
+-->
+    <string name="scenario_1_history">Szenario 1: Der Fall des Hauses Lynch</string>
+    <string name="scenario_2_history">Szenario 2: Das Allerheiligste</string>
+    <string name="scenario_3_history">Szenario 3: Blutsbande</string>
+    <string name="scenario_4_history">Szenario 4: Classroom Curses</string>
+    <string name="scenario_5_history">Szenario 5: The Green-eyed Boy</string>
 </resources>

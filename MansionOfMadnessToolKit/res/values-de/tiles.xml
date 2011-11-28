@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 
+<string name="tile_title">Tiles</string>
+<string name="create_tile">New Tile</string>
+<string name="edit_tile_title">Tile Definition</string>
+<string name="edit_tile">Edit</string>
+<string name="delete_tile">Delete</string>
+<string name="empty_tile_list">\nUse the menu to add a new Tile. The Width and the Height of the image must be multiple of 150 pixel.\n\nTo execute an action on a Tile, do a long click on it.</string>
+<string name="wrong_tile_width">The width must be a multiple of 150 pixel.</string>
+<string name="wrong_tile_height">The height must be a multiple of 150 pixel.</string>
+<string name="wrong_tile_file">Please choose an image file.</string>
+        
+     -->
+
+<string name="tile_attic">Dachboden</string>
+<string name="tile_corridor_angle">Eckiger Flur</string>
+<string name="tile_diner_room">Speisesaal</string>
+<string name="tile_driveway">Windfang</string>
+<string name="tile_garden">Garten</string>
+<string name="tile_guest_room">Gästezimmer</string>
+<string name="tile_park">Vorgarten</string>
+<string name="tile_salon">Galerie</string>
+<string name="tile_study">Studierzimmer</string>
+<string name="tile_tower">Turmzimmer</string>
+<string name="tile_loby">Foyer</string>
+<string name="tile_boiler_room">Heizungsraum</string>
+<string name="tile_cave">Keller</string>
+<string name="tile_ceremonial">Ritualraum</string>
+<string name="tile_chapel">Kapelle</string>
+<string name="tile_children_home">Kinderzimmer</string>
+<string name="tile_corridor1">Flur 1</string>
+<string name="tile_corridor2">Flur 2</string>
+<string name="tile_corridor3">Flur 3</string>
+<string name="tile_corridor4">Flur 4</string>
+<string name="tile_crypt">Krypta</string>
+<string name="tile_graveyard">Friedhof</string>
+<string name="tile_laboratory">Laboratorium</string>
+<string name="tile_main_bedroom">Schlafgemach des Hausherren</string>
+<string name="tile_park_back">Hinterhof</string>
+<string name="tile_patio">Terrasse</string>
+<string name="tile_pit">Abgrund</string>
+<string name="tile_secret_way">Geheimgang</string>
+<string name="tile_underground1">Höhle 1</string>
+<string name="tile_underground2">Höhle 2</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="obstacle_casket">Schliesskassette</string>
+    <string name="obstacle_suitcase">Koffer</string>
+    <string name="obstacle_power_cut">Stromausfall</string>
+    <string name="obstacle_manhole_plate">Gullydeckel</string>
+    <string name="obstacle_secret_box">Rätselkästchen</string>
+    <string name="obstacle_short_circuit">Kurzschluss</string>
+    <string name="obstacle_locked_cupboard">Verschlossener Aktenschrank</string>
+
+</resources>
