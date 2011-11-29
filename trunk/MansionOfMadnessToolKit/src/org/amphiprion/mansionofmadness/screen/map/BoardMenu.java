@@ -44,6 +44,7 @@ import org.amphiprion.mansionofmadness.dto.SoundInstance;
 import org.amphiprion.mansionofmadness.dto.TileInstance;
 import org.amphiprion.mansionofmadness.screen.map.MapScreen.ComponentKey;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
+import org.amphiprion.mansionofmadness.dialog.CombatDialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -407,6 +408,8 @@ public class BoardMenu extends TouchableGroup2D {
 						mapScreen.showLabels = !mapScreen.showLabels;
 					} else if (mapScreen.inEdition && mapScreen.saveButton.contains(nx, ny)) {
 						saveScenario();
+					}  else if (mapScreen.combatButton.contains(nx, ny)) {
+						startCombat();
 					} else {
 						for (IObject2D o : soundGroup.getObjects()) {
 							if (o instanceof Sound2D && ((Sound2D) o).contains(nx, ny)) {
@@ -739,6 +742,12 @@ public class BoardMenu extends TouchableGroup2D {
 		} finally {
 			TileInstanceDao.getInstance(mapScreen.getContext()).getDatabase().endTransaction();
 		}
+	}
+	
+	private void startCombat() {
+		//TODO lancement de la fenêtre de combat
+		CombatDialog cbtDialog = new CombatDialog(mapScreen.getContext());
+		cbtDialog.show(); 
 	}
 
 }

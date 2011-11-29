@@ -172,13 +172,13 @@ public class MapScreen extends GameScreen {
 			saveButton = new Image2D("board/save_button.png");
 			saveButton.x = 1280 - 59;
 			saveButton.y = 800 - 151;
-			objects2d.add(saveButton);
-			
-			combatButton = new Image2D("board/combat_button.png");
-			combatButton.x = 1280 - 107;
-			combatButton.y = 800 - 81;
-			objects2d.add(combatButton);
+			objects2d.add(saveButton);			
 		}
+		
+		combatButton = new Image2D("board/combat_button.png");
+		combatButton.x = 1280 - 107;
+		combatButton.y = 800 - 81;
+		objects2d.add(combatButton);
 
 		labelButton = new Image2D("board/labels_button.png");
 		labelButton.x = 1280 - 58;
