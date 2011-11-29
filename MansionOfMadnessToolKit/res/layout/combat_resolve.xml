@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="fill_parent"
+    android:padding="10dp"
+    android:orientation="vertical" >
+	
+    <LinearLayout
+        android:id="@+id/linearLayoutRadio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/combat_class_bg" 
+        android:padding="20dp" >
+        
+	    <RadioGroup
+	        android:id="@+id/radioGrpCbtClass"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:checkedButton="@+id/radio0">
+	
+	        <RadioButton
+	            android:id="@+id/radio0"
+	            android:layout_width="105dp"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="5dp"
+	            android:layout_marginRight="12dp"
+	            android:button="@drawable/combat_beast_states" />	
+	        <RadioButton
+	            android:id="@+id/radio1"
+	            android:layout_width="105dp"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="12dp"
+	            android:button="@drawable/combat_humanoid_states" />
+	
+	        <RadioButton
+	            android:id="@+id/radio2"
+	            android:layout_width="105dp"
+	            android:layout_height="wrap_content"
+	            android:button="@drawable/combat_eldritch_states" />
+	    </RadioGroup>
+	
+	</LinearLayout>
+    <!-- 
+    <Button
+        android:id="@+id/btnAtkType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/combat_attack_type_noweapon" />-->
+    <Spinner 
+        android:id="@+id/spinAtkType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/combat_btn"
+        android:prompt="@string/combat_attack_type_prompt" />
+    
+    <Button
+        android:id="@+id/btnDraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/combat_btn"
+        android:text="@string/combat_effect" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/combat_result_bg" 
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"            
+            android:drawablePadding="50dp"
+            android:editable="false"
+            android:ellipsize="marquee"
+            android:maxLines="10"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/combat_btn"
+        android:text="@string/close" />
+
+</LinearLayout>

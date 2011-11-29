@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    
+	<string name="create_combat_card">Nouvelle Carte</string>
+	<string name="edit_combat_card_title">Définition de la Carte</string>
+	<string name="edit_combat_card">Modifier</string>
+	<string name="empty_combat_card_list">\nUtiliser le menu pour ajouter une nouvelle carte. \n\nPour exécuter une action sur une Carte, faites un click long dessus.</string>
+	
+	<string name="combat_title">Assistant de Résolution de Combat</string>
+	<string name="combat_effect">Piocher une Carte</string>
+	
+	<string name="combat_monster_class">Classe du Monstre :</string>
+	<string name="combat_monster_class_humanoid">Humanoïde</string>
+	<string name="combat_monster_class_beast">Bête</string>
+	<string name="combat_monster_class_eldritch">Etrange</string>	
+    
+    <string name="combat_attack_type">Type d\'Attaque</string>
+    <string name="combat_attack_type_noweapon">Pas d\'Arme</string>
+    <string name="combat_attack_type_meleeweapon">Arme de Mêlée</string>
+    <string name="combat_attack_type_bluntmeleeweapon">Arme de Mêlée Contondante</string>
+    <string name="combat_attack_type_sharpmeleeweapon">Arme de Mêlée Tranchantee</string>
+    <string name="combat_attack_type_rangedweapon">Arme à Distance</string>
+    <string name="combat_attack_type_monsterattack">Attaque du Monstre</string>
+    <string name="combat_attack_type_monstervshiding">Monstre contre Planque</string>
+    <string name="combat_attack_type_monstervsbarrier">Monstre contre Barricade</string>
+    
+    <string name="combat_attack_type_prompt">Sélectionner un type</string>
+    <string-array name="combat_attack_type_array">
+        <item>Pas d\'Arme</item>
+        <item>Arme de Mêlée</item>
+        <item>Arme de Mêlée Contondante</item>
+        <item>Arme de Mêlée Tranchantee</item>
+        <item>Arme à Distance</item>
+        <item>Attaque du Monstre</item>
+        <item>Monstre contre Planque</item>
+        <item>Monstre contre Barricade</item>
+    </string-array>
+    
+    <string name="combat_card_success">Réussite : </string>
+    <string name="combat_card_failure">Echec : </string>
+	<string name="combat_card_01_inv">Vous essayez une feinte avant de vous jeter sur le monstre. Faites un test d\'Intellect.</string>
+	<string name="combat_card_01_inv_success">il est tombé dans votre piège et subit l\'attaque de plein fouet.</string>
+	<string name="combat_card_01_inv_failure">il a compris votre feinte. Prenez 2 points de dégâts.</string>	 
+	<string name="combat_card_01_mon">
+	 	Le monstre se rue contre la porte en baissant la tête. Le gardien fait un test de la valeur de dégâts du monstr +1.\n\n
+	 	Réussite: la barricade est détruite.\n\n
+	 	Echec: le monstre reçoit 1 point de dégâts.</string>
+</resources>

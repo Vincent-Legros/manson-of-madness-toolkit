@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    
+	<string name="create_combat_card">New Card</string>
+	<string name="edit_combat_card_title">Card Definition</string>
+	<string name="edit_combat_card">Edit</string>
+	<string name="empty_combat_card_list">\nUse the menu to add a new Card. \n\nTo execute an action on a Card, do a long click on it.</string>
+	
+	<string name="combat_title">Combat Resolution Assistant</string>
+	<string name="combat_effect">Draw a Card</string>	
+	
+	<string name="combat_monster_class"> Monster Class :</string>    	
+    <string name="combat_monster_class_humanoid">Humanoid</string>
+	<string name="combat_monster_class_beast">Beast</string>
+	<string name="combat_monster_class_eldritch">Eldritch</string>
+    
+    <string name="combat_attack_type">Attack Type</string>
+    <string name="combat_attack_type_noweapon">No Weapon</string>
+    <string name="combat_attack_type_meleeweapon">Melee Weapon</string>
+    <string name="combat_attack_type_bluntmeleeweapon">Blunt Melee Weapon</string>
+    <string name="combat_attack_type_sharpmeleeweapon">Sharp Melee Weapon</string>
+    <string name="combat_attack_type_rangedweapon">Ranged Weapon</string>
+    <string name="combat_attack_type_monsterattack">Monster Attack</string>
+    <string name="combat_attack_type_monstervshiding">Monster vs. Hiding</string>
+    <string name="combat_attack_type_monstervsbarrier">Monster vs. Barrier</string>
+    
+    <string name="combat_attack_type_prompt">Sélectionner un type</string>
+    <string-array name="combat_attack_type_array">
+        <item>Pas d\'Arme</item>
+        <item>Arme de Mêlée</item>
+        <item>Arme de Mêlée Contondante</item>
+        <item>Arme de Mêlée Tranchantee</item>
+        <item>Arme à Distance</item>
+        <item>Attaque du Monstre</item>
+        <item>Monstre contre Planque</item>
+        <item>Monstre contre Barricade</item>
+    </string-array>
+    
+    <string name="combat_card_success">Success : </string>
+    <string name="combat_card_failure">Failure : </string>
+	<string name="combat_card_01_flavor">Then, the monster\'s bones broke...</string>
+	<string name="combat_card_01_inv">Success : investigator \nFailure : investigator</string>
+	<string name="combat_card_01_mon">Success : monster \nFailure : monster</string>
+	 
+</resources>
