@@ -13,6 +13,7 @@
 	<string name="combat_monster_class_beast">Bête</string>
 	<string name="combat_monster_class_eldritch">Etrange</string>	
     
+    <string name="combat_attack_type_prompt">Sélectionner un type d\'attaque</string>
     <string name="combat_attack_type">Type d\'Attaque</string>
     <string name="combat_attack_type_noweapon">Pas d\'Arme</string>
     <string name="combat_attack_type_meleeweapon">Arme de Mêlée</string>
@@ -22,8 +23,6 @@
     <string name="combat_attack_type_monsterattack">Attaque du Monstre</string>
     <string name="combat_attack_type_monstervshiding">Monstre contre Planque</string>
     <string name="combat_attack_type_monstervsbarrier">Monstre contre Barricade</string>
-    
-    <string name="combat_attack_type_prompt">Choose an attack type</string>    
     
     <string name="combat_card_success">Réussite : </string>
     <string name="combat_card_failure">Echec : </string>

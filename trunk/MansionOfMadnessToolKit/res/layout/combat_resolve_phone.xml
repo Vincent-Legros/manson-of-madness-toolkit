@@ -1,117 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
+    android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:padding="0dp"
-    android:background="@color/black"
+    android:padding="10dip"
     android:orientation="vertical" >
 	
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
->
-  <LinearLayout
-        android:layout_width="185dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-       
->
-    <LinearLayout
-        android:id="@+id/linearLayoutRadio"
-        android:layout_width="wrap_content"
-        android:layout_height="140dp"
-        android:orientation="vertical"
-        android:background="@drawable/combat_class_bg" 
-        android:padding="0dp" 
-        >
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:padding="0dip"
+		android:orientation="horizontal">
+		
+		<LinearLayout
+		      android:layout_width="250dip"
+		      android:layout_height="fill_parent"
+		      android:orientation="vertical">
+		      
+			<LinearLayout
+			    android:id="@+id/linearLayoutRadio"
+			    android:layout_width="match_parent"
+        		android:layout_height="150dip"
+			    android:orientation="vertical"
+			    android:background="@drawable/combat_class_bg" 
+			    android:padding="20dip">
         
-	    <RadioGroup
-	        android:id="@+id/radioGrpCbtClass"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="25dp"
-	        android:orientation="horizontal"
-	        android:checkedButton="@+id/radio0"
-	        >
-	
-	        <RadioButton
-	            android:id="@+id/radio0"
-	            android:layout_width="60dp"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="0dp"
-	            android:layout_marginRight="0dp"
-	            android:button="@drawable/combat_beast_states" />	
-	        <RadioButton
-	            android:id="@+id/radio1"
-	            android:layout_width="60dp"
-	            android:layout_height="wrap_content"
-	            android:layout_marginRight="0dp"
-	            android:button="@drawable/combat_humanoid_states" />
-	
-	        <RadioButton
-	            android:id="@+id/radio2"
-	            android:layout_width="60dp"
-	            android:layout_height="wrap_content"
-	            android:button="@drawable/combat_eldritch_states" />
-	    </RadioGroup>
-	
-	</LinearLayout>
-    <!-- 
-    <Button
-        android:id="@+id/btnAtkType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/combat_attack_type_noweapon" />-->
-    <Spinner 
-        android:id="@+id/spinAtkType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@drawable/combat_btn"
-        android:prompt="@string/combat_attack_type_prompt" />
+			    <RadioGroup
+			        android:id="@+id/radioGrpCbtClass"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="10dp"
+			        android:orientation="horizontal"
+			        android:checkedButton="@+id/radio0">
+			        <RadioButton
+			            android:id="@+id/radio0"
+			            android:layout_width="60dp"
+			            android:layout_height="wrap_content"
+			            android:layout_marginRight="10dp"
+			            android:button="@drawable/combat_beast_states" />
+			        <RadioButton
+			            android:id="@+id/radio1"
+			            android:layout_width="60dp"
+			            android:layout_height="wrap_content"
+			            android:layout_marginRight="10dp"
+			            android:button="@drawable/combat_humanoid_states" />
+			
+			        <RadioButton
+			            android:id="@+id/radio2"
+			            android:layout_width="60dp"
+			            android:layout_height="wrap_content"
+			            android:button="@drawable/combat_eldritch_states" />
+			    </RadioGroup>
+			
+			</LinearLayout>
+		    <Spinner 
+		        android:id="@+id/spinAtkType"
+		        android:layout_width="match_parent"
+		        android:layout_height="40dip"
+		        style="@style/CombatSpin"
+		        android:prompt="@string/combat_attack_type_prompt" />
+		    
+		</LinearLayout>
     
-   
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="185dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-       
->
-    <LinearLayout
-        android:id="@+id/linearLayoutTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="140dp"
-        android:orientation="vertical"
-        android:background="@drawable/combat_result_bg" 
-        android:layout_marginLeft="5dp"
-         android:layout_weight="1"
-        >
-
-        <TextView
-            android:id="@+id/txtResult"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"            
-            
-            android:editable="false"
-            android:singleLine="false"
-            android:maxLines="18"
-            android:textColor="@color/white" />
-    </LinearLayout>
- <Button
-        android:id="@+id/btnDraw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/combat_btn"
-        android:text="@string/combat_effect" />
-    </LinearLayout>
-</LinearLayout>
+	    <LinearLayout
+			android:layout_width="250dip"
+	        android:layout_height="fill_parent"
+	        android:orientation="vertical">
+		    
+			<LinearLayout
+			    android:id="@+id/linearLayoutTxt"
+			    android:layout_width="match_parent"
+        		android:layout_height="150dip"
+			    android:orientation="vertical"
+			    android:background="@drawable/combat_class_bg" 
+			    android:padding="10dip">
+		
+		       <TextView
+					android:id="@+id/txtResult"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"
+					android:editable="false"
+					android:singleLine="false"
+					android:maxLines="10"
+					android:textColor="@color/white" />
+		       
+		   	</LinearLayout>
+		   
+			<Button
+		       android:id="@+id/btnDraw"
+		       android:layout_width="match_parent"
+		       android:layout_height="40dip"
+		       style="@style/CombatBtn"
+		       android:text="@string/combat_effect" />
+		   
+		</LinearLayout>
+	</LinearLayout>
+    
     <Button
         android:id="@+id/btnClose"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/combat_btn"
+        android:layout_height="40dip"
+        style="@style/CombatBtn"
         android:text="@string/close" />
 
 </LinearLayout>
