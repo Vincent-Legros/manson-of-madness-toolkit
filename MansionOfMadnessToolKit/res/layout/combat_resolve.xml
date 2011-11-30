@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
+    android:layout_width="400dip"
     android:layout_height="fill_parent"
-    android:padding="10dp"
+    android:padding="10dip"
     android:orientation="vertical" >
 	
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/combat_class_bg" 
-        android:padding="20dp" >
+        android:padding="20dip" >
         
 	    <RadioGroup
 	        android:id="@+id/radioGrpCbtClass"
@@ -24,19 +24,19 @@
 	            android:id="@+id/radio0"
 	            android:layout_width="105dp"
 	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="5dp"
-	            android:layout_marginRight="12dp"
+	            android:layout_marginLeft="5dip"
+	            android:layout_marginRight="12dip"
 	            android:button="@drawable/combat_beast_states" />	
 	        <RadioButton
 	            android:id="@+id/radio1"
-	            android:layout_width="105dp"
+	            android:layout_width="105dip"
 	            android:layout_height="wrap_content"
-	            android:layout_marginRight="12dp"
+	            android:layout_marginRight="12dip"
 	            android:button="@drawable/combat_humanoid_states" />
 	
 	        <RadioButton
 	            android:id="@+id/radio2"
-	            android:layout_width="105dp"
+	            android:layout_width="105dip"
 	            android:layout_height="wrap_content"
 	            android:button="@drawable/combat_eldritch_states" />
 	    </RadioGroup>
@@ -46,14 +46,14 @@
         android:id="@+id/spinAtkType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/combat_btn"
+        style="@style/CombatSpin"
         android:prompt="@string/combat_attack_type_prompt" />
     
     <Button
         android:id="@+id/btnDraw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/combat_btn"
+        style="@style/CombatBtn"
         android:text="@string/combat_effect" />
 
     <LinearLayout
@@ -62,15 +62,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/combat_result_bg" 
-        android:padding="20dp">
+        android:padding="20dip">
 
         <TextView
             android:id="@+id/txtResult"
             android:layout_width="match_parent"
-            android:layout_height="200dp"            
-            android:drawablePadding="50dp"
+            android:layout_height="200dip"            
+            android:drawablePadding="50dip"
             android:editable="false"
-            android:ellipsize="marquee"
             android:maxLines="10"
             android:textColor="@color/white" />
 
@@ -80,7 +79,7 @@
         android:id="@+id/btnClose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/combat_btn"
+        style="@style/CombatBtn"
         android:text="@string/close" />
 
 </LinearLayout>

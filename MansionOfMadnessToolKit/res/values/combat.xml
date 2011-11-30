@@ -13,6 +13,7 @@
 	<string name="combat_monster_class_beast">Beast</string>
 	<string name="combat_monster_class_eldritch">Eldritch</string>
     
+    <string name="combat_attack_type_prompt">Choose an attack type</string>
     <string name="combat_attack_type">Attack Type</string>
     <string name="combat_attack_type_noweapon">No Weapon</string>
     <string name="combat_attack_type_meleeweapon">Melee Weapon</string>
@@ -21,9 +22,7 @@
     <string name="combat_attack_type_rangedweapon">Ranged Weapon</string>
     <string name="combat_attack_type_monsterattack">Monster Attack</string>
     <string name="combat_attack_type_monstervshiding">Monster vs. Hiding</string>
-    <string name="combat_attack_type_monstervsbarrier">Monster vs. Barrier</string>
-    
-    <string name="combat_attack_type_prompt">Sélectionner un type d\'attaque</string>
+    <string name="combat_attack_type_monstervsbarrier">Monster vs. Barrier</string>    
     
     <string name="combat_card_success">Success : </string>
     <string name="combat_card_failure">Failure : </string>
