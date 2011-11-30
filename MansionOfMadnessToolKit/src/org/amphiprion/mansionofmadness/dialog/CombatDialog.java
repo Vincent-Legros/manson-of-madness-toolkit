@@ -55,19 +55,16 @@ public class CombatDialog extends Dialog implements OnClickListener {
 		}
 		setTitle(context.getString(R.string.combat_title));
 
-		// mAtkType = (Button) findViewById(R.id.btnAtkType);
-		// mAtkType.setOnClickListener(this);
-		/*
-		 * mAtkType = (Spinner) findViewById(R.id.spinAtkType);
-		 * ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-		 * context, R.array.combat_attack_type_array,
-		 * android.R.layout.simple_spinner_item);
-		 * adapter.setDropDownViewResource
-		 * (android.R.layout.simple_spinner_dropdown_item);
-		 * mAtkType.setAdapter(adapter);
-		 */
 		mAtkType = (Spinner) findViewById(R.id.spinAtkType);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.combat_attack_type_array, R.layout.my_spinner_textview);
+		ArrayAdapter <CharSequence> adapter = new ArrayAdapter <CharSequence> (context, R.layout.my_spinner_textview);
+		adapter.add(mContext.getString(R.string.combat_attack_type_noweapon));
+		adapter.add(mContext.getString(R.string.combat_attack_type_meleeweapon));
+		adapter.add(mContext.getString(R.string.combat_attack_type_bluntmeleeweapon));
+		adapter.add(mContext.getString(R.string.combat_attack_type_sharpmeleeweapon));
+		adapter.add(mContext.getString(R.string.combat_attack_type_rangedweapon));
+		adapter.add(mContext.getString(R.string.combat_attack_type_monsterattack));
+		adapter.add(mContext.getString(R.string.combat_attack_type_monstervsbarrier));
+		adapter.add(mContext.getString(R.string.combat_attack_type_monstervshiding));				 		
 		// adapter.setDropDownViewResource(R.layout.my_spinner_textview);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mAtkType.setAdapter(adapter);
