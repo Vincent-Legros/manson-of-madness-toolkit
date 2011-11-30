@@ -42,17 +42,10 @@
 	    </RadioGroup>
 	
 	</LinearLayout>
-    <!-- 
-    <Button
-        android:id="@+id/btnAtkType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/combat_attack_type_noweapon" />-->
     <Spinner 
         android:id="@+id/spinAtkType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@drawable/combat_btn"
         android:prompt="@string/combat_attack_type_prompt" />
     

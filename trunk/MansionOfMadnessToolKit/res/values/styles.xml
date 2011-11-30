@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Dialog_Fullscreen"> 
-<item name="android:windowFullscreen">true</item> 
-<!-- item name="android:windowNoTitle">true</item--> 
-</style>
+		<item name="android:windowFullscreen">true</item> 
+		<!-- item name="android:windowNoTitle">true</item--> 
+	</style>
+	
+    <!-- Style of the combat windows -->
+	<style name="CombatDlgStyle" parent="@android:style/Theme.Dialog">
+	    <item name="android:windowBackground">@drawable/combat_bg</item>		
+		<!-- 
+		<item name="android:windowIsFloating">false</item>
+		<item name="android:windowBackground">@color/transparent_white</item>
+		<item name="android:windowIsFloating">true</item>
+		<item name="android:windowNoTitle">true</item> 
+		
+		<item name="android:windowFrame">@null</item>
+	    <item name="android:windowContentOverlay">@null</item>
+	    <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+	    <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+		-->	    
+	</style>
+	<style name="CombatBtnStyle">
+	    <item name="android:layout_width">wrap_content</item>
+	    <item name="android:layout_height">wrap_content</item>	    
+	    <!--
+	    <item name="android:textColor">@color/textColor</item> 
+	    <item name="android:textSize">@dimen/textSize</item>
+	    <item name="android:background">@color/btnBackground</item>
+	    <item name="android:layout_marginTop">@dimen/layoutMarginTop</item>
+	    -->
+	    <item name="android:layout_gravity">center_horizontal</item>
+	</style>
+	<style name="CombatTxtStyle" parent="@android:style/Widget.TextView">        
+        <!-- 
+        <item name="android:textSize">@dimen/textSize</item>
+        <item name="android:textColor">@color/textColor</item>
+        -->
+        <item name="android:textStyle">italic</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:windowBackground">@drawable/combat_result_bg</item>
+    </style>
+    
 </resources>
