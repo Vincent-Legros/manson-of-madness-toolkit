@@ -19,10 +19,6 @@
  */
 package org.amphiprion.mansionofmadness.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.CombatCard;
 import org.amphiprion.mansionofmadness.dto.Entity.DbState;
 
@@ -73,19 +69,10 @@ public class CombatCardDao extends AbstractDao {
 	 */
 	public CombatCard getCombatCard(String id) {
 
-		String sql = "SELECT " + 	
-					CombatCard.DbField.ID + "," +  
-					CombatCard.DbField.MONSTERCLASS + "," +
-					CombatCard.DbField.ATKTYPEINV + "," +
-					CombatCard.DbField.TESTINV + "," +
-					CombatCard.DbField.SUCCESSINV + "," +
-					CombatCard.DbField.FAILUREINV + "," +
-					CombatCard.DbField.ATKTYPEMON + "," +
-					CombatCard.DbField.TESTMON + "," +
-					CombatCard.DbField.SUCCESSMON + "," +
-					CombatCard.DbField.FAILUREMON + "," +
-					CombatCard.DbField.IS_EMBEDDED + 
-					" from COMBATCARD where " + CombatCard.DbField.ID + "=?";
+		String sql = "SELECT " + CombatCard.DbField.ID + "," + CombatCard.DbField.MONSTERCLASS + "," + CombatCard.DbField.ATKTYPEINV + "," + CombatCard.DbField.TESTINV + ","
+				+ CombatCard.DbField.SUCCESSINV + "," + CombatCard.DbField.FAILUREINV + "," + CombatCard.DbField.ATKTYPEMON + "," + CombatCard.DbField.TESTMON + ","
+				+ CombatCard.DbField.SUCCESSMON + "," + CombatCard.DbField.FAILUREMON + "," + CombatCard.DbField.IS_EMBEDDED + " from COMBATCARD where " + CombatCard.DbField.ID
+				+ "=?";
 
 		Cursor cursor = getDatabase().rawQuery(sql, new String[] { id });
 		CombatCard result = null;
@@ -106,7 +93,7 @@ public class CombatCardDao extends AbstractDao {
 		cursor.close();
 		return result;
 	}
-	
+
 	/**
 	 * Return the given CombatCard.
 	 * 
@@ -116,26 +103,20 @@ public class CombatCardDao extends AbstractDao {
 	 */
 	public CombatCard drawCombatCard(String monsterClass, String atkType) {
 
-		String sql = "SELECT " + 	
-					CombatCard.DbField.ID + "," + 
-					CombatCard.DbField.MONSTERCLASS + "," +
-					CombatCard.DbField.ATKTYPEINV + "," +
-					CombatCard.DbField.TESTINV + "," +
-					CombatCard.DbField.SUCCESSINV + "," +
-					CombatCard.DbField.FAILUREINV + "," +
-					CombatCard.DbField.ATKTYPEMON + "," +
-					CombatCard.DbField.TESTMON + "," +
-					CombatCard.DbField.SUCCESSMON + "," +
-					CombatCard.DbField.FAILUREMON + "," +
-					CombatCard.DbField.IS_EMBEDDED +
-					" from COMBATCARD where " + CombatCard.DbField.MONSTERCLASS + "=? and (" +
-												CombatCard.DbField.ATKTYPEINV + "=? or " +
-												CombatCard.DbField.ATKTYPEMON + "=?)";		
-		//System.out.println(sql + " : monsterClass=" + monsterClass + ", atkType=" + atkType);
-		Cursor cursor = getDatabase().rawQuery(sql, new String[] {monsterClass,atkType,atkType});
+		String sql = "SELECT " + CombatCard.DbField.ID + "," + CombatCard.DbField.MONSTERCLASS + "," + CombatCard.DbField.ATKTYPEINV + "," + CombatCard.DbField.TESTINV + ","
+				+ CombatCard.DbField.SUCCESSINV + "," + CombatCard.DbField.FAILUREINV + "," + CombatCard.DbField.ATKTYPEMON + "," + CombatCard.DbField.TESTMON + ","
+				+ CombatCard.DbField.SUCCESSMON + "," + CombatCard.DbField.FAILUREMON + "," + CombatCard.DbField.IS_EMBEDDED + " from COMBATCARD where "
+				+ CombatCard.DbField.MONSTERCLASS + "=? and (" + CombatCard.DbField.ATKTYPEINV + "=? or " + CombatCard.DbField.ATKTYPEMON + "=?)";
+		// System.out.println(sql + " : monsterClass=" + monsterClass +
+		// ", atkType=" + atkType);
+		Cursor cursor = getDatabase().rawQuery(sql, new String[] { monsterClass, atkType, atkType });
+		// Log.d(ApplicationConstants.PACKAGE, sql);
+		// Log.d(ApplicationConstants.PACKAGE, "     monsterClass=" +
+		// monsterClass);
+		// Log.d(ApplicationConstants.PACKAGE, "     atkType=" + atkType);
 		CombatCard result = null;
 		if (cursor.moveToFirst()) {
-			CombatCard entity = new CombatCard(cursor.getString(0));			
+			CombatCard entity = new CombatCard(cursor.getString(0));
 			entity.setMonsterClass(cursor.getString(1));
 			entity.setAtkTypeInv(cursor.getString(2));
 			entity.setTestInv(cursor.getString(3));
@@ -146,12 +127,14 @@ public class CombatCardDao extends AbstractDao {
 			entity.setSuccessMon(cursor.getString(8));
 			entity.setFailureMon(cursor.getString(9));
 			entity.setEmbedded(cursor.getInt(10) != 0);
-			System.out.println(entity.getTestInv());
+			// Log.d(ApplicationConstants.PACKAGE, "*" +
+			// entity.getMonsterClass() + "*    *" + entity.getAtkTypeMon() +
+			// "*");
 			result = entity;
 		}
 		cursor.close();
-		
-		//TODO DELETE CARD AND REINSERT IT AT THE END
+
+		// TODO DELETE CARD AND REINSERT IT AT THE END
 		return result;
 	}
 
@@ -164,18 +147,10 @@ public class CombatCardDao extends AbstractDao {
 	private void create(CombatCard entity) {
 		getDatabase().beginTransaction();
 		try {
-			String sql = "insert into COMBATCARD (" + 
-						CombatCard.DbField.ID + "," + 
-						CombatCard.DbField.MONSTERCLASS + "," +
-						CombatCard.DbField.ATKTYPEINV + "," +
-						CombatCard.DbField.TESTINV + "," +
-						CombatCard.DbField.SUCCESSINV + "," +
-						CombatCard.DbField.FAILUREINV + "," +
-						CombatCard.DbField.ATKTYPEMON + "," +
-						CombatCard.DbField.TESTMON + "," +
-						CombatCard.DbField.SUCCESSMON + "," +
-						CombatCard.DbField.FAILUREMON + "," +
-						CombatCard.DbField.IS_EMBEDDED + ") values (?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into COMBATCARD (" + CombatCard.DbField.ID + "," + CombatCard.DbField.MONSTERCLASS + "," + CombatCard.DbField.ATKTYPEINV + ","
+					+ CombatCard.DbField.TESTINV + "," + CombatCard.DbField.SUCCESSINV + "," + CombatCard.DbField.FAILUREINV + "," + CombatCard.DbField.ATKTYPEMON + ","
+					+ CombatCard.DbField.TESTMON + "," + CombatCard.DbField.SUCCESSMON + "," + CombatCard.DbField.FAILUREMON + "," + CombatCard.DbField.IS_EMBEDDED
+					+ ") values (?,?,?,?,?,?,?,?,?,?,?)";
 			Object[] params = new Object[4];
 			params[0] = entity.getId();
 			params[1] = entity.getMonsterClass();
@@ -188,7 +163,7 @@ public class CombatCardDao extends AbstractDao {
 			params[8] = entity.getSuccessMon();
 			params[9] = entity.getFailureMon();
 			params[10] = entity.isEmbedded() ? "1" : "0";
-			
+
 			execSQL(sql, params);
 
 			getDatabase().setTransactionSuccessful();
@@ -200,16 +175,9 @@ public class CombatCardDao extends AbstractDao {
 	}
 
 	private void update(CombatCard entity) {
-		String sql = "update COMBATCARD set " +  
-				CombatCard.DbField.MONSTERCLASS + "=?," +
-				CombatCard.DbField.ATKTYPEINV + "=?," +
-				CombatCard.DbField.TESTINV + "=?," +
-				CombatCard.DbField.SUCCESSINV + "=?," +
-				CombatCard.DbField.FAILUREINV + "=?," +
-				CombatCard.DbField.ATKTYPEMON + "=?," +
-				CombatCard.DbField.TESTMON + "=?," +
-				CombatCard.DbField.SUCCESSMON + "=?," +
-				CombatCard.DbField.FAILUREMON + "=? WHERE " + CombatCard.DbField.ID + "=?";
+		String sql = "update COMBATCARD set " + CombatCard.DbField.MONSTERCLASS + "=?," + CombatCard.DbField.ATKTYPEINV + "=?," + CombatCard.DbField.TESTINV + "=?,"
+				+ CombatCard.DbField.SUCCESSINV + "=?," + CombatCard.DbField.FAILUREINV + "=?," + CombatCard.DbField.ATKTYPEMON + "=?," + CombatCard.DbField.TESTMON + "=?,"
+				+ CombatCard.DbField.SUCCESSMON + "=?," + CombatCard.DbField.FAILUREMON + "=? WHERE " + CombatCard.DbField.ID + "=?";
 		Object[] params = new Object[3];
 		params[0] = entity.getMonsterClass();
 		params[1] = entity.getAtkTypeInv();
