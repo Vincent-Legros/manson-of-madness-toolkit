@@ -21,9 +21,9 @@ package org.amphiprion.mansionofmadness.database;
 
 import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.dto.Card;
-import org.amphiprion.mansionofmadness.dto.CombatCard;
 import org.amphiprion.mansionofmadness.dto.CardPileCard;
 import org.amphiprion.mansionofmadness.dto.CardPileInstance;
+import org.amphiprion.mansionofmadness.dto.CombatCard;
 import org.amphiprion.mansionofmadness.dto.RandomCardPileCard;
 import org.amphiprion.mansionofmadness.dto.Scenario;
 import org.amphiprion.mansionofmadness.dto.Sound;
@@ -341,29 +341,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 			db.execSQL("create table SOUND_INSTANCE (" + SoundInstance.DbField.ID + " text primary key, " + SoundInstance.DbField.SCENARIO_ID + " text not null, "
 					+ SoundInstance.DbField.SOUND_ID + " text not null, " + SoundInstance.DbField.POS_X + " number not null, " + SoundInstance.DbField.POS_Y + " number not null) ");
-			
-			db.execSQL("create table COMBATCARD (" 
-					+ CombatCard.DbField.ID + " text primary key, " 
-					+ CombatCard.DbField.MONSTERCLASS + " text not null,"
-					+ CombatCard.DbField.ATKTYPEINV + " text,"
-					+ CombatCard.DbField.TESTINV + " text,"
-					+ CombatCard.DbField.SUCCESSINV + " text,"
-					+ CombatCard.DbField.FAILUREINV + " text,"
-					+ CombatCard.DbField.ATKTYPEMON + " text,"
-					+ CombatCard.DbField.TESTMON + " text,"
-					+ CombatCard.DbField.SUCCESSMON + " text,"
-					+ CombatCard.DbField.FAILUREMON + " text,"
-					+ CombatCard.DbField.IS_EMBEDDED + " number(1)" + ") ");
+
+			db.execSQL("create table COMBATCARD (" + CombatCard.DbField.ID + " text primary key, " + CombatCard.DbField.MONSTERCLASS + " text not null,"
+					+ CombatCard.DbField.ATKTYPEINV + " text," + CombatCard.DbField.TESTINV + " text," + CombatCard.DbField.SUCCESSINV + " text," + CombatCard.DbField.FAILUREINV
+					+ " text," + CombatCard.DbField.ATKTYPEMON + " text," + CombatCard.DbField.TESTMON + " text," + CombatCard.DbField.SUCCESSMON + " text,"
+					+ CombatCard.DbField.FAILUREMON + " text," + CombatCard.DbField.IS_EMBEDDED + " number(1)" + ") ");
 			db.execSQL("insert into COMBATCARD values('1','combat_monster_class_beast',"
-					+ "'combat_attack_type_meleeweapon','combat_card_01_inv','combat_card_01_inv_success','combat_card_01_inv_failure,"
-					+ "'combat_attack_type_monstervsbarrier','combat_card_01_mon','combat_card_01_mon_success','combat_card_01_mon_failure,1) ");
+					+ "'combat_attack_type_meleeweapon','combat_card_01_inv','combat_card_01_inv_success','combat_card_01_inv_failure',"
+					+ "'combat_attack_type_monstervsbarrier','combat_card_01_mon','combat_card_01_mon_success','combat_card_01_mon_failure',1) ");
 			db.execSQL("insert into COMBATCARD values('2','combat_monster_class_eldritch',"
-					+ "'combat_attack_type_rangedweapon','combat_card_02_inv','combat_card_02_inv_success','combat_card_02_inv_failure,"
-					+ "'combat_attack_type_monsterattack','combat_card_02_mon','combat_card_02_mon_success','combat_card_02_mon_failure,1) ");
+					+ "'combat_attack_type_rangedweapon','combat_card_02_inv','combat_card_02_inv_success','combat_card_02_inv_failure',"
+					+ "'combat_attack_type_monsterattack','combat_card_02_mon','combat_card_02_mon_success','combat_card_02_mon_failure',1) ");
 			db.execSQL("insert into COMBATCARD values('3','combat_monster_class_humanoid',"
-					+ "'combat_attack_type_rangedweapon','combat_card_03_inv','combat_card_03_inv_success','combat_card_03_inv_failure,"
-					+ "'combat_attack_type_monsterattack','combat_card_03_mon','combat_card_03_mon_success','combat_card_03_mon_failure,1) ");
-			
+					+ "'combat_attack_type_rangedweapon','combat_card_03_inv','combat_card_03_inv_success','combat_card_03_inv_failure',"
+					+ "'combat_attack_type_monsterattack','combat_card_03_mon','combat_card_03_mon_success','combat_card_03_mon_failure',1) ");
+
 			onUpgrade(db, 1, DATABASE_VERSION);
 		} catch (Throwable e) {
 			Log.e(ApplicationConstants.PACKAGE, "", e);
