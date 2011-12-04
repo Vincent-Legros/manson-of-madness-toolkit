@@ -18,24 +18,24 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
-	        android:checkedButton="@+id/radio0">
+	        android:checkedButton="@+id/rb_beast">
 	
 	        <RadioButton
-	            android:id="@+id/radio0"
+	            android:id="@+id/rb_beast"
 	            android:layout_width="105dp"
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="5dip"
 	            android:layout_marginRight="12dip"
 	            android:button="@drawable/combat_beast_states" />	
 	        <RadioButton
-	            android:id="@+id/radio1"
+	            android:id="@+id/rb_humanoid"
 	            android:layout_width="105dip"
 	            android:layout_height="wrap_content"
 	            android:layout_marginRight="12dip"
 	            android:button="@drawable/combat_humanoid_states" />
 	
 	        <RadioButton
-	            android:id="@+id/radio2"
+	            android:id="@+id/rb_eldritch"
 	            android:layout_width="105dip"
 	            android:layout_height="wrap_content"
 	            android:button="@drawable/combat_eldritch_states" />

@@ -24,12 +24,29 @@
     <string name="combat_attack_type_monstervshiding">Monstre contre Planque</string>
     <string name="combat_attack_type_monstervsbarrier">Monstre contre Barricade</string>
     
+    <string name="combat_card_notfound">Aucune carte correspondant aux critères n\'a été trouvée !</string>
     <string name="combat_card_success">Réussite : </string>
     <string name="combat_card_failure">Echec : </string>
+    
+    <!-- CARD 01 TEXT -->
 	<string name="combat_card_01_inv">Vous essayez une feinte avant de vous jeter sur le monstre. Faites un test d\'Intellect.</string>
-	<string name="combat_card_01_inv_success">il est tombé dans votre piège et subit l\'attaque de plein fouet.</string>
+	<string name="combat_card_01_inv_success">il est tombé dans votre piège et subit l\'attaque de plein fouet. Infligez les points de dégâts de l\'arme.</string>
 	<string name="combat_card_01_inv_failure">il a compris votre feinte. Prenez 2 points de dégâts.</string>	 
-	<string name="combat_card_01_mon">Le monstre se rue contre la porte en baissant la tête. Le gardien fait un test de la valeur de dégâts du monstr +1.</string>
+	<string name="combat_card_01_mon">Le monstre se rue contre la porte en baissant la tête. Le gardien fait un test de la valeur de dégâts du monstre +1.</string>
 	<string name="combat_card_01_mon_success">la barricade est détruite.</string>
-	<string name="combat_card_01_mon_failure">le monstre reçoit 1 point de dégâts.</string>	 
+	<string name="combat_card_01_mon_failure">le monstre reçoit 1 point de dégâts.</string>
+	<!-- CARD 02 TEXT -->
+	<string name="combat_card_02_inv">Vous visez le point le plus vulnérable de la chose. Faites un test de Tir.</string>
+	<string name="combat_card_02_inv_success">vous plantez une balle dans ce que vous pensez être un oeil. Infligez les points de dégâts de l\'arme et assommez le monstre.</string>
+	<string name="combat_card_02_inv_failure">il apparait invincible ! Prenez 1 point d\'horreur.</string>	 
+	<string name="combat_card_02_mon">Avec une célérité alarmante, l\'abomination essaye de vous renversez avec sa masse. Faites un test de Dextérité.</string>
+	<string name="combat_card_02_mon_success">vous parvenez à ne pas être écrasé. Pas d\'effet.</string>
+	<string name="combat_card_02_mon_failure">la chose vous cloue au sol avec sa masse monstrueuse. Le monstre vous blesse et vous êtes assommé.</string>
+	<!-- CARD 03 TEXT -->
+	<string name="combat_card_03_inv">Vous dégainez rapidement votre et vous faites feu. Faites un test de Tir.</string>
+	<string name="combat_card_03_inv_success">votre instinct a fait mouche. Infligez les points de dégâts de l\'arme.</string>
+	<string name="combat_card_03_inv_failure">le tir loupe complètement votre ennemi. Pas d\'effet.</string>	 
+	<string name="combat_card_03_mon">Le monstre faite son attaque spéciale.</string>
+	<string name="combat_card_03_mon_success"></string>
+	<string name="combat_card_03_mon_failure"></string>	 
 </resources>
