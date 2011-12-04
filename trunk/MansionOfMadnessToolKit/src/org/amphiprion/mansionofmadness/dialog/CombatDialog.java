@@ -19,6 +19,7 @@
  */
 package org.amphiprion.mansionofmadness.dialog;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 
 import android.app.Dialog;
@@ -28,21 +29,33 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import org.amphiprion.mansionofmadness.dto.CombatCard;
+import org.amphiprion.mansionofmadness.dao.CombatCardDao;
+import java.util.LinkedHashMap;
+import java.util.Iterator;
 
 public class CombatDialog extends Dialog implements OnClickListener {
 	private Context mContext;
-	private Spinner mAtkType;
-	private Button mDraw;
-	private Button mClose;
-	private TextView mResult;
+	private RadioButton mRbBeast;
+	private RadioButton mRbHumanoid;
+	private RadioButton mRbEldritch;
+	private Spinner mSpinAtkType;
+	private Button mBtnDraw;
+	private Button mBtnClose;
+	private TextView mTvResult;
+	private LinkedHashMap<String, String> mAtkTypeMap;
+	
+	static final String MONSTER = "monster";
 
 	// private RadioGroup mRadioGroup;
 
 	public CombatDialog(Context context, int height) {
 		// super(context, R.style.CombatDlgStyle);
-		super(context);
+		super(context, android.R.style.Theme_Holo_Dialog);
+		//super(context);
 		mContext = context;
 		boolean smallScreen = height < 600;
 
@@ -55,40 +68,79 @@ public class CombatDialog extends Dialog implements OnClickListener {
 		}
 		setTitle(context.getString(R.string.combat_title));
 
-		mAtkType = (Spinner) findViewById(R.id.spinAtkType);
-		ArrayAdapter <CharSequence> adapter = new ArrayAdapter <CharSequence> (context, R.layout.my_spinner_textview);
-		adapter.add(mContext.getString(R.string.combat_attack_type_noweapon));
-		adapter.add(mContext.getString(R.string.combat_attack_type_meleeweapon));
-		adapter.add(mContext.getString(R.string.combat_attack_type_bluntmeleeweapon));
-		adapter.add(mContext.getString(R.string.combat_attack_type_sharpmeleeweapon));
-		adapter.add(mContext.getString(R.string.combat_attack_type_rangedweapon));
-		adapter.add(mContext.getString(R.string.combat_attack_type_monsterattack));
-		adapter.add(mContext.getString(R.string.combat_attack_type_monstervsbarrier));
-		adapter.add(mContext.getString(R.string.combat_attack_type_monstervshiding));				 		
+		mRbBeast = (RadioButton) findViewById(R.id.rb_beast);
+		mRbHumanoid = (RadioButton) findViewById(R.id.rb_humanoid);
+		mRbEldritch = (RadioButton) findViewById(R.id.rb_eldritch);
+		
+		mAtkTypeMap = new LinkedHashMap<String, String>();
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_noweapon),"combat_attack_type_noweapon");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_meleeweapon),"combat_attack_type_meleeweapon");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_bluntmeleeweapon),"combat_attack_type_bluntmeleeweapon");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_sharpmeleeweapon),"combat_attack_type_sharpmeleeweapon");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_rangedweapon),"combat_attack_type_rangedweapon");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_monsterattack),"combat_attack_type_monsterattack");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_monstervsbarrier),"combat_attack_type_monstervsbarrier");
+		mAtkTypeMap.put(mContext.getString(R.string.combat_attack_type_monstervshiding),"combat_attack_type_monstervshiding");		
+		mSpinAtkType = (Spinner) findViewById(R.id.spinAtkType);
+		ArrayAdapter <String> adapter = new ArrayAdapter <String> (context, R.layout.my_spinner_textview);
+		for (LinkedHashMap.Entry<String, String> entry : mAtkTypeMap.entrySet()) {
+		    adapter.add(entry.getKey());
+		}
 		// adapter.setDropDownViewResource(R.layout.my_spinner_textview);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		mAtkType.setAdapter(adapter);
+		mSpinAtkType.setAdapter(adapter);
 
-		mDraw = (Button) findViewById(R.id.btnDraw);
-		mDraw.setOnClickListener(this);
+		mBtnDraw = (Button) findViewById(R.id.btnDraw);
+		mBtnDraw.setOnClickListener(this);
 
-		mClose = (Button) findViewById(R.id.btnClose);
-		mClose.setOnClickListener(this);
+		mBtnClose = (Button) findViewById(R.id.btnClose);
+		mBtnClose.setOnClickListener(this);
 
-		mResult = (TextView) findViewById(R.id.txtResult);
+		mTvResult = (TextView) findViewById(R.id.txtResult);
 		if (smallScreen) {
-			mResult.setTextSize(10);
+			mTvResult.setTextSize(10);
 		}
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v == mClose) {
+		if (v == mBtnClose) {
 			dismiss();
-		} else if (v == mDraw) {
-			// TODO retrieve card from db
-			displayTxt(mContext.getString(R.string.combat_card_01_inv), mContext.getString(R.string.combat_card_01_inv_success),
-					mContext.getString(R.string.combat_card_01_inv_failure));
+		} else if (v == mBtnDraw) {			
+			// Retrieve the selected button value
+			String monsterClass = "";
+			if (mRbBeast.isChecked() == true) {
+				//monsterClass = mContext.getString(R.string.combat_monster_class_beast);
+				monsterClass = "combat_monster_class_beast";
+			} else if(mRbHumanoid.isChecked() == true) {
+				//monsterClass = mContext.getString(R.string.combat_monster_class_humanoid);
+				monsterClass = "combat_monster_class_humanoid";
+			} else if(mRbEldritch.isChecked() == true) {
+				//monsterClass = mContext.getString(R.string.combat_monster_class_eldritch);
+				monsterClass = "combat_monster_class_eldritch";
+			}			
+			// Retrieve the spinner value
+			String atkType = mSpinAtkType.getSelectedItem().toString();
+			
+			// Draw the right card			
+			CombatCard card = CombatCardDao.getInstance(mContext).drawCombatCard(monsterClass, (String)mAtkTypeMap.get(atkType));
+			String test = "";
+			String success = "";
+			String failure = "";
+			if (card != null) { 				
+				if (atkType.indexOf(MONSTER) != -1){
+					test = mContext.getString(mContext.getResources().getIdentifier(card.getTestMon(), "string", ApplicationConstants.PACKAGE));
+					success = mContext.getString(mContext.getResources().getIdentifier(card.getSuccessMon(), "string", ApplicationConstants.PACKAGE));
+					failure = mContext.getString(mContext.getResources().getIdentifier(card.getFailureMon(), "string", ApplicationConstants.PACKAGE));
+				}else{
+					test = mContext.getString(mContext.getResources().getIdentifier(card.getTestInv(), "string", ApplicationConstants.PACKAGE));
+					success = mContext.getString(mContext.getResources().getIdentifier(card.getSuccessInv(), "string", ApplicationConstants.PACKAGE));
+					failure = mContext.getString(mContext.getResources().getIdentifier(card.getFailureInv(), "string", ApplicationConstants.PACKAGE));
+				}
+			}else{
+				test = mContext.getString(R.string.combat_card_notfound);
+			}
+			displayTxt(test, success,failure);
 		}
 	}
 
@@ -96,7 +148,7 @@ public class CombatDialog extends Dialog implements OnClickListener {
 		String formattedTest = "<font color=#ffffff><b><i>" + test + "</i></b></font>";
 		String formattedSuccess = "<font color=#00ff00><b>" + mContext.getString(R.string.combat_card_success) + "&nbsp;" + success + "</b></font>";
 		String formattedFailure = "<font color=#ff0000><b>" + mContext.getString(R.string.combat_card_failure) + "&nbsp;" + failure + "</b></font>";
-		mResult.setText(Html.fromHtml(formattedTest + "<br/><br/>" + formattedSuccess + "<br/><br/>" + formattedFailure));
+		mTvResult.setText(Html.fromHtml(formattedTest + "<br/><br/>" + formattedSuccess + "<br/><br/>" + formattedFailure));
 	}
 
 }
