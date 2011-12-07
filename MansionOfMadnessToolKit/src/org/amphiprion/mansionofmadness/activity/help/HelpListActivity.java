@@ -73,7 +73,11 @@ public class HelpListActivity extends PaginedListActivity<Help> implements IMenu
 
 	public static List<Help> getHelps(Context context) {
 		List<Help> helps = new ArrayList<Help>();
+		helps.add(new Help(context, R.string.help_replace_tile_image, R.string.help_replace_tile_image_text));
+		helps.add(new Help(context, R.string.help_replace_card_back_image, R.string.help_replace_card_back_image_text));
 		helps.add(new Help(context, R.string.help_create_scenario, R.string.help_create_scenario_text));
+		helps.add(new Help(context, R.string.help_add_element, R.string.help_add_element_text));
+		helps.add(new Help(context, R.string.help_update_element, R.string.help_update_element_text));
 		return helps;
 
 	}
