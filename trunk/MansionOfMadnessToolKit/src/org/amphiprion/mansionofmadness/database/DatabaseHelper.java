@@ -38,7 +38,7 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "amphiprion_mansionofmadness";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -342,6 +342,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL("create table SOUND_INSTANCE (" + SoundInstance.DbField.ID + " text primary key, " + SoundInstance.DbField.SCENARIO_ID + " text not null, "
 					+ SoundInstance.DbField.SOUND_ID + " text not null, " + SoundInstance.DbField.POS_X + " number not null, " + SoundInstance.DbField.POS_Y + " number not null) ");
 
+			onUpgrade(db, 1, DATABASE_VERSION);
+		} catch (Throwable e) {
+			Log.e(ApplicationConstants.PACKAGE, "", e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		if (oldVersion == 1) {
 			db.execSQL("create table COMBATCARD (" + CombatCard.DbField.ID + " text primary key, " + CombatCard.DbField.MONSTERCLASS + " text not null,"
 					+ CombatCard.DbField.ATKTYPEINV + " text," + CombatCard.DbField.TESTINV + " text," + CombatCard.DbField.SUCCESSINV + " text," + CombatCard.DbField.FAILUREINV
 					+ " text," + CombatCard.DbField.ATKTYPEMON + " text," + CombatCard.DbField.TESTMON + " text," + CombatCard.DbField.SUCCESSMON + " text,"
@@ -356,22 +368,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					+ "'combat_attack_type_rangedweapon','combat_card_03_inv','combat_card_03_inv_success','combat_card_03_inv_failure',"
 					+ "'combat_attack_type_monsterattack','combat_card_03_mon','combat_card_03_mon_success','combat_card_03_mon_failure',1) ");
 
-			onUpgrade(db, 1, DATABASE_VERSION);
-		} catch (Throwable e) {
-			Log.e(ApplicationConstants.PACKAGE, "", e);
+			oldVersion++;
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// if (oldVersion == 1) {
-		// db.execSQL("ALTER TABLE COUNTER ADD " + Counter.DbField.DEFAULT_VALUE
-		// + " integer default 0");
-		// oldVersion++;
-		// }
 	}
 
 }

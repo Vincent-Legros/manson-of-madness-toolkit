@@ -5,7 +5,7 @@
     <string name="help_menu_ask_new_help_body">Bonjour,\nPourriez-vous ajouter l\'aide suivante :\n</string>
 
 
-    <string name="help_create_scenario">Définir un scénario</string>
+    <string name="help_create_scenario">Définir un scénario depuis une histoire</string>
     <string name="help_create_scenario_text">Voici la marche à suivre pour créer un scénario du livret de règle du jeu de base :
 \n\n1) Dans l\'écran affichant la liste des scénario existants, vous prenez l\'"Histoire 1" par exemple, et avec un click long, vous choisissez "Dupliquer". 
 \n\n2) Vous renommez ce nouveau scénario, via un click long, en mettant à la fin, par exemple 1A-2B-1C (si vous avez choisi de créer ce cheminement d\'histoire). 
@@ -15,6 +15,40 @@
 \n\n5) Il doit ensuite rester des piles vides (dans lesquelles viendra 1 carte aléatoirement lors du lancement du scénario). 
 \n\n6) Pour ces cartes aléatoire, vous les glissez/déposez dans la pile fixe contenant un "Dé", située en haut à droite de l\'écran. 
 \n\n     --> Le scénario est créé (pensez à sauver régulièrement lorsque vous créez votre scénario, au cas où, en cliquant sur l\'image de la carte SD). 
-\n\n7) Ensuite revenez dans la liste des scénario et cliquez sur ce scénario pour lancer la "partie".</string>
+\n\n7) Ensuite revenez dans la liste des scénario et cliquez sur ce scénario pour lancer la "partie".\n</string>
 
+    <string name="help_replace_tile_image">Remplacer les images des tuiles</string>
+    <string name="help_replace_tile_image_text">Il vous est possible de remplacer toutes les images des tuiles fournis avec l\'application.
+    
+    \n\nPour celà, il suffit de remplacer les images situées sur la carte SD à l\'emplacement suivant :
+    \n/mnt/sdcard/ToolkitMoM/images/tiles.
+    \n\nNous n\'avons pu vous fournir de meilleurs images du fait du copyright FFG.\n</string>
+
+    <string name="help_replace_card_back_image">Remplacer les images de dos des cartes</string>
+    <string name="help_replace_card_back_image_text">Il vous est possible de remplacer toutes les images des dos de carte fournis avec l\'application.
+    
+    \n\nPour celà, il suffit de remplacer les images situées sur la carte SD à l\'emplacement suivant :
+    \n/mnt/sdcard/ToolkitMoM/images/cards.
+    \n\nNous n\'avons pu vous fournir de meilleurs images du fait du copyright FFG.\n</string>
+
+<string name="help_add_element">Ajouter mes propres éléments</string>
+    <string name="help_add_element_text">Vous pouvez ajouter vos propres tuiles, sons, cartes et scénarios.
+    
+    \n\nPour faire celà :
+    \n1) Aller dans l\'onglet correspondant
+    \n2) Ouvrir le menu standard Android.
+    \n3) Choisir l\'entrée de menu "Nouveau ...".
+    \n4) Remplir les champs requis
+    \n5) Cliquer sur le bouton Ok.\n</string>
+    
+    
+    <string name="help_update_element">Modifier un élément</string>
+    <string name="help_update_element_text">Vous pouvez modifier les tuiles, sons, cartes et scénarios.
+    
+    \n\nPour faire celà :
+    \n1) Aller dans l\'onglet correspondant
+    \n2) Faire un click long sur l\'élément à modifier.
+    \n3) Choisir l\'entrée de menu "Modifier".
+    \n4) Modifier les champs requis
+    \n5) Cliquer sur le bouton Ok.\n</string>
 </resources> 

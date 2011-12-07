@@ -4,16 +4,51 @@
     <string name="help_menu_ask_new_help">Ask a new Help</string>
     <string name="help_menu_ask_new_help_body">Hello,\nCould you please add the following help:\n</string>
     
-    <string name="help_create_scenario">Define a scenario</string>
+    <string name="help_create_scenario">Define a scenario from a Story</string>
     <string name="help_create_scenario_text">Here, a detailed example to create a scenario of the original rule book:
-\n\n1) From the screen displaying the list of existing scenarios, do a long click on the "History 1", for example, and choose the "Copy" menu option. 
-\n\n2) Rename this new created scenario, doing a long click on it, and add for example at the end of the name, "1A-2B-1C" (If this this the story-board you have choosen to create) 
+\n\n1) From the screen displaying the list of existing scenarios, do a long click on the "Story 1", for example, and choose the "Copy" menu option. 
+\n\n2) Rename this new created scenario, doing a long click on it, and add for example at the end of the name, "1A-2B-1C" (If this this the story-board you have chosen to create) 
 \n\n3) Do again a long click on this new scenario and choose the "Update" menu option. 
 \n\n     --> You will need the rule book to know which cards to put in which rooms (each room card pile is a white dotted rectangle on the map editor). 
 \n\n4) Using the left floating menu, drag and drop given cards in the right card piles (following the rule book orders) 
 \n\n5) At the end you must have some empty room card pile (those piles will be filled with 1 random card during the scenario execution) 
 \n\n6) To define which card to put in the random card pool, simply drag and drag those card to the fixed card pile (having a dice icon on it), on the top-right of the screen. 
 \n\n     --> Now the scenario is created (Does not forget to save regularly, just in case, using the SD card icon) 
-\n\n7) Then go back to the scenario list screen and click on this scenario to launch it.</string>
+\n\n7) Then go back to the scenario list screen and click on this scenario to launch it.\n</string>
+
+
+    <string name="help_replace_tile_image">Replace tiles image</string>
+    <string name="help_replace_tile_image_text">You can replace all tiles image provided with the application.
+    
+    \n\nTo do that, just replace images under the following directory :
+    \n/mnt/sdcard/ToolkitMoM/images/tiles.
+    \n\nWe could not provide you with better images due to FFG copyright.\n</string>
+
+    <string name="help_replace_card_back_image">Replace card back image</string>
+    <string name="help_replace_card_back_image_text">You can replace all cards back image provided with the application.
+    
+    \n\nTo do that, just replace images under the following directory :
+    \n/mnt/sdcard/ToolkitMoM/images/cards.
+    \n\nWe could not provide you with better images due to FFG copyright.\n</string>
+
+    <string name="help_add_element">Add my own elements</string>
+    <string name="help_add_element_text">You can add your own tile, sound, card and scenario.
+    
+    \n\nTo do that :
+    \n1) Go to the matching tab
+    \n2) Open the standard Android menu.
+    \n3) Choose the "New ..." menu entry.
+    \n4) Fill the required fields
+    \n5) Click the Ok button.\n</string>
+
+   <string name="help_update_element">Edit an element</string>
+    <string name="help_update_element_text">You can edit all tiles, sounds, cards and scenarios.
+    
+    \n\nTo do that :
+    \n1) Go to the matching tab
+    \n2) Do a long click on the element to update.
+    \n3) Choose the "Edit" menu entry.
+    \n4) Edit the required fields
+    \n5) Click the Ok button.\n</string>
 
 </resources> 
