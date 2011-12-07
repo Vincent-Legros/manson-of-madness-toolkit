@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import org.amphiprion.mansionofmadness.ApplicationConstants;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.opengl.GLUtils;
+import android.os.Environment;
 
 public class TextureUtil {
 	private static Map<String, Texture> textures = new HashMap<String, Texture>();
@@ -91,7 +94,11 @@ public class TextureUtil {
 					} catch (Exception e) {
 					}
 				} else {
-					is = TextureUtil.class.getResourceAsStream("/images/" + uri);
+					try {
+						is = new FileInputStream(Environment.getExternalStorageDirectory() + "/" + ApplicationConstants.DIRECTORY_IMAGE + "/" + uri);
+					} catch (Exception e) {
+						is = TextureUtil.class.getResourceAsStream("/images/" + uri);
+					}
 				}
 				if (is == null) {
 					is = TextureUtil.class.getResourceAsStream("/images/tiles/icons/close.png");

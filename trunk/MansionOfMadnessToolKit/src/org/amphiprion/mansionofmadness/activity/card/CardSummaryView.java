@@ -19,6 +19,10 @@
  */
 package org.amphiprion.mansionofmadness.activity.card;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import org.amphiprion.mansionofmadness.ApplicationConstants;
 import org.amphiprion.mansionofmadness.R;
 import org.amphiprion.mansionofmadness.dto.Card;
 
@@ -26,6 +30,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,7 +79,15 @@ public class CardSummaryView extends LinearLayout {
 		imglp.rightMargin = 5;
 		img.setLayoutParams(imglp);
 
-		Bitmap bitmap = BitmapFactory.decodeStream(getClass().getResourceAsStream("/images/cards/back_" + card.getType() + ".png"));
+		InputStream is = null;
+		try {
+			is = new FileInputStream(Environment.getExternalStorageDirectory() + "/" + ApplicationConstants.DIRECTORY_IMAGE_CARD + "/back_" + card.getType() + ".png");
+		} catch (Exception e) {
+		}
+		if (is == null) {
+			is = getClass().getResourceAsStream("/images/cards/back_" + card.getType() + ".png");
+		}
+		Bitmap bitmap = BitmapFactory.decodeStream(is);
 
 		img.setImageBitmap(bitmap);
 		return img;

@@ -19,9 +19,19 @@
  */
 package org.amphiprion.mansionofmadness;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.amphiprion.mansionofmadness.dao.TileDao;
+import org.amphiprion.mansionofmadness.dto.Tile;
 import org.amphiprion.mansionofmadness.util.DeviceUtil;
 
 import android.app.Application;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * @author ng00124c
@@ -38,6 +48,56 @@ public class MansionOfMadnessToolKitApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		DeviceUtil.init(this);
+
+		// Move to SDCARD images of embedded Tiles
+		String path = Environment.getExternalStorageDirectory() + "/" + ApplicationConstants.DIRECTORY_IMAGE_TILE;
+		File imgPath = new File(path);
+		imgPath.mkdirs();
+
+		byte[] b = new byte[2048];
+		int len = 0;
+
+		List<Tile> tiles = TileDao.getInstance(this).getEmbeddedTiles();
+		for (Tile tile : tiles) {
+			File f = new File(imgPath, tile.getImageName());
+			if (!f.exists()) {
+				try {
+					FileOutputStream fos = new FileOutputStream(f);
+					InputStream is = getClass().getResourceAsStream("/images/tiles/" + tile.getImageName());
+					while ((len = is.read(b)) > 0) {
+						fos.write(b, 0, len);
+					}
+					fos.close();
+					is.close();
+				} catch (IOException e) {
+					Log.e(ApplicationConstants.PACKAGE, "", e);
+				}
+			}
+		}
+
+		// Move to SDCARD images of card back
+		path = Environment.getExternalStorageDirectory() + "/" + ApplicationConstants.DIRECTORY_IMAGE_CARD;
+		imgPath = new File(path);
+		imgPath.mkdirs();
+
+		String[] strs = new String[] { "back_exploration.png", "back_lock.png", "back_obstacle.png" };
+		for (String str : strs) {
+			File f = new File(imgPath, str);
+			if (!f.exists()) {
+				try {
+					FileOutputStream fos = new FileOutputStream(f);
+					InputStream is = getClass().getResourceAsStream("/images/cards/" + str);
+					while ((len = is.read(b)) > 0) {
+						fos.write(b, 0, len);
+					}
+					fos.close();
+					is.close();
+				} catch (IOException e) {
+					Log.e(ApplicationConstants.PACKAGE, "", e);
+				}
+			}
+		}
+
 	}
 
 	/*

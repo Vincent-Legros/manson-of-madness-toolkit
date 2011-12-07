@@ -97,6 +97,12 @@ public class TileDao extends AbstractDao {
 		return getTiles("");
 	}
 
+	public List<Tile> getEmbeddedTiles() {
+		String addOn = " where " + Tile.DbField.IS_EMBEDDED + "=1";
+
+		return getTiles(addOn);
+	}
+
 	public List<Tile> getTiles(int pageIndex, int pageSize, boolean addEmbedded) {
 		String addOn = null;
 		if (addEmbedded) {
