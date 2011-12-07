@@ -41,4 +41,9 @@ public interface ApplicationConstants {
 
 	static final int ACTIVITY_RETURN_CHOOSE_SOUND_FILE = 1;
 	static final int ACTIVITY_RETURN_CHOOSE_TILE_FILE = 2;
+
+	static final String DIRECTORY = "ToolkitMoM";
+	static final String DIRECTORY_IMAGE_TILE = DIRECTORY + "/images/tiles";
+	static final String DIRECTORY_IMAGE_CARD = DIRECTORY + "/images/cards";
+	static final String DIRECTORY_IMAGE = DIRECTORY + "/images";
 }
