@@ -159,10 +159,10 @@ public class MapScreen extends GameScreen {
 		objects2d.add(tileTab);
 		
 		// ######## ADD Global icons background ##########
-		Image2D elderSign = new Image2D("board/elder_sign.png", false, true);
-		elderSign.x = 1280 - 100;
-		elderSign.y = 800 - 200;
-		objects2d.add(elderSign);
+		Image2D tentacle = new Image2D("board/board_tentacle_right.png", false, true);
+		tentacle.x = 1280 / 2;
+		tentacle.y = 800 / 2;
+		objects2d.add(tentacle);
 
 		// ######## ADD Global icons ##########
 		if (inEdition) {			
@@ -170,19 +170,19 @@ public class MapScreen extends GameScreen {
 			objects2d.add(randomPile);
 
 			saveButton = new Image2D("board/save_button.png");
-			saveButton.x = 1280 - 59;
-			saveButton.y = 800 - 151;
+			saveButton.x = 1240;
+			saveButton.y = 499;
 			objects2d.add(saveButton);			
 		}
 		
 		combatButton = new Image2D("board/combat_button.png");
-		combatButton.x = 1280 - 107;
-		combatButton.y = 800 - 81;
+		combatButton.x = 1241;
+		combatButton.y = 679;
 		objects2d.add(combatButton);
 
 		labelButton = new Image2D("board/labels_button.png");
-		labelButton.x = 1280 - 58;
-		labelButton.y = 548;
+		labelButton.x = 1240;
+		labelButton.y = 600;
 		objects2d.add(labelButton);
 
 		// start collapsed
