@@ -127,12 +127,18 @@ public class MapScreen extends GameScreen {
 		boardMenu = new BoardMenu(this);
 		// add the board to the rendering object tree
 		objects2d.add(boardMenu);
+		
+		// ######## ADD Global icons background ##########
+		Image2D tentacle = new Image2D("board/board_tentacle.png", false, true);
+		tentacle.x = 1280 / 2;
+		tentacle.y = 800 / 2;
+		objects2d.add(tentacle);
 
 		tileTab = new ComponentTab(this);
 		// ######### build the tile Menu ##########
 		if (inEdition) {
 			imgTab = new Image2D("tiles/tab.png", false, true);
-			imgTab.x = ComponentTab.WIDTH + 76 / 2;
+			imgTab.x = ComponentTab.WIDTH + 60;
 			imgTab.y = 800 / 2;
 			tileMenu = new TileMenu(this, "tiles/tab_background.png", availableTiles);
 
@@ -140,7 +146,7 @@ public class MapScreen extends GameScreen {
 		}
 		// ######### build the sound Menu ##########
 		Image2D imgSoundTab = new Image2D("sounds/tab.png", false, true);
-		imgSoundTab.x = ComponentTab.WIDTH + 76 / 2;
+		imgSoundTab.x = ComponentTab.WIDTH + 60;
 		imgSoundTab.y = 800 / 2;
 		SoundMenu soundMenu = new SoundMenu(this, "sounds/tab_background.png", availableSounds);
 
@@ -149,20 +155,14 @@ public class MapScreen extends GameScreen {
 		// ######### build the card Menu ##########
 		if (inEdition) {
 			Image2D imgCardTab = new Image2D("cards/tab.png", false, true);
-			imgCardTab.x = ComponentTab.WIDTH + 76 / 2;
+			imgCardTab.x = ComponentTab.WIDTH + 60;
 			imgCardTab.y = 800 / 2;
 			CardMenu cardMenu = new CardMenu(this, "cards/tab_background.png", availableCards);
 
 			tileTab.addContentTab(cardMenu, imgCardTab);
 		}
 		// add the tile menu to the rendering object tree
-		objects2d.add(tileTab);
-		
-		// ######## ADD Global icons background ##########
-		Image2D tentacle = new Image2D("board/board_tentacle_right.png", false, true);
-		tentacle.x = 1280 / 2;
-		tentacle.y = 800 / 2;
-		objects2d.add(tentacle);
+		objects2d.add(tileTab);		
 
 		// ######## ADD Global icons ##########
 		if (inEdition) {			
