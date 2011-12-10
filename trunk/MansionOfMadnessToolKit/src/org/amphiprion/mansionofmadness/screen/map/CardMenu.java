@@ -57,9 +57,9 @@ public class CardMenu extends TouchableGroup2D {
 		setY(800 / 2);
 
 		background = new Image2D(backgroundUri, false, true);
-		background.x = ComponentTab.WIDTH / 2;
+		background.x = ComponentTab.WIDTH;
 		background.y = 800 / 2;
-		background.setScale(10);
+		//background.setScale(10);
 		addObject(background);
 
 		int index = 0;
@@ -80,6 +80,11 @@ public class CardMenu extends TouchableGroup2D {
 
 			index++;
 		}
+		
+		background = new Image2D("sounds/tab_background_top.png", false, true);
+		background.x = ComponentTab.WIDTH;
+		background.y = 800 / 2;
+		addObject(background);
 	}
 
 	/*
