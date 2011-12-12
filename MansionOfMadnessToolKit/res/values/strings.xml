@@ -6,7 +6,7 @@
 	<string name="name">Name:</string>            
 	<string name="filename">File on SD card:</string>
 	
-	<string name="app_name">Mansion Of Madness - ToolKit</string>
+	<string name="app_name">Toolkit for Mansion Of Madness</string>
 	<string name="discard_selected">Discard Selected</string>
 	<string name="ok">Ok</string>
 	<string name="cancel">Cancel</string>
