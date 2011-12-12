@@ -6,7 +6,7 @@
 	<string name="name">Nom:</string>            
 	<string name="filename">Fichier sur la carte SD:</string>
 	            
-	<string name="app_name">Demeure de l\'épouvante - Toolkit</string>
+	<string name="app_name">Toolkit pour Demeure de l\'épouvante</string>
 	
 	<string name="discard_selected">Défausser la sélection</string>
 	<string name="cancel">Annuler</string>
