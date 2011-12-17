@@ -41,7 +41,7 @@ public class RandomCardZone2D extends Image2D implements ICardPile {
 	public RandomCardZone2D() {
 		super("board/random_pile.png");
 		x = 1280 - 200 / 2 + 50;
-		y = 215 / 2 + 2;
+		y = 60;
 		imgPileSize = new Text2D("0", 20);
 	}
 
