@@ -170,19 +170,19 @@ public class MapScreen extends GameScreen {
 			objects2d.add(randomPile);
 
 			saveButton = new Image2D("board/save_button.png");
-			saveButton.x = 1240;
-			saveButton.y = 499;
+			saveButton.x = 1245;
+			saveButton.y = 463;
 			objects2d.add(saveButton);			
 		}
 		
 		combatButton = new Image2D("board/combat_button.png");
-		combatButton.x = 1241;
-		combatButton.y = 679;
+		combatButton.x = 1244;
+		combatButton.y = 599;
 		objects2d.add(combatButton);
 
 		labelButton = new Image2D("board/labels_button.png");
-		labelButton.x = 1240;
-		labelButton.y = 600;
+		labelButton.x = 1245;
+		labelButton.y = 533;
 		objects2d.add(labelButton);
 
 		// start collapsed
