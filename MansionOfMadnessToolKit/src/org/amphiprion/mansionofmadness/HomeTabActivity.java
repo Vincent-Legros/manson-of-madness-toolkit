@@ -76,6 +76,9 @@ public class HomeTabActivity extends TabActivity {
 	 */
 	@Override
 	public boolean onMenuOpened(int featureId, Menu menu) {
+		if (menu == null) {
+			return true;
+		}
 		menu.clear();
 		if (getLocalActivityManager().getCurrentActivity() instanceof IMenuProvider) {
 			((IMenuProvider) getLocalActivityManager().getCurrentActivity()).buildOptionMenu(menu);
